@@ -1,0 +1,9 @@
+
+<Project>
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\*.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\*.cs"/>
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)Events\Events.Handlers.targets"/>
+</Project>
