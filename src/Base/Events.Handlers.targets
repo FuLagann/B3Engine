@@ -1,0 +1,8 @@
+
+<Project>
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Events\EventArgs.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Events\UpdateEventArgs.cs"/>
+	</ItemGroup>
+</Project>

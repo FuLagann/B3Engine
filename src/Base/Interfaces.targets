@@ -5,5 +5,5 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\*.cs"/>
 	</ItemGroup>
 	
-	<Import Project="$(MSBuildThisFileDirectory)Events\Events.Handlers.targets"/>
+	<Import Project="$(MSBuildThisFileDirectory)Events.Handlers.targets"/>
 </Project>

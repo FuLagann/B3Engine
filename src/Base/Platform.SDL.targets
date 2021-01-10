@@ -1,0 +1,8 @@
+
+<Project>
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\*.cs"/>
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)Platform.targets"/>
+</Project>
