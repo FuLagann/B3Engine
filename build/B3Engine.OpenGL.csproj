@@ -16,8 +16,6 @@
 		</Content>
 	</ItemGroup>
 	
-	<Import Project="$(MSBuildProjectDirectory)\..\src\Base\Mathematics.targets"/>
-	<Import Project="$(MSBuildProjectDirectory)\..\src\Base\Helpers.targets"/>
-	<Import Project="$(MSBuildProjectDirectory)\..\src\Base\VertexStructures.targets"/>
-	<Import Project="$(MSBuildProjectDirectory)\..\src\Base\Platform.SDL.targets"/>
+	<Import Project="$(MSBuildProjectDirectory)\Base.targets"/>
+	<Import Project="$(MSBuildProjectDirectory)\OpenGL.targets"/>
 </Project>

@@ -1,0 +1,10 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__utilities__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Utilities\*.cs"/>
+	</ItemGroup>
+</Project>

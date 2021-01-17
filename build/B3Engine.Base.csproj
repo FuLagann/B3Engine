@@ -7,8 +7,5 @@
 		<Version>0.1.0.0</Version>
 	</PropertyGroup>
 	
-	<Import Project="$(MSBuildProjectDirectory)\..\src\Base\Mathematics.targets"/>
-	<Import Project="$(MSBuildProjectDirectory)\..\src\Base\Helpers.targets"/>
-	<Import Project="$(MSBuildProjectDirectory)\..\src\Base\VertexStructures.targets"/>
-	<Import Project="$(MSBuildProjectDirectory)\..\src\Base\Platform.targets"/>
+	<Import Project="$(MSBuildProjectDirectory)\Base.targets"/>
 </Project>

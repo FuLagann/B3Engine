@@ -1,5 +1,9 @@
 
 <Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__helpers__</InternalConstants>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\*.cs"/>
 	</ItemGroup>

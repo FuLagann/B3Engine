@@ -1,5 +1,9 @@
 
 <Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__event_handlers__</InternalConstants>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventArgs.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.cs"/>

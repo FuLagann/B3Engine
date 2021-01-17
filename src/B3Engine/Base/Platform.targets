@@ -1,0 +1,12 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__platform__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\Utilities\*.cs"/>
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)Utilities.targets" Condition="'!$(InternalConstants.Contains(`__utilities__`))'"/>
+</Project>

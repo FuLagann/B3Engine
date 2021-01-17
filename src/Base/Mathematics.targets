@@ -1,9 +1,0 @@
-
-<Project>
-	<ItemGroup>
-		<Compile Include="$(MSBuildThisFileDirectory)Math\*.cs"/>
-		<Compile Remove="$(MSBuildThisFileDirectory)Math\*.Boundary.cs"/>
-	</ItemGroup>
-	
-	<Import Project="$(MSBuildThisFileDirectory)Interfaces.targets"/>
-</Project>

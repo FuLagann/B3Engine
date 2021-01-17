@@ -1,0 +1,14 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__mathematics__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\*.cs"/>
+		<Compile Remove="$(MSBuildThisFileDirectory)Math\*.Boundary.cs"/>
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)Interfaces.targets" Condition="'!$(InternalConstants.Contains(`__interfaces__`))'"/>
+	<Import Project="$(MSBuildThisFileDirectory)Utilities.targets" Condition="'!$(InternalConstants.Contains(`__utilities__`))'"/>
+</Project>

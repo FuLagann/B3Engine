@@ -1,0 +1,13 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__interfaces__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\*.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\*.cs"/>
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)Events.Handlers.targets" Condition="'!$(InternalConstants.Contains(`__event_handlers__`))'"/>
+</Project>

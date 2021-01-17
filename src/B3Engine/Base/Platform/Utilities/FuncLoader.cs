@@ -8,34 +8,6 @@ namespace B3.Utilities {
 	public unsafe static class FuncLoader {
 		#region Public Static Methods
 		
-		/// <summary>Converts the managed pointer into a string</summary>
-		/// <param name="handle">The managed pointer to convert</param>
-		/// <returns>Returns the converted string</returns>
-		public static unsafe string IntPtrToString(System.IntPtr handle) {
-			if(handle == System.IntPtr.Zero) {
-				return "";
-			}
-			
-			// Variables
-			byte* ptr = (byte*)handle;
-			long len;
-			byte[] bytes;
-			
-			while(*ptr != 0) {
-				ptr++;
-			}
-			
-			len = ptr - (byte*)handle;
-			if(len == 0) {
-				return "";
-			}
-			
-			bytes = new byte[len];
-			Marshal.Copy(handle, bytes, 0, bytes.Length);
-			
-			return Encoding.UTF8.GetString(bytes);
-		}
-		
 		/// <summary>Loads in the unmanaged library</summary>
 		/// <param name="libname">The name of the library</param>
 		/// <returns>Returns the managed pointer to the library</returns>

@@ -1,6 +1,0 @@
-
-<Project>
-	<ItemGroup>
-		<Compile Include="$(MSBuildThisFileDirectory)Platform\Utilities\*.cs"/>
-	</ItemGroup>
-</Project>

@@ -1,0 +1,13 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__platform_sdl__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\*.cs"/>
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)..\Base\Helpers.targets" Condition="'!$(InternalConstants.Contains(`__helpers__`))'"/>
+	<Import Project="$(MSBuildThisFileDirectory)..\Base\Platform.targets" Condition="'!$(InternalConstants.Contains(`__platform__`))'"/>
+</Project>
