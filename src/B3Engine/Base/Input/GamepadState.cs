@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace B3 {
 	/// <summary>A structure that keeps track of the gamepad's inputs</summary>
-	public struct GamepadState {
+	public partial struct GamepadState {
 		#region Field Variables
 		// Variables
 		private System.IntPtr handle;

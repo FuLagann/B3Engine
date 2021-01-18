@@ -1,13 +1,15 @@
 
 using System.Runtime.InteropServices;
 
+using IntPtr = System.IntPtr;
+
 namespace B3.Utilities {
 	/// <summary>A static class for all the SDL2 functionalities</summary>
 	public static class SDL {
 		#region Field Variables
 		// Variables
 		private static bool isInitiated = false;
-		private static System.IntPtr library = SDL.GetNativeLibrary();
+		private static IntPtr library = SDL.GetNativeLibrary();
 		private static SDL_CreateWindow sdl_CreateWindow = FuncLoader.LoadFunc<SDL_CreateWindow>(library, "SDL_CreateWindow");
 		private static SDL_GetVersion getVersion = FuncLoader.LoadFunc<SDL_GetVersion>(library, "SDL_GetVersion");
 		
@@ -18,7 +20,7 @@ namespace B3.Utilities {
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		private delegate void Action();
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		private delegate System.IntPtr SDL_CreateWindow(string title, int x, int y, int w, int h, int flags);
+		private delegate IntPtr SDL_CreateWindow(string title, int x, int y, int w, int h, int flags);
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		private delegate void SDL_GetVersion(out Version version);
 		
@@ -53,8 +55,8 @@ namespace B3.Utilities {
 		/// <summary>Gets the SDL2 error that returns a managed pointer</summary>
 		/// <param name="handle">The managed pointer to evaluate, pointer of 0 will log the error</param>
 		/// <returns>Returns the managed pointer that got passed through</returns>
-		public static System.IntPtr GetError(System.IntPtr handle) {
-			if(handle == System.IntPtr.Zero) {
+		public static IntPtr GetError(IntPtr handle) {
+			if(handle == IntPtr.Zero) {
 				Logger.Error(GetError());
 			}
 			
@@ -73,7 +75,7 @@ namespace B3.Utilities {
 		/// <param name="h">The height of the window</param>
 		/// <param name="flags">Any window flags to use</param>
 		/// <returns>Returns the managed pointer to the window</returns>
-		public static System.IntPtr CreateWindow(string title, int x, int y, int w, int h, WindowFlags flags) {
+		public static IntPtr CreateWindow(string title, int x, int y, int w, int h, WindowFlags flags) {
 			return GetError(sdl_CreateWindow(title, x, y, w, h, (int)flags));
 		}
 		
@@ -97,27 +99,27 @@ namespace B3.Utilities {
 		
 		/// <summary>Gets the number of joysticks present</summary>
 		/// <returns>Returns the number of joysticks present</returns>
-		public static int NumJoysticks() { return GetError(Joystick.numJoysticks()); }
+		public static int NumJoysticks() { return GetError(Joystick.num()); }
 		
 		/// <summary>Opens up a joystick</summary>
 		/// <param name="index">The index to open the joystick with</param>
 		/// <returns>Returns the managed pointer to the joystick</returns>
-		public static System.IntPtr JoystickOpen(int index) { return GetError(Joystick.open(index)); }
+		public static IntPtr JoystickOpen(int index) { return GetError(Joystick.open(index)); }
 		
 		/// <summary>Closes the given joystick</summary>
 		/// <param name="joystick">The managed pointer to the joystick to close</param>
-		public static void JoystickClose(System.IntPtr joystick) { Joystick.close(joystick); }
+		public static void JoystickClose(IntPtr joystick) { Joystick.close(joystick); }
 		
 		/// <summary>Sets the LED color of the joystick</summary>
 		/// <param name="joystick">The joystick to set the LED color to</param>
 		/// <param name="color">The color to set the LED to</param>
 		/// <returns>Returns 0 if successful, -1 if the joystick does not have an LED</returns>
-		public static int JoystickSetLed(System.IntPtr joystick, Color color) { return GetError(Joystick.setLed(joystick, color.R, color.G, color.B)); }
+		public static int JoystickSetLed(IntPtr joystick, Color color) { return GetError(Joystick.setLed(joystick, color.R, color.G, color.B)); }
 		
 		/// <summary>Gets the joystick from the given instance id</summary>
 		/// <param name="index">The index of the joystick to get from</param>
 		/// <returns>Returns a managed pointer to the joystick</returns>
-		public static System.IntPtr JoystickFromInstanceId(int index) { return GetError(Joystick.fromInstanceId(index)); }
+		public static IntPtr JoystickFromInstanceId(int index) { return GetError(Joystick.fromInstanceId(index)); }
 		
 		/// <summary>Finds if the given joystick is a gamepad using an index</summary>
 		/// <param name="index">The index of the joystick</param>
@@ -125,6 +127,27 @@ namespace B3.Utilities {
 		public static bool IsGamepad(int index) { return (GetError(Joystick.isGameController(index)) > 0);}
 		
 		#endregion // SDL Joystick Methods
+		
+		#region SDL Haptic Methods
+		
+		public static int NumHaptic() { return GetError(Haptic.num()); }
+		
+		public static IntPtr HapticOpen(int index) { return GetError(Haptic.open(index)); }
+		
+		public static IntPtr HapticOpenFromJoystick(IntPtr joystick) { return GetError(Haptic.openFromJoystick(joystick)); }
+		
+		public static int HapticNewEffect(IntPtr haptic, HapticEffect effect) {
+			// Variables
+			IntPtr effectPtr = IntPtr.Zero;
+			
+			Marshal.StructureToPtr<HapticEffect>(effect, effectPtr, true);
+			
+			return GetError(Haptic.newEffect(haptic, effectPtr));
+		}
+		
+		public static int HapticRunEffect(IntPtr haptic, int effect, uint iterations) { return GetError(Haptic.runEffect(haptic, effect, iterations)); }
+		
+		#endregion // SDL Haptic Methods
 		
 		#region SDL Event Methods
 		
@@ -154,7 +177,7 @@ namespace B3.Utilities {
 			int results = GetError(Misc.init((int)flags));
 			
 			if(!isInitiated) {
-				AddEventWatch(Events.eventWatch, System.IntPtr.Zero);
+				AddEventWatch(Events.eventWatch, IntPtr.Zero);
 				isInitiated = true;
 			}
 			
@@ -217,7 +240,7 @@ namespace B3.Utilities {
 		
 		/// <summary>Loads in the SDL2 unmanaged library</summary>
 		/// <returns>Returns the managed pointer to the SDL2 library</returns>
-		private static System.IntPtr GetNativeLibrary() {
+		private static IntPtr GetNativeLibrary() {
 			if(Platform.OS == OS.Windows) {
 				try {
 					return FuncLoader.LoadLibraryExt("SDL2.dll");
@@ -246,7 +269,7 @@ namespace B3.Utilities {
 		/// <param name="data">Any user data, not used</param>
 		/// <param name="e">The event that get generated</param>
 		/// <returns>Returns 0</returns>
-		private static int OnEventWatch(System.IntPtr data, ref Event e) {
+		private static int OnEventWatch(IntPtr data, ref Event e) {
 			OnEvent?.Invoke(e);
 			return 0;
 		}
@@ -254,7 +277,7 @@ namespace B3.Utilities {
 		/// <summary>Adds an event listener to SDL's events</summary>
 		/// <param name="callback">The event callback</param>
 		/// <param name="data">Any user data, not used</param>
-		private static void AddEventWatch(Events.SDL_EventFilter callback, System.IntPtr data) {
+		private static void AddEventWatch(Events.SDL_EventFilter callback, IntPtr data) {
 			Events.addEventWatch(callback, data);
 		}
 		
@@ -678,6 +701,18 @@ namespace B3.Utilities {
 			DoubleBuffer
 		}
 		
+		/// <summary>The type of haptic direction</summary>
+		public enum HapticDirectionType : byte {
+			/// <summary>Uses polar coordinates for the direction</summary>
+			Polar,
+			/// <summary>Uses cartesian coordinates for the direction</summary>
+			Cartesian,
+			/// <summary>Uses spherical coordinates for the direction</summary>
+			Spherical,
+			/// <summary>Uses this to play an effect on the steering wheel axis</summary>
+			SteeringAxis
+		}
+		
 		#endregion // Enumerations
 		
 		#region Structures
@@ -801,6 +836,84 @@ namespace B3.Utilities {
 			
 			#endregion // Public Properties
 		}
+		
+		#region Haptic Structures
+		
+		/// <summary>The structure for the direction of the haptic feedback</summary>
+		[StructLayout(LayoutKind.Sequential)]
+		public struct HapticDirection {
+			#region Field Variables
+			// Variables
+			/// <summary>
+			/// The type of direction.
+			/// The following directions affect the x, y, and z values:
+			/// * Polar - The direction is encoded by hundredths of a degree
+			/// starting north and turning clockwise. Uses only the <see cref="B3.Utilities.SDL.HapticDirection.x"/>
+			/// field. The cardinal direction would be:
+			///   * North: 0 (0 degrees).
+			///   * East: 9000 (90 degrees).
+			///   * South: 18000 (180 degrees).
+			///   * West: 27000 (270 degrees).
+			/// * Cartesian - The direction is encoded by three positions:
+			/// <see cref="B3.Utilities.SDL.HapticDirection.x"/>,
+			/// <see cref="B3.Utilities.SDL.HapticDirection.y"/>, and
+			/// <see cref="B3.Utilities.SDL.HapticDirection.z"/>. The
+			/// z axis represents the heights of the effects if supported,
+			/// otherwise it's unused. The cardinal directions would be:
+			///   * North: 0, -1, 0.
+			///   * East: 1, 0, 0.
+			///   * South: 0, 1, 0.
+			///   * West: -1, 0, 0.
+			/// * Spherical - The direction is encoded by two rotations.
+			/// The <see cref="B3.Utilities.SDL.HapticDirection.x"/> and
+			/// <see cref="B3.Utilities.SDL.HapticDirection.y"/>. The parameters
+			/// are values in hundredths of degrees and are as follows:
+			///   * Degrees from (1, 0) rotated towards towards (0, 1).
+			///   * Degrees towards (0, 0, 1) (device needs at least 3 axes).
+			/// </summary>
+			public HapticDirectionType type;
+			/// <summary>Value dependent on <see cref="B3.Utilities.SDL.HapticDirection.type"/></summary>
+			public int x;
+			/// <summary>Value dependent on <see cref="B3.Utilities.SDL.HapticDirection.type"/></summary>
+			public int y;
+			/// <summary>Value dependent on <see cref="B3.Utilities.SDL.HapticDirection.type"/></summary>
+			public int z;
+			
+			#endregion // Field Variables
+		}
+		
+		[StructLayout(LayoutKind.Sequential)]
+		public struct HapticConstant {
+			#region Field Variables
+			// Variables
+			public ushort type;
+			public HapticDirection direction;
+			public uint length;
+			public ushort delay;
+			public ushort button;
+			public ushort interval;
+			public short level;
+			public ushort attackLength;
+			public ushort attackLevel;
+			public ushort fadeLength;
+			public ushort fadeLevel;
+			
+			#endregion // Field Variables
+		}
+		
+		[StructLayout(LayoutKind.Explicit)]
+		public struct HapticEffect {
+			#region Field Variables
+			// Variables
+			[FieldOffset(0)]
+			public ushort type;
+			[FieldOffset(2)]
+			public HapticConstant constant;
+			
+			#endregion // Field Variables
+		}
+		
+		#endregion // Haptic Structures
 		
 		#region Events
 		
@@ -1157,7 +1270,7 @@ namespace B3.Utilities {
 			#region Public Properties
 			
 			/// <summary>Gets the button on the joystick/controller</summary>
-			public GamepadButton Buton { get { return (GamepadButton)this.button; } }
+			public GamepadButton Button { get { return (GamepadButton)this.button; } }
 			
 			#endregion // Public Properties
 		}
@@ -1246,7 +1359,7 @@ namespace B3.Utilities {
 			
 			// Delegates
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate System.IntPtr SDL_GetError();
+			internal delegate IntPtr SDL_GetError();
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate int SDL_Init(int flags);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -1254,7 +1367,7 @@ namespace B3.Utilities {
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate int SDL_SetHint(string name, string value);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate System.IntPtr SDL_GetHint(string name);
+			internal delegate IntPtr SDL_GetHint(string name);
 			
 			#endregion // Field Variables
 		}
@@ -1272,9 +1385,9 @@ namespace B3.Utilities {
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate int SDL_PollEvent([Out] out Event e);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate int SDL_EventFilter(System.IntPtr data, ref Event e);
+			internal delegate int SDL_EventFilter(IntPtr data, ref Event e);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate void SDL_AddEventWatch(SDL_EventFilter filter, System.IntPtr data);
+			internal delegate void SDL_AddEventWatch(SDL_EventFilter filter, IntPtr data);
 			
 			#endregion // Field Variables
 		}
@@ -1298,7 +1411,7 @@ namespace B3.Utilities {
 		private static class Joystick {
 			#region Field Variables
 			// Variables
-			internal static SDL_NumJoysticks numJoysticks = FuncLoader.LoadFunc<SDL_NumJoysticks>(library, "SDL_NumJoysticks");
+			internal static SDL_NumJoysticks num = FuncLoader.LoadFunc<SDL_NumJoysticks>(library, "SDL_NumJoysticks");
 			internal static SDL_JoystickOpen open = FuncLoader.LoadFunc<SDL_JoystickOpen>(library, "SDL_JoystickOpen");
 			internal static SDL_JoystickClose close = FuncLoader.LoadFunc<SDL_JoystickClose>(library, "SDL_JoystickClose");
 			internal static SDL_JoystickSetLed setLed = FuncLoader.LoadFunc<SDL_JoystickSetLed>(library, "SDL_JoystickSetLED");
@@ -1309,13 +1422,33 @@ namespace B3.Utilities {
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate int SDL_NumJoysticks();
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate System.IntPtr SDL_JoystickOpen(int index);
+			internal delegate IntPtr SDL_JoystickOpen(int index);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate void SDL_JoystickClose(System.IntPtr joystick);
+			internal delegate void SDL_JoystickClose(IntPtr joystick);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate int SDL_JoystickSetLed(System.IntPtr joystick, byte red, byte green, byte blue);
+			internal delegate int SDL_JoystickSetLed(IntPtr joystick, byte red, byte green, byte blue);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate int SDL_IsGameController(int index);
+			
+			#endregion // Field Variables
+		}
+		
+		private static class Haptic {
+			#region Field Variables
+			// Variables
+			internal static Joystick.SDL_NumJoysticks num = FuncLoader.LoadFunc<Joystick.SDL_NumJoysticks>(library, "SDL_NumHaptics");
+			internal static Joystick.SDL_JoystickOpen open = FuncLoader.LoadFunc<Joystick.SDL_JoystickOpen>(library, "SDL_HapticOpen");
+			internal static SDL_HapticOpenFromJoystick openFromJoystick = FuncLoader.LoadFunc<SDL_HapticOpenFromJoystick>(library, "SDL_HapticOpenFromJoystick");
+			internal static SDL_HapticNewEffect newEffect = FuncLoader.LoadFunc<SDL_HapticNewEffect>(library, "SDL_HapticNewEffect");
+			internal static SDL_HapticRunEffect runEffect = FuncLoader.LoadFunc<SDL_HapticRunEffect>(library, "SDL_HapticRunEffect");
+			
+			// Delegates
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			internal delegate IntPtr SDL_HapticOpenFromJoystick(IntPtr joystick);
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			internal delegate int SDL_HapticNewEffect(IntPtr haptic, IntPtr effect);
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			internal delegate int SDL_HapticRunEffect(IntPtr haptic, int effect, uint iterations);
 			
 			#endregion // Field Variables
 		}

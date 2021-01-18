@@ -9,35 +9,60 @@ namespace B3.Testing {
 			// Variables
 			SDL.WindowFlags flags = SDL.WindowFlags.Show;
 			bool canQuit = false;
-			int num;
-			System.IntPtr joystick;
 			
-			SDL.Init(SDL.InitFlags.Video | SDL.InitFlags.Joystick | SDL.InitFlags.GameController);
+			Input.SetProcessor(new SdlInputProcessor());
+			SDL.Init(SDL.InitFlags.Everything);
 			SDL.CreateWindow("Hello World", 200, 120, 500, 500, flags);
 			
-			num = SDL.NumJoysticks();
+			System.IntPtr joystick = SDL.JoystickOpen(0);
+			Logger.Log(SDL.NumHaptic());
 			
-			for(int i = 0; i < num; i++) {
-				SDL.JoystickOpen(i);
-			}
+			System.IntPtr haptic = SDL.HapticOpen(0);
+			SDL.HapticEffect hapticEffect = new SDL.HapticEffect();
 			
-			joystick = SDL.JoystickFromInstanceId(0);
-			Logger.Log(joystick);
+			hapticEffect.type = (ushort)(1u<<0);
+			hapticEffect.constant.type = 0;
+			hapticEffect.constant.direction.type = SDL.HapticDirectionType.Polar;
+			hapticEffect.constant.length = 1000;
+			hapticEffect.constant.delay = 500;
+			hapticEffect.constant.button = 0;
+			hapticEffect.constant.interval = 1000;
+			hapticEffect.constant.level = 100;
+			hapticEffect.constant.attackLength = 1000;
+			hapticEffect.constant.attackLevel = 50;
+			hapticEffect.constant.fadeLength = 200;
+			hapticEffect.constant.fadeLevel = 30;
+			
+			int effect = SDL.HapticNewEffect(haptic, hapticEffect);
 			
 			SDL.OnEvent += delegate(SDL.Event e) {
-				if(e.type == SDL.EventType.MouseButtonDown) {
-					Logger.Log($"{e.mouseButton.button} [{e.mouseButton.clicks}] @{{ {e.mouseButton.x}, {e.mouseButton.y} }}");
+				if(e.type == SDL.EventType.JoystickButtonDown) {
+					Logger.Log($"{e.joystickButton.Button}");
 				}
 				if(e.type == SDL.EventType.Quit) {
 					canQuit = true;
 				}
 			};
 			
+			bool hold = false;
+			
 			Logger.Log(SDL.GetVersion());
 			
 			while(!canQuit) {
 				SDL.PumpEvents();
+				Update();
+				if(!hold && Input.IsDown(GamepadButton.A)) {
+					hold = true;
+					SDL.HapticRunEffect(haptic, effect, 4);
+				}
+				else if(hold && Input.IsUp(GamepadButton.A)) {
+					hold = false;
+				}
 			}
+		}
+		
+		public static void Update() {
+			Input.ProcessInput();
 		}
 	}
 }

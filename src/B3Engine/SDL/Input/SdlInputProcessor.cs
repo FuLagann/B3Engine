@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace B3.Utilities {
 	/// <summary>The input processor for SDL</summary>
-	internal class SdlInputProcessor : IInputProcessor {
+	public class SdlInputProcessor : IInputProcessor {
 		#region Field Variables
 		// Variables
 		private Queue<Keys> keys;
@@ -12,8 +12,8 @@ namespace B3.Utilities {
 		private Queue<MouseButtonAndClicks> mbuttonsUp;
 		private Queue<GamepadButtonAndId> gbuttons;
 		private Queue<GamepadButtonAndId> gbuttonsUp;
+		private Queue<GamepadAxisIdAndValue> gaxes;
 		private Vector2 mousePos;
-		private Vector2[] axes;
 		private float mouseWheel;
 		private bool shouldConnectController;
 		
@@ -29,6 +29,7 @@ namespace B3.Utilities {
 			this.mbuttonsUp = new Queue<MouseButtonAndClicks>();
 			this.gbuttons = new Queue<GamepadButtonAndId>();
 			this.gbuttonsUp = new Queue<GamepadButtonAndId>();
+			this.gaxes = new Queue<GamepadAxisIdAndValue>();
 			this.mousePos = Vector2.Zero;
 			this.mouseWheel = 0.0f;
 			this.shouldConnectController = true;
@@ -53,6 +54,7 @@ namespace B3.Utilities {
 			Keys key;
 			MouseButtonAndClicks mbutton;
 			GamepadButtonAndId gbutton;
+			GamepadAxisIdAndValue gaxis;
 			bool shouldCheck = false;
 			
 			while(this.keysUp.Count > 0) {
@@ -119,6 +121,11 @@ namespace B3.Utilities {
 				generalGamepad[gbutton.button] = InputType.Pressed;
 				generalGamepad.IsAnyButtonDown = true;
 			}
+			while(this.gaxes.Count > 0) {
+				gaxis = this.gaxes.Dequeue();
+				gamepads[gaxis.id][gaxis.axis] = gaxis.value;
+				generalGamepad[gaxis.axis] = gaxis.value;
+			}
 		}
 		
 		#endregion // Public Methods
@@ -175,17 +182,25 @@ namespace B3.Utilities {
 			}
 			if(e.type == SDL.EventType.JoystickButtonDown) {
 				// Variables
-				GamepadButton button = e.joystickButton.Buton;
+				GamepadButton button = e.joystickButton.Button;
 				int index = e.joystickButton.which;
 				
 				if(button != GamepadButton.Unknown) { this.gbuttons.Enqueue(new GamepadButtonAndId(button, index)); }
 			}
-			if(e.type == SDL.EventType.JoystickButtonDown) {
+			if(e.type == SDL.EventType.JoystickButtonUp) {
 				// Variables
-				GamepadButton button = e.joystickButton.Buton;
+				GamepadButton button = e.joystickButton.Button;
 				int index = e.joystickButton.which;
 				
 				if(button != GamepadButton.Unknown) { this.gbuttonsUp.Enqueue(new GamepadButtonAndId(button, index)); }
+			}
+			if(e.type == SDL.EventType.JoystickAxisMotion) {
+				// Variables
+				GamepadAxis axis = e.joystickAxis.Axis;
+				int index = e.joystickAxis.which;
+				float value = e.joystickAxis.FloatValue;
+				
+				if(axis != GamepadAxis.Unknown) { this.gaxes.Enqueue(new GamepadAxisIdAndValue(axis, index, value)); }
 			}
 		}
 		
@@ -212,6 +227,34 @@ namespace B3.Utilities {
 			public GamepadButtonAndId(GamepadButton button, int id) {
 				this.button = button;
 				this.id = id;
+			}
+			
+			#endregion // Public Constructors
+		}
+		
+		/// <summary>A class to hold the data for the game controller axis and it's index</summary>
+		private class GamepadAxisIdAndValue {
+			#region Field Variables
+			// Variables
+			/// <summary>The axis of the gamepad</summary>
+			public GamepadAxis axis;
+			/// <summary>The index of the gamepad</summary>
+			public int id;
+			/// <summary>The direction of the axis</summary>
+			public float value;
+			
+			#endregion // Field Variables
+			
+			#region Public Constructors
+			
+			/// <summary>A base constructor that holds the axis, index of the controller, and the direction of the axis</summary>
+			/// <param name="axis">The axis of the controller</param>
+			/// <param name="id">The index of the controller</param>
+			/// <param name="value">The value of the axis</param>
+			public GamepadAxisIdAndValue(GamepadAxis axis, int id, float value) {
+				this.axis = axis;
+				this.id = id;
+				this.value = value;
 			}
 			
 			#endregion // Public Constructors

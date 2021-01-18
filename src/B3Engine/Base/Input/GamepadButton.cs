@@ -33,6 +33,8 @@ namespace B3 {
 		/// <summary>The Left Dpad button</summary>
 		DpadLeft,
 		/// <summary>The Right Dpad button</summary>
-		DpadRight
+		DpadRight,
+		/// <summary>The Touchpad (PS4) / Snapshot (Switch) button</summary>
+		Snapshot
 	}
 }
