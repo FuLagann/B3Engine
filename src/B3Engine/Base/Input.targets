@@ -5,8 +5,6 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<Compile Include="$(MSBuildThisFileDirectory)Events\EventArgs.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Events\UpdateEventArgs.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\*.cs"/>
 	</ItemGroup>
 </Project>

@@ -1,7 +1,12 @@
 
 <Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__opengl_targets__</InternalConstants>
+	</PropertyGroup>
+	
 	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\Base\Mathematics.targets" Condition="'!$(InternalConstants.Contains(`__mathematics__`))'"/>
 	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\Base\Helpers.targets" Condition="'!$(InternalConstants.Contains(`__helpers__`))'"/>
 	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\Base\VertexStructures.targets" Condition="'!$(InternalConstants.Contains(`__vertex_structures__`))'"/>
 	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\SDL\Platform.SDL.targets" Condition="'!$(InternalConstants.Contains(`__platform_sdl__`))'"/>
+	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\SDL\SDL.Input.targets" Condition="'!$(InternalConstants.Contains(`__sdl_input__`))'"/>
 </Project>

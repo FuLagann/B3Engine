@@ -1,5 +1,9 @@
 
 <Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__base_targets__</InternalConstants>
+	</PropertyGroup>
+	
 	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\Base\Mathematics.targets" Condition="'!$(InternalConstants.Contains(`__mathematics__`))'"/>
 	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\Base\Helpers.targets" Condition="'!$(InternalConstants.Contains(`__helpers__`))'"/>
 	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\Base\VertexStructures.targets" Condition="'!$(InternalConstants.Contains(`__vertex_structures__`))'"/>

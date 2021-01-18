@@ -114,7 +114,15 @@ namespace B3.Utilities {
 		/// <returns>Returns 0 if successful, -1 if the joystick does not have an LED</returns>
 		public static int JoystickSetLed(System.IntPtr joystick, Color color) { return GetError(Joystick.setLed(joystick, color.R, color.G, color.B)); }
 		
+		/// <summary>Gets the joystick from the given instance id</summary>
+		/// <param name="index">The index of the joystick to get from</param>
+		/// <returns>Returns a managed pointer to the joystick</returns>
 		public static System.IntPtr JoystickFromInstanceId(int index) { return GetError(Joystick.fromInstanceId(index)); }
+		
+		/// <summary>Finds if the given joystick is a gamepad using an index</summary>
+		/// <param name="index">The index of the joystick</param>
+		/// <returns>Returns true if the joystick is a gamepad</returns>
+		public static bool IsGamepad(int index) { return (GetError(Joystick.isGameController(index)) > 0);}
 		
 		#endregion // SDL Joystick Methods
 		
@@ -349,19 +357,19 @@ namespace B3.Utilities {
 			/// <summary>When the mouse wheel is in motion</summary>
 			MouseWheel,
 			/// <summary>When a joystick axis is in motion</summary>
-			JoyAxisMotion = 1536,
+			JoystickAxisMotion = 1536,
 			/// <summary>When a joystick trackball is in motion</summary>
-			JoyBallMotion,
-			/// <summary>When a joystick hat position has changed</summary>
-			JoyHatMotion,
+			JoystickBallMotion,
+			/// <summary>When a joystick dpad position has changed</summary>
+			JoystickDpadMotion,
 			/// <summary>When a joystick button is pressed</summary>
-			JoyButtonDown,
+			JoystickButtonDown,
 			/// <summary>When a joystick button is released</summary>
-			JoyButtonUp,
+			JoystickButtonUp,
 			/// <summary>When a joystick device has been added</summary>
-			JoyDeviceAdded,
+			JoystickDeviceAdded,
 			/// <summary>When a joystick device has been removed</summary>
-			JoyDeviceRemoved,
+			JoystickDeviceRemoved,
 			/// <summary>When a controller's axis is in motion</summary>
 			ControllerAxisMotion = 1616,
 			/// <summary>When a controller button is pressed</summary>
@@ -713,6 +721,85 @@ namespace B3.Utilities {
 			public uint unused;
 			
 			#endregion // Field Variables
+			
+			#region Public Properties
+			
+			/// <summary>Gets the keycode in key enum form</summary>
+			public Keys Key { get {
+				// Variables
+				int f1 = 1073741882;
+				int printScreen = 1073741894;
+				int pageDown = 1073741902;
+				int right = 1073741903;
+				int up = 1073741906;
+				int numlock = 1073741907;
+				int decimalBtn = 1073741923;
+				int leftCtrl = 1073742048;
+				int rightAlt = 1073742054;
+				int menu = 1073741925;
+				int capslock = 1073741881;
+				
+				// a-z keys on keyboard
+				if(this.keycode >= 'a' && this.keycode <= 'z') {
+					return (Keys)(this.keycode - 'a');
+				}
+				
+				// 0-9 keys on keyboard
+				if(this.keycode >= '0' && this.keycode <= '9') {
+					return (Keys)(this.keycode - '0' + Keys.Zero);
+				}
+				
+				// Straight checks, check the ascii table for the numbers
+				if(this.keycode == 8) { return Keys.Backspace; }
+				if(this.keycode == 9) { return Keys.Tab; }
+				if(this.keycode == 13) { return Keys.Enter; }
+				if(this.keycode == 27) { return Keys.Escape; }
+				if(this.keycode == 32) { return Keys.Space; }
+				if(this.keycode == 39) { return Keys.SingleQuote; }
+				// Comma, Dash, Period, Forwardslash
+				if(this.keycode >= 44 && this.keycode <= 47) {
+					return (Keys)(this.keycode - 44 + Keys.Comma);
+				}
+				if(this.keycode == 59) { return Keys.Semicolon; }
+				if(this.keycode == 61) { return Keys.Equals; }
+				// Left Square Bracket, Backslash, Right Square Bracket
+				if(this.keycode >= 91 && this.keycode <= 93) {
+					return (Keys)(this.keycode - 91 + Keys.LeftSquareBracket);
+				}
+				if(this.keycode == 96) { return Keys.GraveAccent; }
+				if(this.keycode == 127) { return Keys.Delete; }
+				if(this.keycode == menu) { return Keys.Menu; }
+				if(this.keycode == capslock) { return Keys.CapsLock; }
+				
+				// Print Screen - Page Down buttons
+				if(this.keycode >= printScreen && this.keycode <= pageDown) {
+					return (Keys)(this.keycode - printScreen + Keys.PrintScreen);
+				}
+				
+				// Right, Left, Down, Up buttons
+				if(this.keycode >= right && this.keycode <= up) {
+					return (Keys)(this.keycode - right + Keys.Right);
+				}
+				
+				// F1 - F25 buttons
+				if(this.keycode >= f1 && this.keycode <= (f1 + 24)) {
+					return (Keys)(this.keycode - f1 + Keys.F1);
+				}
+				
+				// Numpad buttons
+				if(this.keycode >= numlock && this.keycode <= decimalBtn) {
+					return (Keys)(this.keycode - numlock + Keys.NumLock);
+				}
+				
+				// Left Ctrl to Right Alt buttons
+				if(this.keycode >= leftCtrl && this.keycode <= rightAlt) {
+					return (Keys)(this.keycode - leftCtrl + Keys.LeftCtrl);
+				}
+				
+				return Keys.Unknown;
+			} }
+			
+			#endregion // Public Properties
 		}
 		
 		#region Events
@@ -749,6 +836,9 @@ namespace B3.Utilities {
 			/// <summary>The event for joystick axis</summary>
 			[FieldOffset(0)]
 			public JoystickAxisEvent joystickAxis;
+			/// <summary>The event for joystick buttons</summary>
+			[FieldOffset(0)]
+			public JoystickButtonEvent joystickButton;
 			/// <summary>The event for joystick trackball</summary>
 			[FieldOffset(0)]
 			public JoystickBallEvent joystickBall;
@@ -914,6 +1004,9 @@ namespace B3.Utilities {
 			/// <summary>Gets if a mouse button is pressed</summary>
 			public bool IsPressed { get { return (this.state > 0); } }
 			
+			/// <summary>Gets the mouse button in enum form</summary>
+			public MouseButton Button { get { return (MouseButton)(this.button - 1); } }
+			
 			#endregion // Public Properties
 		}
 		
@@ -967,6 +1060,9 @@ namespace B3.Utilities {
 			#endregion // Field Variables
 			
 			#region Public Properties
+			
+			/// <summary>Gets the axis of the joystick/controller</summary>
+			public GamepadAxis Axis { get { return (GamepadAxis)(this.axis); } }
 			
 			/// <summary>Gets the value of the axis in float form (from -1 to 1)</summary>
 			public float FloatValue { get { return Mathx.Clamp((float)this.value / (float)short.MaxValue, -1.0f, 1.0f); } }
@@ -1057,6 +1153,13 @@ namespace B3.Utilities {
 			public byte padding2;
 			
 			#endregion // Field Variables
+			
+			#region Public Properties
+			
+			/// <summary>Gets the button on the joystick/controller</summary>
+			public GamepadButton Buton { get { return (GamepadButton)this.button; } }
+			
+			#endregion // Public Properties
 		}
 		
 		/// <summary>The structure for the joystick device event</summary>
@@ -1200,6 +1303,7 @@ namespace B3.Utilities {
 			internal static SDL_JoystickClose close = FuncLoader.LoadFunc<SDL_JoystickClose>(library, "SDL_JoystickClose");
 			internal static SDL_JoystickSetLed setLed = FuncLoader.LoadFunc<SDL_JoystickSetLed>(library, "SDL_JoystickSetLED");
 			internal static SDL_JoystickOpen fromInstanceId = FuncLoader.LoadFunc<SDL_JoystickOpen>(library, "SDL_JoystickFromInstanceID");
+			internal static SDL_IsGameController isGameController = FuncLoader.LoadFunc<SDL_IsGameController>(library, "SDL_IsGameController");
 			
 			// Delegates
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -1210,6 +1314,8 @@ namespace B3.Utilities {
 			internal delegate void SDL_JoystickClose(System.IntPtr joystick);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate int SDL_JoystickSetLed(System.IntPtr joystick, byte red, byte green, byte blue);
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			internal delegate int SDL_IsGameController(int index);
 			
 			#endregion // Field Variables
 		}

@@ -7,5 +7,5 @@
 		<Version>0.1.0.0</Version>
 	</PropertyGroup>
 	
-	<Import Project="$(MSBuildProjectDirectory)\Base.targets"/>
+	<Import Project="$(MSBuildProjectDirectory)\Base.targets" Condition="'!$(InternalConstants.Contains(`__base_targets__`))'"/>
 </Project>

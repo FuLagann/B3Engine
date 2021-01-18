@@ -25,10 +25,8 @@ namespace B3.Testing {
 			Logger.Log(joystick);
 			
 			SDL.OnEvent += delegate(SDL.Event e) {
-				if(e.type == SDL.EventType.JoyAxisMotion) {
-					if(e.joystickAxis.axis == 0 && e.joystickAxis.value > 30000) {
-						
-					}
+				if(e.type == SDL.EventType.MouseButtonDown) {
+					Logger.Log($"{e.mouseButton.button} [{e.mouseButton.clicks}] @{{ {e.mouseButton.x}, {e.mouseButton.y} }}");
 				}
 				if(e.type == SDL.EventType.Quit) {
 					canQuit = true;
