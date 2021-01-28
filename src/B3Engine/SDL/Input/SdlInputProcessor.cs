@@ -153,11 +153,19 @@ namespace B3.Utilities {
 		private void InputEventsCallback(SDL.Event e) {
 			this.mouseWheel = 0.0f;
 			
+			// TODO: The OnUp events sometimes get skipped, maybe the event style system shouldnt be used and this should be reoriganized to call the sdl methods directly
+			
 			if(e.type == SDL.EventType.KeyDown) {
 				// Variables
 				Keys key= e.keyboard.keySymbol.Key;
 				
 				if(key != Keys.Unknown) { this.keys.Enqueue(key); }
+			}
+			if(e.type == SDL.EventType.KeyUp) {
+				// Variables
+				Keys key = e.keyboard.keySymbol.Key;
+				
+				if(key != Keys.Unknown) { this.keysUp.Enqueue(key); }
 			}
 			if(e.type == SDL.EventType.MouseMotion) {
 				this.mousePos.x = e.mouse.x;

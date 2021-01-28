@@ -16,6 +16,6 @@
 		</Content>
 	</ItemGroup>
 	
-	<Import Project="$(MSBuildProjectDirectory)\Base.targets" Condition="'!$(InternalConstants.Contains(`__base_targets__`))'"/>
-	<Import Project="$(MSBuildProjectDirectory)\OpenGL.targets" Condition="'!$(InternalConstants.Contains(`__opengl_targets__`))'"/>
+	<Import Project="$(MSBuildProjectDirectory)\Base.targets" Condition="'!$(InternalConstants.Contains(`__base_targets__`))'" />
+	<Import Project="$(MSBuildProjectDirectory)\OpenGL.targets" Condition="'!$(InternalConstants.Contains(`__opengl_targets__`))'" />
 </Project>

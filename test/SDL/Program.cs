@@ -1,68 +1,47 @@
 
+using B3.Events;
 using B3.Utilities;
 
-using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL;
 
 namespace B3.Testing {
 	public static class Program {
+		// Variables
+		private static IGameWindow window;
+		
 		public static void Main(string[] args) {
-			// Variables
-			SDL.WindowFlags flags = SDL.WindowFlags.Show;
-			bool canQuit = false;
+			Program.window = new SdlGameWindow();
 			
-			Input.SetProcessor(new SdlInputProcessor());
-			SDL.Init(SDL.InitFlags.Everything);
-			SDL.CreateWindow("Hello World", 200, 120, 500, 500, flags);
+			Program.window.OnRender += Render;
+			Program.window.OnLoad += Load;
+			Program.window.Title = "Testing";
 			
-			System.IntPtr joystick = SDL.JoystickOpen(0);
-			Logger.Log(SDL.NumHaptic());
-			
-			System.IntPtr haptic = SDL.HapticOpen(0);
-			SDL.HapticEffect hapticEffect = new SDL.HapticEffect();
-			
-			hapticEffect.type = (ushort)(1u<<0);
-			hapticEffect.constant.type = 0;
-			hapticEffect.constant.direction.type = SDL.HapticDirectionType.Polar;
-			hapticEffect.constant.length = 1000;
-			hapticEffect.constant.delay = 500;
-			hapticEffect.constant.button = 0;
-			hapticEffect.constant.interval = 1000;
-			hapticEffect.constant.level = 100;
-			hapticEffect.constant.attackLength = 1000;
-			hapticEffect.constant.attackLevel = 50;
-			hapticEffect.constant.fadeLength = 200;
-			hapticEffect.constant.fadeLevel = 30;
-			
-			int effect = SDL.HapticNewEffect(haptic, hapticEffect);
-			
-			SDL.OnEvent += delegate(SDL.Event e) {
-				if(e.type == SDL.EventType.JoystickButtonDown) {
-					Logger.Log($"{e.joystickButton.Button}");
-				}
-				if(e.type == SDL.EventType.Quit) {
-					canQuit = true;
-				}
-			};
-			
-			bool hold = false;
-			
-			Logger.Log(SDL.GetVersion());
-			
-			while(!canQuit) {
-				SDL.PumpEvents();
-				Update();
-				if(!hold && Input.IsDown(GamepadButton.A)) {
-					hold = true;
-					SDL.HapticRunEffect(haptic, effect, 4);
-				}
-				else if(hold && Input.IsUp(GamepadButton.A)) {
-					hold = false;
-				}
-			}
+			Program.window.Run(60);
 		}
 		
-		public static void Update() {
-			Input.ProcessInput();
+		public static void Load(EventArgs args) {
+			Logger.Log("Loading in the bindings!");
+			GL.LoadBindings(new SdlBindingContext());
+		}
+		
+		public static void Render(UpdateEventArgs args) {
+			GL.ClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			
+			GL.Begin(PrimitiveType.Triangles);
+			{
+				GL.Color4(1.0f, 1.0f, 1.0f, 1.0f);
+				GL.Vertex3(0.5f, 0.0f, 0.0f);
+				GL.Vertex3(-0.5f, 0.5f, 0.0f);
+				GL.Vertex3(-0.5f, 0.0f, 0.0f);
+			}
+			GL.End();
+		}
+	}
+	
+	public class SdlBindingContext : OpenTK.IBindingsContext {
+		public System.IntPtr GetProcAddress(string procName) {
+			return SDL.GL_GetProcAddress(procName);
 		}
 	}
 }

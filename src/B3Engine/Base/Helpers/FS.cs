@@ -4,6 +4,7 @@ using B3.Management;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading;
@@ -33,6 +34,121 @@ namespace B3 {
 		
 		#region Public Static Methods
 		
+		#region Exists Methods
+		
+		/// <summary>Finds if the asset location exists</summary>
+		/// <param name="location">The asset location to query if it exists</param>
+		/// <returns>Returns true if the asset exists</returns>
+		public static bool Exists(AssetLocation location) {
+			FS.frameDistance = 2;
+			switch(location.FileLocationType) {
+				default:
+				case FileLocationType.Default: return FileExists(location.FilePath);
+				case FileLocationType.Embedded: return EmbeddedExists(location.FilePath);
+				case FileLocationType.Http: return WebExists($"http://{location.FilePath}");
+				case FileLocationType.Https: return WebExists($"https://{location.FilePath}");
+			}
+		}
+		
+		/// <summary>Finds if the file location exists</summary>
+		/// <param name="location">The file location to query if it exists</param>
+		/// <returns>Returns true if the file exists</returns>
+		public static bool Exists(string location) {
+			if(string.IsNullOrEmpty(location)) {
+				throw new System.Exception("No file location was specified");
+			}
+			
+			// Variables
+			FileLocationType locationType = GetLocationType(location);
+			string trueLocation = GetLocation(location, locationType);
+			
+			FS.frameDistance = 2;
+			switch(locationType) {
+				default:
+				case FileLocationType.Default: return FileExists(trueLocation);
+				case FileLocationType.Embedded: return EmbeddedExists(trueLocation);
+				case FileLocationType.Http:
+				case FileLocationType.Https: return WebExists(trueLocation);
+			}
+		}
+		
+		/// <summary>Finds if the file exists</summary>
+		/// <param name="filepath">The path to the file to find if it exists</param>
+		/// <returns>Returns true if the file exists</returns>
+		public static bool FileExists(string filepath) { return File.Exists(filepath); }
+		
+		/// <summary>Finds if the webpage exists</summary>
+		/// <param name="webpath">The path to the webpage to find if it exists</param>
+		/// <returns>Returns true if the webpage exists</returns>
+		public static bool WebExists(string webpath) {
+			// Variables
+			bool results = false;
+			
+			try {
+				using(HttpClient client = new HttpClient()) {
+					// Variables
+					HttpResponseMessage res = RunSync<HttpResponseMessage>(async () => await client.GetAsync(webpath));
+					
+					if(res.StatusCode == HttpStatusCode.OK) {
+						results = true;
+					}
+				}
+			} catch { results = false; }
+			
+			return results;
+		}
+		
+		/// <summary>Finds if the embedded file exists</summary>
+		/// <param name="embeddedpath">The path to the embedded file</param>
+		/// <returns>Returns true if the embedded file exists</returns>
+		public static bool EmbeddedExists(string embeddedpath) {
+			// Variables
+			StackFrame frame = (new StackTrace()).GetFrame(FS.frameDistance);
+			MethodBase method;
+			System.Type type;
+			Assembly assembly;
+			bool results = false;
+			
+			FS.frameDistance = 1;
+			method = frame.GetMethod();
+			type = method.DeclaringType;
+			assembly = type.Assembly;
+			
+			if(assembly != null) {
+				using(Stream resourceStream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{embeddedpath}")) {
+					if(resourceStream != null) {
+						results = true;
+					}
+				}
+			}
+			
+			return results;
+		}
+		
+		/// <summary>Finds if the embedded file exists</summary>
+		/// <param name="embeddedpath">The path to the embedded file</param>
+		/// <param name="assembly">The assembly to look into for the embedded file</param>
+		/// <returns>Returns true if the embedded file exists</returns>
+		public static bool EmbeddedExists(string embeddedpath, Assembly assembly) {
+			if(assembly == null) {
+				FS.frameDistance = 2;
+				return EmbeddedExists(embeddedpath);
+			}
+			
+			// Variables
+			bool results = false;
+			
+			using(Stream resourceStream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{embeddedpath}")) {
+				if(resourceStream != null) {
+					results = true;
+				}
+			}
+			
+			return results;
+		}
+		
+		#endregion // Exists Methods
+		
 		#region Read Methods
 		
 		/// <summary>Reads the file content from the given asset location</summary>
@@ -57,25 +173,22 @@ namespace B3 {
 		/// to take it from a specific type of location
 		/// </remarks>
 		public static string Read(string location) {
-			if(location == null || location == "") {
+			if(string.IsNullOrEmpty(location)) {
 				throw new System.Exception("No file location was specified");
 			}
 			
-			if(location.Contains("://")) {
-				// Variables
-				string[] typeLocation = location.Split("://");
-				
-				FS.frameDistance = 2;
-				switch(typeLocation[0]) {
-					default:
-					case "file": return ReadFromFile(typeLocation[1]);
-					case "http":
-					case "https": return ReadFromWeb(location);
-					case "embedded": return ReadFromEmbedded(typeLocation[1]);
-				}
-			}
+			// Variables
+			FileLocationType locationType = GetLocationType(location);
+			string trueLocation = GetLocation(location, locationType);
 			
-			return ReadFromFile(location);
+			FS.frameDistance = 2;
+			switch(locationType) {
+				default:
+				case FileLocationType.Default: return ReadFromFile(trueLocation);
+				case FileLocationType.Embedded: return ReadFromEmbedded(trueLocation);
+				case FileLocationType.Http:
+				case FileLocationType.Https: return ReadFromWeb(trueLocation);
+			}
 		}
 		
 		/// <summary>Reads the file from the default file system</summary>
@@ -128,7 +241,117 @@ namespace B3 {
 			return "";
 		}
 		
+		/// <summary>Reads the embedded file from the path and specific assembly to look into</summary>
+		/// <param name="embeddedpath">The path to the embedded file</param>
+		/// <param name="assembly">
+		/// The assembly that holds the embedded file. Can be found by grabbing it from a type that
+		/// the assembly implements:
+		/// ```csharp
+		/// typeof(TypeFromTheAssembly).Assembly
+		/// ```
+		/// </param>
+		/// <returns>Returns the contents of the embedded file</returns>
+		public static string ReadFromEmbedded(string embeddedpath, Assembly assembly) {
+			if(assembly == null) {
+				FS.frameDistance = 2;
+				return ReadFromEmbedded(embeddedpath);
+			}
+			using(Stream resourceStream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{embeddedpath}")) {
+				if(resourceStream != null) {
+					using(StreamReader reader = new StreamReader(resourceStream)) {
+						return reader.ReadToEnd();
+					}
+				}
+			}
+			
+			return "";
+		}
+		
 		#endregion // Read Methods
+		
+		#region ReadStream Methods
+		
+		/// <summary>Reads the stream from the given asset location</summary>
+		/// <param name="location">The location of the asset to read from</param>
+		/// <returns>Returns the stream from the asset location</returns>
+		public static Stream ReadStream(AssetLocation location) {
+			FS.frameDistance = 2;
+			switch(location.FileLocationType) {
+				default:
+				case FileLocationType.Default: return ReadStreamFromFile(location.FilePath);
+				case FileLocationType.Embedded: return ReadStreamFromEmbedded(location.FilePath);
+				case FileLocationType.Http: return ReadStreamFromWeb($"http://{location.FilePath}");
+				case FileLocationType.Https: return ReadStreamFromWeb($"https://{location.FilePath}");
+			}
+		}
+		
+		/// <summary>Reads the string from the given location</summary>
+		/// <param name="location">The file location to read from</param>
+		/// <returns>Returns the stream from the location</returns>
+		public static Stream ReadStream(string location) {
+			if(string.IsNullOrEmpty(location)) {
+				throw new System.Exception("No file location was specified");
+			}
+			
+			// Variables
+			FileLocationType locationType = GetLocationType(location);
+			string trueLocation = GetLocation(location, locationType);
+			
+			FS.frameDistance = 2;
+			switch(locationType) {
+				default:
+				case FileLocationType.Default: return ReadStreamFromFile(trueLocation);
+				case FileLocationType.Embedded: return ReadStreamFromEmbedded(trueLocation);
+				case FileLocationType.Http:
+				case FileLocationType.Https: return ReadStreamFromWeb(trueLocation);
+			}
+		}
+		
+		/// <summary>Reads the file and returns the stream</summary>
+		/// <param name="filepath">The path to the file being read</param>
+		/// <returns>Returns the stream of the file being read</returns>
+		public static Stream ReadStreamFromFile(string filepath) { return File.OpenRead(filepath); }
+		
+		/// <summary>Reads the webpage and returns the stream</summary>
+		/// <param name="webpath">The webpage to read from</param>
+		/// <returns>Returns the stream of the webpage</returns>
+		public static Stream ReadStreamFromWeb(string webpath) {
+			// Variables
+			Stream results;
+			
+			using(HttpClient client = new HttpClient()) {
+				// Variables
+				HttpResponseMessage res = RunSync<HttpResponseMessage>(async () => await client.GetAsync(webpath));
+				
+				results = RunSync<Stream>(async () => await res.Content.ReadAsStreamAsync());
+			}
+			
+			return results;
+		}
+		
+		/// <summary>Reads the embedded file and returns the stream</summary>
+		/// <param name="embeddedpath">The embedded path to read from</param>
+		/// <returns>Returns the stream of the embedded file</returns>
+		public static Stream ReadStreamFromEmbedded(string embeddedpath) {
+			// Variables
+			StackFrame frame = (new StackTrace()).GetFrame(FS.frameDistance);
+			MethodBase method;
+			System.Type type;
+			Assembly assembly;
+			
+			FS.frameDistance = 1;
+			method = frame.GetMethod();
+			type = method.DeclaringType;
+			assembly = type.Assembly;
+			
+			if(assembly != null) {
+				return assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{embeddedpath}");
+			}
+			
+			return null;
+		}
+		
+		#endregion // ReadStream Methods
 		
 		#region Write Methods
 		
@@ -210,13 +433,55 @@ namespace B3 {
 		
 		#endregion // Public Static Methods
 		
-		#region Private Methods
+		#region Private Static Methods
+		
+		/// <summary>Gets the location given the full location</summary>
+		/// <param name="location">The full location of the file</param>
+		/// <param name="locationType">The type of file location</param>
+		/// <returns>Returns the location of the file relative to the type of location</returns>
+		private static string GetLocation(string location, FileLocationType locationType) {
+			if(location.Contains("://")) {
+				// Variables
+				string[] typeLocation = location.Split("://");
+				
+				switch(locationType) {
+					default:
+					case FileLocationType.Default:
+					case FileLocationType.Embedded:
+						return typeLocation[1];
+					case FileLocationType.Http:
+					case FileLocationType.Https:
+						return location;
+				}
+			}
+			
+			return location;
+		}
+		
+		/// <summary>Gets the location type from the given string location</summary>
+		/// <param name="location">The location of the file</param>
+		/// <returns>Returns the file location type</returns>
+		private static FileLocationType GetLocationType(string location) {
+			if(location.Contains("://")) {
+				// Variables
+				string[] typeLocation = location.Split("://");
+				
+				switch(typeLocation[0]) {
+					default:
+					case "file": return FileLocationType.Default;
+					case "http": return FileLocationType.Http;
+					case "https": return FileLocationType.Https;
+					case "embedded": return FileLocationType.Embedded;
+				}
+			}
+			return FileLocationType.Default;
+		}
 		
 		/// <summary>Runs the asynchronous method as a synchronous method</summary>
 		/// <param name="func">The function that runs the asynchronous method as synchronous</param>
 		/// <typeparam name="T">The type to return</typeparam>
 		/// <returns>Returns the results of the asynchronous method</returns>
-		public static T RunSync<T>(System.Func<Task<T>> func) {
+		private static T RunSync<T>(System.Func<Task<T>> func) {
 			// Variables
 			CultureInfo ui = CultureInfo.CurrentUICulture;
 			CultureInfo culture = CultureInfo.CurrentCulture;
@@ -229,6 +494,6 @@ namespace B3 {
 			}).Unwrap<T>().GetAwaiter().GetResult();
 		}
 		
-		#endregion // Private Methods
+		#endregion // Private Static Methods
 	}
 }
