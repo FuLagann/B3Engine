@@ -1,7 +1,10 @@
 
 using B3.Utilities;
 
+using Drawing = System.Drawing;
+
 namespace B3 {
+	/// <summary>The game window created and handled by SDL</summary>
 	public class SdlGameWindow : BaseGameWindow {
 		#region Public Properties
 		
@@ -37,6 +40,14 @@ namespace B3 {
 			}
 		} }
 		
+		/// <summary>Gets and sets the window's icon</summary>
+		public override Drawing.Image Icon { set {
+			base.Icon = value;
+			if(this.IsInitialized) {
+				SDL.SetWindowIcon(this.window, this.Icon);
+			}
+		} }
+		
 		#endregion // Public Properties
 		
 		#region Public Methods
@@ -45,6 +56,7 @@ namespace B3 {
 		public override void Initialize() {
 			// Variables
 			SDL.WindowFlags flags = SDL.WindowFlags.None;
+			System.IntPtr cursor;
 			
 			SdlHelper.Initialize();
 			if(!SdlHelper.IsOnMainThread) { throw new System.Exception("Can only create windows on main thread"); }
@@ -61,7 +73,12 @@ namespace B3 {
 				flags
 			);
 			this.context = SDL.GL_CreateContext(this.window);
+			cursor = SDL.GetCursor();
+			Input.Mouse.SetCursor(ref cursor);
 			Input.SetProcessor(new SdlInputProcessor());
+			if(this.Icon != null) {
+				SDL.SetWindowIcon(this.window, this.Icon);
+			}
 			this.MakeContextCurrent(true);
 			SDL.OnEvent += WindowEventListener;
 			this.IsInitialized = true;
@@ -95,6 +112,8 @@ namespace B3 {
 		protected override void DestroyWindow() {
 			if(this.Exists) {
 				this.Exists = false;
+				this.CallOnDestroy();
+				SDL.FreeCursor(Input.Mouse.CursorHandle);
 				SDL.DestroyWindow(this.window);
 				SDL.GL_DeleteContext(this.context);
 			}

@@ -62,20 +62,6 @@ namespace B3.Utilities {
 		
 		#endregion // GetError Methods
 		
-		#region SDL Keyboard Methods
-		
-		/// <summary>Starts the text input</summary>
-		public static void StartTextInput() { Keyboard.startTextInput(); }
-		
-		/// <summary>Stops the text input</summary>
-		public static void StopTextInput() { Keyboard.stopTextInput(); }
-		
-		/// <summary>Finds if the text input is currently active</summary>
-		/// <returns>Returns true if the text input is active</returns>
-		public static bool IsTextInputActive() { return Keyboard.isTextInputActive(); }
-		
-		#endregion // SDL Keyboard Methods
-		
 		#region SDL Joystick Methods
 		
 		/// <summary>Gets the number of joysticks present</summary>
@@ -411,56 +397,6 @@ namespace B3.Utilities {
 			Last = 65535
 		}
 		
-		/// <summary>The id of the window event</summary>
-		public enum WindowEventId {
-			/// <summary>No event</summary>
-			None,
-			/// <summary>When the window is being shown</summary>
-			Shown,
-			/// <summary>When the window is being hidden</summary>
-			Hidden,
-			/// <summary>When the window is being exposed and should be redrawn</summary>
-			Exposed,
-			/// <summary>When the window has moved, cooridnates found in <see cref="B3.Utilities.SDL.WindowEvent.data1"/> and <see cref="B3.Utilities.SDL.WindowEvent.data2"/></summary>
-			Moved,
-			/// <summary>When the window has resized, the size is found in <see cref="B3.Utilities.SDL.WindowEvent.data1"/> and <see cref="B3.Utilities.SDL.WindowEvent.data2"/></summary>
-			Resized,
-			/// <summary>When the window's size has changed</summary>
-			SizeChanged,
-			/// <summary>When the window has been minimized</summary>
-			Minimized,
-			/// <summary>When the window has been maximized</summary>
-			Maximized,
-			/// <summary>When the window has been restored to normal size and position</summary>
-			Restored,
-			/// <summary>When the window has gained mouse focus</summary>
-			Enter,
-			/// <summary>When the window has lost mouse focus</summary>
-			Leave,
-			/// <summary>When the window has gained keyboard focus</summary>
-			FocusGained,
-			/// <summary>When the window has lost keyboard focus</summary>
-			FocusLost,
-			/// <summary>When the window is requesting to be closed</summary>
-			Close,
-			/// <summary>When the window is being offered focus</summary>
-			TakeFocus,
-			/// <summary>When the window had a hit test</summary>
-			HitTest
-		}
-		
-		/// <summary>THe event id for displays</summary>
-		public enum DisplayEventId {
-			/// <summary>No event</summary>
-			None,
-			/// <summary>When the display orientation is changed, orientation data is found in <see cref="B3.Utilities.SDL.DisplayEvent.data"/></summary>
-			Orientation,
-			/// <summary>When a display is added</summary>
-			Connected,
-			/// <summary>When a display is removed</summary>
-			Disconnected
-		}
-		
 		/// <summary>An enumeration of key modifiers used for keyboard events</summary>
 		[System.Flags]
 		public enum KeyModifiers : ushort {
@@ -498,57 +434,6 @@ namespace B3.Utilities {
 			Alt = LAlt | RAlt,
 			/// <summary>The Windows key (either left or right)</summary>
 			Windows = LWindows | RWindows
-		}
-		
-		/// <summary>An enumeration for flags made for window specific properties</summary>
-		[System.Flags]
-		public enum WindowFlags {
-			/// <summary>Has no flags to use</summary>
-			None = 0,
-			/// <summary>Fullscreens the window</summary>
-			Fullscreen = 1,
-			/// <summary>Makes the window usable with OpenGL contexts</summary>
-			OpenGL = 2,
-			/// <summary>Makes the window visible</summary>
-			Show = 4,
-			/// <summary>Makes the window not visible</summary>
-			Hidden = 8,
-			/// <summary>Gives no decoration to the window</summary>
-			Borderless = 16,
-			/// <summary>Allows the window to be resized</summary>
-			Resizable = 32,
-			/// <summary>Makes the window minimized</summary>
-			Minimized = 64,
-			/// <summary>Makes the window maximized</summary>
-			Maximized = 128,
-			/// <summary>The window has grabbed input focus</summary>
-			InputGrabbed = 256,
-			/// <summary>The window has input focus</summary>
-			InputFocus = 512,
-			/// <summary>The window has mouse focus</summary>
-			MouseFocus = 1024,
-			/// <summary>For when the window is not created by SDL</summary>
-			Foreign = 2048,
-			/// <summary>Fullscreen the window</summary>
-			FullscreenDesktop = Fullscreen | 4096,
-			/// <summary>Creates the window with high-dpi mode on if supported</summary>
-			AllowHighDpi = 8192,
-			/// <summary>The window has captured the mouse</summary>
-			MouseCapture = 16384,
-			/// <summary>Makes the window always be above other</summary>
-			AlwaysOnTop = 32768,
-			/// <summary>Makes the window not be added to the taskbar</summary>
-			SkipTaskbar = 65536,
-			/// <summary>Treats the window as a utility window</summary>
-			Utility = 131072,
-			/// <summary>Treats the window as a tooltip</summary>
-			Tooltip = 262144,
-			/// <summary>Treats the window as a popup menu</summary>
-			PopupMenu = 524288,
-			/// <summary>Makes the window usable with vulkan</summary>
-			Vulkan = 268435456,
-			/// <summary>Makes the window usable with metal</summary>
-			Metal = 536870912
 		}
 		
 		/// <summary>
@@ -703,102 +588,6 @@ namespace B3.Utilities {
 			#endregion // Public Methods
 		}
 		
-		/// <summary>The structure for the key symbol</summary>
-		[StructLayout(LayoutKind.Sequential)]
-		public struct KeySymbol {
-			#region Field Variables
-			// Variables
-			/// <summary>The scancode of the key on the keyboard</summary>
-			public int scancode;
-			/// <summary>The keycode of the key on the keyboard</summary>
-			public int keycode;
-			/// <summary>Any modifiers applied by the users</summary>
-			public KeyModifiers modifiers;
-			/// <summary>No description</summary>
-			public uint unused;
-			
-			#endregion // Field Variables
-			
-			#region Public Properties
-			
-			/// <summary>Gets the keycode in key enum form</summary>
-			public Keys Key { get {
-				// Variables
-				int f1 = 1073741882;
-				int printScreen = 1073741894;
-				int pageDown = 1073741902;
-				int right = 1073741903;
-				int up = 1073741906;
-				int numlock = 1073741907;
-				int decimalBtn = 1073741923;
-				int leftCtrl = 1073742048;
-				int rightAlt = 1073742054;
-				int menu = 1073741925;
-				int capslock = 1073741881;
-				
-				// a-z keys on keyboard
-				if(this.keycode >= 'a' && this.keycode <= 'z') {
-					return (Keys)(this.keycode - 'a');
-				}
-				
-				// 0-9 keys on keyboard
-				if(this.keycode >= '0' && this.keycode <= '9') {
-					return (Keys)(this.keycode - '0' + Keys.Zero);
-				}
-				
-				// Straight checks, check the ascii table for the numbers
-				if(this.keycode == 8) { return Keys.Backspace; }
-				if(this.keycode == 9) { return Keys.Tab; }
-				if(this.keycode == 13) { return Keys.Enter; }
-				if(this.keycode == 27) { return Keys.Escape; }
-				if(this.keycode == 32) { return Keys.Space; }
-				if(this.keycode == 39) { return Keys.SingleQuote; }
-				// Comma, Dash, Period, Forwardslash
-				if(this.keycode >= 44 && this.keycode <= 47) {
-					return (Keys)(this.keycode - 44 + Keys.Comma);
-				}
-				if(this.keycode == 59) { return Keys.Semicolon; }
-				if(this.keycode == 61) { return Keys.Equals; }
-				// Left Square Bracket, Backslash, Right Square Bracket
-				if(this.keycode >= 91 && this.keycode <= 93) {
-					return (Keys)(this.keycode - 91 + Keys.LeftSquareBracket);
-				}
-				if(this.keycode == 96) { return Keys.GraveAccent; }
-				if(this.keycode == 127) { return Keys.Delete; }
-				if(this.keycode == menu) { return Keys.Menu; }
-				if(this.keycode == capslock) { return Keys.CapsLock; }
-				
-				// Print Screen - Page Down buttons
-				if(this.keycode >= printScreen && this.keycode <= pageDown) {
-					return (Keys)(this.keycode - printScreen + Keys.PrintScreen);
-				}
-				
-				// Right, Left, Down, Up buttons
-				if(this.keycode >= right && this.keycode <= up) {
-					return (Keys)(this.keycode - right + Keys.Right);
-				}
-				
-				// F1 - F25 buttons
-				if(this.keycode >= f1 && this.keycode <= (f1 + 24)) {
-					return (Keys)(this.keycode - f1 + Keys.F1);
-				}
-				
-				// Numpad buttons
-				if(this.keycode >= numlock && this.keycode <= decimalBtn) {
-					return (Keys)(this.keycode - numlock + Keys.NumLock);
-				}
-				
-				// Left Ctrl to Right Alt buttons
-				if(this.keycode >= leftCtrl && this.keycode <= rightAlt) {
-					return (Keys)(this.keycode - leftCtrl + Keys.LeftCtrl);
-				}
-				
-				return Keys.Unknown;
-			} }
-			
-			#endregion // Public Properties
-		}
-		
 		#region Events
 		
 		/// <summary>The structure for a common event that is shared between every event</summary>
@@ -860,120 +649,6 @@ namespace B3.Utilities {
 			/// <summary>The event for controller sensor</summary>
 			[FieldOffset(0)]
 			public ControllerSensorEvent controllerSensor;
-			
-			#endregion // Field Variables
-		}
-		
-		/// <summary>The structure for the keyboard event</summary>
-		[StructLayout(LayoutKind.Sequential)]
-		public struct KeyboardEvent {
-			#region Field Variables
-			// Variables
-			/// <summary>The type of the event</summary>
-			public EventType type;
-			/// <summary>The timestamp (in milliseconds) of when the event was triggered</summary>
-			public uint timestamp;
-			/// <summary>The id of the window the keyboard has focus on</summary>
-			public uint windowId;
-			/// <summary>The state of the keyboard, pressed or released</summary>
-			public byte state;
-			/// <summary>Non-zero if the key is being repeated</summary>
-			public byte repeat;
-			/// <summary>No description</summary>
-			public byte padding2;
-			/// <summary>No description</summary>
-			public byte padding3;
-			/// <summary>The key that was pressed or released</summary>
-			public KeySymbol keySymbol;
-			
-			#endregion // Field Variables
-		}
-		
-		/// <summary>The structure for the mouse motion event</summary>
-		[StructLayout(LayoutKind.Sequential)]
-		public struct MouseMotionEvent {
-			#region Field Variables
-			// Variables
-			/// <summary>The type of the event</summary>
-			public EventType type;
-			/// <summary>The timestamp (in milliseconds) of when the event was triggered</summary>
-			public uint timestamp;
-			/// <summary>The id of the window the keyboard has focus on</summary>
-			public uint windowId;
-			/// <summary>The mouse instance id</summary>
-			public uint which;
-			/// <summary>The current button state</summary>
-			public uint state;
-			/// <summary>The x coordinate of the mouse relative to the window</summary>
-			public int x;
-			/// <summary>The y coordinate of the mouse relative to the window</summary>
-			public int y;
-			/// <summary>The relative motion in the x direction</summary>
-			public int xRel;
-			/// <summary>The relative motion in the y direction</summary>
-			public int yRel;
-			
-			#endregion // Field Variables
-		}
-		
-		/// <summary>The structure for the mouse button event</summary>
-		[StructLayout(LayoutKind.Sequential)]
-		public struct MouseButtonEvent {
-			#region Field Variables
-			// Variables
-			/// <summary>The type of the event</summary>
-			public EventType type;
-			/// <summary>The timestamp (in milliseconds) of when the event was triggered</summary>
-			public uint timestamp;
-			/// <summary>The id of the window the keyboard has focus on</summary>
-			public uint windowId;
-			/// <summary>The mouse instance id</summary>
-			public uint which;
-			/// <summary>The button of the mouse</summary>
-			public byte button;
-			/// <summary>The state of the mouse (either pressed or released)</summary>
-			public byte state;
-			/// <summary>The amount of clicks (single-click, double-click, triple-click, etc)</summary>
-			public byte clicks;
-			/// <summary>No description</summary>
-			public byte padding1;
-			/// <summary>The x coordinate of the mouse relative to the window</summary>
-			public int x;
-			/// <summary>The y coordinate of the mouse relative to the window</summary>
-			public int y;
-			
-			#endregion // Field Variables
-			
-			#region Public Properties
-			
-			/// <summary>Gets if a mouse button is pressed</summary>
-			public bool IsPressed { get { return (this.state > 0); } }
-			
-			/// <summary>Gets the mouse button in enum form</summary>
-			public MouseButton Button { get { return (MouseButton)(this.button - 1); } }
-			
-			#endregion // Public Properties
-		}
-		
-		/// <summary>The structure for the mouse wheel event</summary>
-		[StructLayout(LayoutKind.Sequential)]
-		public struct MouseWheelEvent {
-			#region Field Variables
-			// Variables
-			/// <summary>The type of the event</summary>
-			public EventType type;
-			/// <summary>The timestamp (in milliseconds) of when the event was triggered</summary>
-			public uint timestamp;
-			/// <summary>The id of the window the keyboard has focus on</summary>
-			public uint windowId;
-			/// <summary>The mouse instance id</summary>
-			public uint which;
-			/// <summary>The amount scrolled horiontally, positive to the right and negative to the left</summary>
-			public int x;
-			/// <summary>The amount scrolled vertically, positive away from the user and negative towards the user</summary>
-			public int y;
-			/// <summary>Set to one of the mouse wheel deinitions, when flipped the values in X and Y will be the opposite</summary>
-			public uint direction;
 			
 			#endregion // Field Variables
 		}
@@ -1220,21 +895,6 @@ namespace B3.Utilities {
 			internal delegate int SDL_EventFilter(IntPtr data, ref Event e);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate void SDL_AddEventWatch(SDL_EventFilter filter, IntPtr data);
-			
-			#endregion // Field Variables
-		}
-		
-		/// <summary>The keyboard portion of the SDL framework</summary>
-		private static class Keyboard {
-			#region Field Variables
-			// Variables
-			internal static SDL.Action startTextInput = FuncLoader.LoadFunc<SDL.Action>(library, "SDL_StartTextInput");
-			internal static SDL.Action stopTextInput = FuncLoader.LoadFunc<SDL.Action>(library, "SDL_StopTextInput");
-			internal static SDL_IsTextInputActive isTextInputActive = FuncLoader.LoadFunc<SDL_IsTextInputActive>(library, "SDL_IsTextInputActive");
-			
-			// Delegates
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate bool SDL_IsTextInputActive(); 
 			
 			#endregion // Field Variables
 		}

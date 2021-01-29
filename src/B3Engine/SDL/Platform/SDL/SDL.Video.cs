@@ -1,9 +1,7 @@
 
-using System.Drawing.Imaging;
-using System.IO;
 using System.Runtime.InteropServices;
 
-using Bitmap = System.Drawing.Bitmap;
+using Drawing = System.Drawing;
 using IntPtr = System.IntPtr;
 
 namespace B3.Utilities {
@@ -30,28 +28,12 @@ namespace B3.Utilities {
 		/// <summary>Sets the icon of the window to the image given it's file location</summary>
 		/// <param name="window">The managed pointer to the window</param>
 		/// <param name="file">The file of the image to set the icon to</param>
-		public static void SetWindowIcon(IntPtr window, string file) { Window.setIcon(window, LoadBmp(file)); }
+		public static void SetWindowIcon(IntPtr window, string file) { Window.setIcon(window, LoadBitmap(file)); }
 		
-		/// <summary>Loads the bitmap for the use of SDL specific use</summary>
-		/// <param name="file">The location of the file to get the image from</param>
-		/// <returns>Returns the managed pointer to the bitmap</returns>
-		public static IntPtr LoadBmp(string file) {
-			// Variables
-			string guid = System.Guid.NewGuid().ToString();
-			string filepath = $"{FS.BasePath}/{guid}.bmp";
-			IntPtr ptr;
-			
-			using(Stream fstream = FS.ReadStream(file)) {
-				// Variables
-				Bitmap bmp = Bitmap.FromStream(fstream) as Bitmap;
-				
-				bmp.Save(filepath, ImageFormat.Bmp);
-			}
-			ptr = GetError(Window.loadBmp(Window.rwFromFile(filepath, "rb"), 1));
-			FS.Delete(filepath);
-			
-			return ptr;
-		}
+		/// <summary>Sets the window's icon</summary>
+		/// <param name="window">The managed pointer to the window</param>
+		/// <param name="image">The image to set the icon to</param>
+		public static void SetWindowIcon(IntPtr window, Drawing.Image image) { Window.setIcon(window, LoadBitmap(image)); }
 		
 		/// <summary>Sets the window's position</summary>
 		/// <param name="window">The managed pointer to the window</param>
@@ -102,14 +84,12 @@ namespace B3.Utilities {
 		
 		#region Nested Types
 		
-		private class Window {
+		private static class Window {
 			#region Field Variables
 			// Variables
 			internal static SDL_CreateWindow create = FuncLoader.LoadFunc<SDL_CreateWindow>(library, "SDL_CreateWindow");
 			internal static SDL_SetWindowTitle setTitle = FuncLoader.LoadFunc<SDL_SetWindowTitle>(library, "SDL_SetWindowTitle");
 			internal static SDL_SetWindowIcon setIcon = FuncLoader.LoadFunc<SDL_SetWindowIcon>(library, "SDL_SetWindowIcon");
-			internal static SDL_LoadBMP_RW loadBmp = FuncLoader.LoadFunc<SDL_LoadBMP_RW>(library, "SDL_LoadBMP_RW");
-			internal static SDL_RWFromFile rwFromFile = FuncLoader.LoadFunc<SDL_RWFromFile>(library, "SDL_RWFromFile");
 			internal static SDL_GL_GetProcAddress getProcAddress = FuncLoader.LoadFunc<SDL_GL_GetProcAddress>(library, "SDL_GL_GetProcAddress");
 			internal static SDL_GL_CreateContext createContext = FuncLoader.LoadFunc<SDL_GL_CreateContext>(library, "SDL_GL_CreateContext");
 			internal static SDL_GL_MakeCurrent makeCurrent = FuncLoader.LoadFunc<SDL_GL_MakeCurrent>(library, "SDL_GL_MakeCurrent");
@@ -128,10 +108,6 @@ namespace B3.Utilities {
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate void SDL_SetWindowIcon(IntPtr window, IntPtr icon);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate IntPtr SDL_LoadBMP_RW(IntPtr bmp, int freesrc);
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate IntPtr SDL_RWFromFile(string file, string mode);
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate IntPtr SDL_GL_GetProcAddress(string proc);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate IntPtr SDL_GL_CreateContext(IntPtr window);
@@ -147,6 +123,107 @@ namespace B3.Utilities {
 			internal delegate void SDL_SetWindowResizable(IntPtr window, bool resizable);
 			
 			#endregion // Field Variables
+		}
+		
+		/// <summary>The id of the window event</summary>
+		public enum WindowEventId {
+			/// <summary>No event</summary>
+			None,
+			/// <summary>When the window is being shown</summary>
+			Shown,
+			/// <summary>When the window is being hidden</summary>
+			Hidden,
+			/// <summary>When the window is being exposed and should be redrawn</summary>
+			Exposed,
+			/// <summary>When the window has moved, cooridnates found in <see cref="B3.Utilities.SDL.WindowEvent.data1"/> and <see cref="B3.Utilities.SDL.WindowEvent.data2"/></summary>
+			Moved,
+			/// <summary>When the window has resized, the size is found in <see cref="B3.Utilities.SDL.WindowEvent.data1"/> and <see cref="B3.Utilities.SDL.WindowEvent.data2"/></summary>
+			Resized,
+			/// <summary>When the window's size has changed</summary>
+			SizeChanged,
+			/// <summary>When the window has been minimized</summary>
+			Minimized,
+			/// <summary>When the window has been maximized</summary>
+			Maximized,
+			/// <summary>When the window has been restored to normal size and position</summary>
+			Restored,
+			/// <summary>When the window has gained mouse focus</summary>
+			Enter,
+			/// <summary>When the window has lost mouse focus</summary>
+			Leave,
+			/// <summary>When the window has gained keyboard focus</summary>
+			FocusGained,
+			/// <summary>When the window has lost keyboard focus</summary>
+			FocusLost,
+			/// <summary>When the window is requesting to be closed</summary>
+			Close,
+			/// <summary>When the window is being offered focus</summary>
+			TakeFocus,
+			/// <summary>When the window had a hit test</summary>
+			HitTest
+		}
+		
+		/// <summary>THe event id for displays</summary>
+		public enum DisplayEventId {
+			/// <summary>No event</summary>
+			None,
+			/// <summary>When the display orientation is changed, orientation data is found in <see cref="B3.Utilities.SDL.DisplayEvent.data"/></summary>
+			Orientation,
+			/// <summary>When a display is added</summary>
+			Connected,
+			/// <summary>When a display is removed</summary>
+			Disconnected
+		}
+		
+		/// <summary>An enumeration for flags made for window specific properties</summary>
+		[System.Flags]
+		public enum WindowFlags {
+			/// <summary>Has no flags to use</summary>
+			None = 0,
+			/// <summary>Fullscreens the window</summary>
+			Fullscreen = 1,
+			/// <summary>Makes the window usable with OpenGL contexts</summary>
+			OpenGL = 2,
+			/// <summary>Makes the window visible</summary>
+			Show = 4,
+			/// <summary>Makes the window not visible</summary>
+			Hidden = 8,
+			/// <summary>Gives no decoration to the window</summary>
+			Borderless = 16,
+			/// <summary>Allows the window to be resized</summary>
+			Resizable = 32,
+			/// <summary>Makes the window minimized</summary>
+			Minimized = 64,
+			/// <summary>Makes the window maximized</summary>
+			Maximized = 128,
+			/// <summary>The window has grabbed input focus</summary>
+			InputGrabbed = 256,
+			/// <summary>The window has input focus</summary>
+			InputFocus = 512,
+			/// <summary>The window has mouse focus</summary>
+			MouseFocus = 1024,
+			/// <summary>For when the window is not created by SDL</summary>
+			Foreign = 2048,
+			/// <summary>Fullscreen the window</summary>
+			FullscreenDesktop = Fullscreen | 4096,
+			/// <summary>Creates the window with high-dpi mode on if supported</summary>
+			AllowHighDpi = 8192,
+			/// <summary>The window has captured the mouse</summary>
+			MouseCapture = 16384,
+			/// <summary>Makes the window always be above other</summary>
+			AlwaysOnTop = 32768,
+			/// <summary>Makes the window not be added to the taskbar</summary>
+			SkipTaskbar = 65536,
+			/// <summary>Treats the window as a utility window</summary>
+			Utility = 131072,
+			/// <summary>Treats the window as a tooltip</summary>
+			Tooltip = 262144,
+			/// <summary>Treats the window as a popup menu</summary>
+			PopupMenu = 524288,
+			/// <summary>Makes the window usable with vulkan</summary>
+			Vulkan = 268435456,
+			/// <summary>Makes the window usable with metal</summary>
+			Metal = 536870912
 		}
 		
 		/// <summary>The structure for a display event</summary>

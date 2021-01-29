@@ -56,14 +56,40 @@ namespace B3 {
 		Y,
 		/// <summary>The Z key</summary>
 		Z,
-		/// <summary>The Tab key</summary>
-		Tab,
 		/// <summary>The Enter key</summary>
 		Enter,
 		/// <summary>The Escape key</summary>
 		Escape,
-		/// <summary>The 0 key</summary>
-		Zero,
+		/// <summary>The Backspace key</summary>
+		Backspace,
+		/// <summary>The Tab key</summary>
+		Tab,
+		/// <summary>The Space key</summary>
+		Space,
+		/// <summary>The Minus/Underscore key</summary>
+		Minus,
+		/// <summary>The Equals/Plus key</summary>
+		Equals,
+		/// <summary>The Left Square Bracket/Left Curly Bracket key</summary>
+		LeftSquareBracket,
+		/// <summary>The Right Square Bracket/Right Curly Bracket key</summary>
+		RightSquareBracket,
+		/// <summary>The Back Slash/Pipe key</summary>
+		BackSlash,
+		/// <summary>The Semicolon/Colon key</summary>
+		Semicolon,
+		/// <summary>The Single Quote/Double Quote key</summary>
+		SingleQuote,
+		/// <summary>The Accent/Grave key</summary>
+		GraveAccent,
+		/// <summary>The Comma/Left Angle Bracket key</summary>
+		Comma,
+		/// <summary>The Period/Right Angle Bracket key</summary>
+		Period,
+		/// <summary>The Forward Slash/Question Mark key</summary>
+		ForwardSlash,
+		/// <summary>The Caps Lock key</summary>
+		CapsLock,
 		/// <summary>The 1 key</summary>
 		One,
 		/// <summary>The 2 key</summary>
@@ -82,16 +108,8 @@ namespace B3 {
 		Eight,
 		/// <summary>The 9 key</summary>
 		Nine,
-		/// <summary>The Space key</summary>
-		Space,
-		/// <summary>The Equals/Plus key</summary>
-		Equals,
-		/// <summary>The Backspace key</summary>
-		Backspace,
-		/// <summary>The Accent/Grave key</summary>
-		GraveAccent,
-		/// <summary>The Caps Lock key</summary>
-		CapsLock,
+		/// <summary>The 0 key</summary>
+		Zero,
 		/// <summary>The Left Control key</summary>
 		LeftCtrl,
 		/// <summary>The Left Shift key</summary>
@@ -106,32 +124,8 @@ namespace B3 {
 		RightShift,
 		/// <summary>The Right Alt key</summary>
 		RightAlt,
-		/// <summary>The Right key</summary>
-		Right,
-		/// <summary>The Left key</summary>
-		Left,
-		/// <summary>The Down key</summary>
-		Down,
-		/// <summary>The Up key</summary>
-		Up,
-		/// <summary>The Comma/Left Angle Bracket key</summary>
-		Comma,
-		/// <summary>The Minus/Underscore key</summary>
-		Minus,
-		/// <summary>The Period/Right Angle Bracket key</summary>
-		Period,
-		/// <summary>The Forward Slash/Question Mark key</summary>
-		ForwardSlash,
-		/// <summary>The Semicolon/Colon key</summary>
-		Semicolon,
-		/// <summary>The Single Quote/Double Quote key</summary>
-		SingleQuote,
-		/// <summary>The Left Square Bracket/Left Curly Bracket key</summary>
-		LeftSquareBracket,
-		/// <summary>The Back Slash/Pipe key</summary>
-		BackSlash,
-		/// <summary>The Right Square Bracket/Right Curly Bracket key</summary>
-		RightSquareBracket,
+		/// <summary>The Menu key</summary>
+		Menu,
 		/// <summary>The Print Screen key</summary>
 		PrintScreen,
 		/// <summary>The Scroll Lock key</summary>
@@ -150,8 +144,14 @@ namespace B3 {
 		End,
 		/// <summary>The Page Down key</summary>
 		PageDown,
-		/// <summary>The Menu key</summary>
-		Menu,
+		/// <summary>The Right key</summary>
+		Right,
+		/// <summary>The Left key</summary>
+		Left,
+		/// <summary>The Down key</summary>
+		Down,
+		/// <summary>The Up key</summary>
+		Up,
 		/// <summary>The Number Lock key on the number pad</summary>
 		NumLock,
 		/// <summary>The Divide key on the number pad</summary>

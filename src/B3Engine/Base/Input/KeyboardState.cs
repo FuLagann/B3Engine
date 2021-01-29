@@ -6,7 +6,7 @@ namespace B3 {
 	public struct KeyboardState {
 		#region Field Variables
 		// Variables
-		private InputType[] keys;
+		private InputState[] keys;
 		private long[] timestamps;
 		private Queue<Keys> prevKeys;
 		private int trackingAmount;
@@ -18,23 +18,23 @@ namespace B3 {
 		
 		/// <summary>Gets the input type from the given key</summary>
 		/// <param name="key">The key to inquery</param>
-		public InputType this[Keys key] { get { return this.keys[(int)key]; } internal set {
+		public InputState this[Keys key] { get { return this.keys[(int)key]; } internal set {
 			// Variables
-			bool isPreviouslyUp = (this.keys[(int)key] == InputType.Released);
-			InputType setType = InputType.Released;
+			bool isPreviouslyUp = (this.keys[(int)key] == InputState.Released);
+			InputState setType = InputState.Released;
 			
-			if(this.keys[(int)key] == InputType.Pressed && value == InputType.Pressed) {
-				setType = InputType.Held;
+			if(this.keys[(int)key] == InputState.Pressed && value == InputState.Pressed) {
+				setType = InputState.Held;
 			}
 			else {
 				setType = value;
 			}
-			if(setType == InputType.Released) {
+			if(setType == InputState.Released) {
 				this.timestamps[(int)key] = 0;
 			}
 			this.keys[(int)key] = setType;
 			
-			if(isPreviouslyUp && value == InputType.Pressed) {
+			if(isPreviouslyUp && value == InputState.Pressed) {
 				this.timestamps[(int)key] = System.DateTime.Now.Ticks;
 				this.prevKeys.Enqueue(key);
 				if(this.prevKeys.Count > this.trackingAmount) {
@@ -65,7 +65,7 @@ namespace B3 {
 		/// <param name="trackingAmount">The amount of keys to keep track of</param>
 		public KeyboardState(int trackingAmount) {
 			this.trackingAmount = Mathx.Abs(trackingAmount);
-			this.keys = new InputType[System.Enum.GetNames(typeof(Keys)).Length - 1];
+			this.keys = new InputState[System.Enum.GetNames(typeof(Keys)).Length - 1];
 			this.prevKeys = new Queue<Keys>();
 			this.isAnyKeyDown = false;
 			this.timestamps = new long[this.keys.Length];
@@ -78,7 +78,7 @@ namespace B3 {
 		/// <summary>Clears all the keys' presses</summary>
 		public void Clear() {
 			for(int i = 0; i < this.keys.Length; i++) {
-				this.keys[i] = InputType.Released;
+				this.keys[i] = InputState.Released;
 				this.timestamps[i] = 0;
 			}
 			this.isAnyKeyDown = false;
@@ -90,7 +90,7 @@ namespace B3 {
 			bool isClear = true;
 			
 			for(int i = 0; i < this.keys.Length; i++) {
-				if(this.keys[i] != InputType.Released) {
+				if(this.keys[i] != InputState.Released) {
 					isClear = false;
 					break;
 				}
@@ -101,6 +101,7 @@ namespace B3 {
 					this.timestamps[i] = 0;
 				}
 			}
+			else { this.isAnyKeyDown = true; }
 		}
 		
 		/// <summary>Gets the amount of time spent holding down a specific key</summary>
@@ -120,17 +121,17 @@ namespace B3 {
 		/// <summary>Finds if the given key is pressed or held down</summary>
 		/// <param name="key">The key to query if it's down</param>
 		/// <returns>Returns true if the key is pressed or held down</returns>
-		public bool IsDown(Keys key) { return (this.keys[(int)key] != InputType.Released); }
+		public bool IsDown(Keys key) { return (this.keys[(int)key] != InputState.Released); }
 		
 		/// <summary>Finds if the key is not pressed or held down</summary>
 		/// <param name="key">The key to query if it's up</param>
 		/// <returns>Returns true if the key is not pressed or held down</returns>
-		public bool IsUp(Keys key) { return (this.keys[(int)key] == InputType.Released); }
+		public bool IsUp(Keys key) { return (this.keys[(int)key] == InputState.Released); }
 		
 		/// <summary>Finds if the key is held down</summary>
 		/// <param name="key">The key to query if it's held down</param>
 		/// <returns>Returns true if the key is held down</returns>
-		public bool IsHeldDown(Keys key) { return (this.keys[(int)key] == InputType.Held); }
+		public bool IsHeldDown(Keys key) { return (this.keys[(int)key] == InputState.Held); }
 		
 		/// <summary>Clears all the previous keys</summary>
 		public void ClearPreviousKeys() { this.prevKeys.Clear(); }

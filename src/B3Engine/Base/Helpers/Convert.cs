@@ -35,7 +35,6 @@ namespace B3.Utilities {
 			return Encoding.UTF8.GetString(bytes);
 		}
 		
-		
 		#endregion // Public Static Methods
 	}
 }

@@ -1,6 +1,7 @@
 
 using B3.Events;
 
+using Drawing = System.Drawing;
 using IntPtr = System.IntPtr;
 
 namespace B3 {
@@ -53,6 +54,9 @@ namespace B3 {
 		/// <summary>Gets if the game window is already initialized</summary>
 		bool IsInitialized { get; }
 		
+		/// <summary>Gets and sets the window's icon</summary>
+		Drawing.Image Icon { get; set; }
+		
 		#endregion // Properties
 		
 		#region Events
@@ -77,6 +81,9 @@ namespace B3 {
 		
 		/// <summary>An event for when the window is rendering</summary>
 		event EventHandler<UpdateEventArgs> OnRender;
+		
+		/// <summary>An event for when the window is being destroyed</summary>
+		event EventHandler<EventArgs> OnDestroy;
 		
 		#endregion // Events
 		

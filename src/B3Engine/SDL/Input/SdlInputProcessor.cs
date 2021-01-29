@@ -51,45 +51,24 @@ namespace B3.Utilities {
 		/// <param name="gamepads">The reference to an array of gamepad's input structure</param>
 		public void ProcessInput(ref KeyboardState keyboard, ref MouseState mouse, ref GamepadState generalGamepad, ref GamepadState[] gamepads) {
 			// Variables
-			Keys key;
-			MouseButtonAndClicks mbutton;
+			InputState[] state = SDL.GetKeyboardState();
 			GamepadButtonAndId gbutton;
 			GamepadAxisIdAndValue gaxis;
 			bool shouldCheck = false;
 			
-			while(this.keysUp.Count > 0) {
-				key = this.keysUp.Dequeue();
-				keyboard[key] = InputType.Released;
-				shouldCheck = true;
+			for(int i = 0; i < state.Length; i++) {
+				keyboard[(Keys)i] = state[i];
 			}
-			if(shouldCheck) {
-				keyboard.CheckForClearing();
-				shouldCheck = false;
-			}
-			while(this.keys.Count > 0) {
-				key = this.keys.Dequeue();
-				keyboard[key] = InputType.Pressed;
-				keyboard.IsAnyKeyDown = true;
-			}
+			keyboard.CheckForClearing();
 			
+			state = SDL.GetMouseState(out this.mousePos.x, out this.mousePos.y);
 			mouse.Position = this.mousePos;
 			mouse.Scroll = this.mouseWheel;
-			while(this.mbuttonsUp.Count > 0) {
-				mbutton = this.mbuttonsUp.Dequeue();
-				mouse[mbutton.button] = InputType.Released;
-				mouse.SetClicks(mbutton.button, mbutton.clicks);
-				shouldCheck = true;
+			this.mouseWheel = 0.0f;
+			for(int i = 0; i < state.Length; i++) {
+				mouse[(MouseButton)i] = state[i];
 			}
-			if(shouldCheck) {
-				mouse.CheckForClearing();
-				shouldCheck = false;
-			}
-			while(this.mbuttons.Count > 0) {
-				mbutton = this.mbuttons.Dequeue();
-				mouse[mbutton.button] = InputType.Pressed;
-				mouse.SetClicks(mbutton.button, mbutton.clicks);
-				mouse.IsAnyButtonDown = true;
-			}
+			mouse.CheckForClearing();
 			
 			if(this.shouldConnectController) {
 				// Variables
@@ -104,8 +83,8 @@ namespace B3.Utilities {
 			
 			while(this.gbuttonsUp.Count > 0) {
 				gbutton = this.gbuttonsUp.Dequeue();
-				gamepads[gbutton.id][gbutton.button] = InputType.Released;
-				generalGamepad[gbutton.button] = InputType.Released;
+				gamepads[gbutton.id][gbutton.button] = InputState.Released;
+				generalGamepad[gbutton.button] = InputState.Released;
 				shouldCheck = true;
 			}
 			if(shouldCheck) {
@@ -116,9 +95,9 @@ namespace B3.Utilities {
 			}
 			while(this.gbuttons.Count > 0) {
 				gbutton = this.gbuttons.Dequeue();
-				gamepads[gbutton.id][gbutton.button] = InputType.Pressed;
+				gamepads[gbutton.id][gbutton.button] = InputState.Pressed;
 				gamepads[gbutton.id].IsAnyButtonDown = true;
-				generalGamepad[gbutton.button] = InputType.Pressed;
+				generalGamepad[gbutton.button] = InputState.Pressed;
 				generalGamepad.IsAnyButtonDown = true;
 			}
 			while(this.gaxes.Count > 0) {
@@ -151,28 +130,15 @@ namespace B3.Utilities {
 		/// <summary>The callback to the SDL events to process the input with</summary>
 		/// <param name="e">The event to get all the data from</param>
 		private void InputEventsCallback(SDL.Event e) {
-			this.mouseWheel = 0.0f;
 			
 			// TODO: The OnUp events sometimes get skipped, maybe the event style system shouldnt be used and this should be reoriganized to call the sdl methods directly
 			
-			if(e.type == SDL.EventType.KeyDown) {
-				// Variables
-				Keys key= e.keyboard.keySymbol.Key;
-				
-				if(key != Keys.Unknown) { this.keys.Enqueue(key); }
-			}
-			if(e.type == SDL.EventType.KeyUp) {
-				// Variables
-				Keys key = e.keyboard.keySymbol.Key;
-				
-				if(key != Keys.Unknown) { this.keysUp.Enqueue(key); }
-			}
 			if(e.type == SDL.EventType.MouseMotion) {
 				this.mousePos.x = e.mouse.x;
 				this.mousePos.y = e.mouse.y;
 			}
 			if(e.type == SDL.EventType.MouseWheel) {
-				this.mouseWheel = e.mouseWheel.y;
+				this.mouseWheel += e.mouseWheel.y;
 			}
 			if(e.type == SDL.EventType.MouseButtonDown) {
 				// Variables

@@ -7,7 +7,7 @@ namespace B3 {
 		#region Field Variables
 		// Variables
 		private System.IntPtr handle;
-		private InputType[] buttons;
+		private InputState[] buttons;
 		private float[] axes;
 		private Queue<GamepadButton> prevButtons;
 		private int trackingAmount;
@@ -25,24 +25,24 @@ namespace B3 {
 		
 		/// <summary>Gets and sets the gamepad buttons that are pressed</summary>
 		/// <param name="button">The gamepad button to get or set the input type from/to</param>
-		public InputType this[GamepadButton button] { get { return this.buttons[(int)button]; } internal set {
+		public InputState this[GamepadButton button] { get { return this.buttons[(int)button]; } internal set {
 			// Variables
-			bool isPreviouslyUp = (this.buttons[(int)button] == InputType.Released);
-			InputType setType = InputType.Released;
+			bool isPreviouslyUp = (this.buttons[(int)button] == InputState.Released);
+			InputState setType = InputState.Released;
 			
-			if(this.buttons[(int)button] == InputType.Pressed && value == InputType.Pressed) {
-				setType = InputType.Held;
+			if(this.buttons[(int)button] == InputState.Pressed && value == InputState.Pressed) {
+				setType = InputState.Held;
 			}
 			else {
 				setType = value;
 			}
 			
-			if(setType == InputType.Released) {
+			if(setType == InputState.Released) {
 				this.timestamps[(int)button] = 0;
 			}
 			this.buttons[(int)button] = setType;
 			
-			if(isPreviouslyUp && value == InputType.Pressed) {
+			if(isPreviouslyUp && value == InputState.Pressed) {
 				this.timestamps[(int)button] = System.DateTime.Now.Ticks;
 				this.prevButtons.Enqueue(button);
 				if(this.prevButtons.Count > this.trackingAmount) {
@@ -112,7 +112,7 @@ namespace B3 {
 		public GamepadState(System.IntPtr handle, int trackingAmount, bool isConnected) {
 			this.handle = handle;
 			this.trackingAmount = trackingAmount;
-			this.buttons = new InputType[System.Enum.GetNames(typeof(GamepadButton)).Length - 1];
+			this.buttons = new InputState[System.Enum.GetNames(typeof(GamepadButton)).Length - 1];
 			this.axes = new float[System.Enum.GetNames(typeof(GamepadAxis)).Length - 1];
 			this.prevButtons = new Queue<GamepadButton>();
 			this.isAnyButtonDown = false;
@@ -128,7 +128,7 @@ namespace B3 {
 		/// <summary>Clears all the buttons' presses</summary>
 		public void Clear() {
 			for(int i = 0; i < this.buttons.Length; i++) {
-				this.buttons[i] = InputType.Released;
+				this.buttons[i] = InputState.Released;
 			}
 			this.isAnyButtonDown = false;
 		}
@@ -139,7 +139,7 @@ namespace B3 {
 			bool isClear = true;
 			
 			for(int i = 0; i < this.buttons.Length; i++) {
-				if(this.buttons[i] != InputType.Released) {
+				if(this.buttons[i] != InputState.Released) {
 					isClear = false;
 					break;
 				}
@@ -179,17 +179,17 @@ namespace B3 {
 		/// <summary>Finds if the given button is pressed or held down</summary>
 		/// <param name="button">The button to query if it's down</param>
 		/// <returns>Returns true if the button is pressed or held down</returns>
-		public bool IsDown(GamepadButton button) { return (this.buttons[(int)button] != InputType.Released); }
+		public bool IsDown(GamepadButton button) { return (this.buttons[(int)button] != InputState.Released); }
 		
 		/// <summary>Finds if the button is not pressed or held down</summary>
 		/// <param name="button">The button to query if it's up</param>
 		/// <returns>Returns true if the button is not pressed or held down</returns>
-		public bool IsUp(GamepadButton button) { return (this.buttons[(int)button] == InputType.Released); }
+		public bool IsUp(GamepadButton button) { return (this.buttons[(int)button] == InputState.Released); }
 		
 		/// <summary>Finds if the button is held down</summary>
 		/// <param name="button">The button to query if it's held down</param>
 		/// <returns>Returns true if the button is held down</returns>
-		public bool IsHeldDown(GamepadButton button) { return (this.buttons[(int)button] == InputType.Held); }
+		public bool IsHeldDown(GamepadButton button) { return (this.buttons[(int)button] == InputState.Held); }
 		
 		/// <summary>Finds if the given axis is pressed or held down</summary>
 		/// <param name="axis">The axis to query if it's down</param>

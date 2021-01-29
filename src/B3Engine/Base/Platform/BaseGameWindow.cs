@@ -4,6 +4,7 @@ using B3.Events;
 using System.Diagnostics;
 using System.Threading;
 
+using Drawing = System.Drawing;
 using IntPtr = System.IntPtr;
 
 namespace B3 {
@@ -91,6 +92,9 @@ namespace B3 {
 		/// <summary>Gets if the game window is already initialized</summary>
 		public bool IsInitialized { get; protected set; }
 		
+		/// <summary>Gets and sets the window's icon</summary>
+		public virtual Drawing.Image Icon { get; set; }
+		
 		#endregion // Public Properties
 		
 		#region Public Events
@@ -115,6 +119,9 @@ namespace B3 {
 		
 		/// <summary>An event for when the window is rendering</summary>
 		public event EventHandler<UpdateEventArgs> OnRender;
+		
+		/// <summary>An event for when the window is being destroyed</summary>
+		public event EventHandler<EventArgs> OnDestroy;
 		
 		#endregion // Public Events
 		
@@ -198,6 +205,9 @@ namespace B3 {
 		
 		/// <summary>Destroys the window</summary>
 		protected abstract void DestroyWindow();
+		
+		/// <summary>Calls the <see cref="B3.BaseGameWindow.OnDestroy"/> event for use in the hierarchy</summary>
+		protected void CallOnDestroy() { this.OnDestroy?.Invoke(this.args); }
 		
 		/// <summary>Calls the <see cref="B3.BaseGameWindow.OnLoad"/> event for use in the hierarchy</summary>
 		protected void CallOnLoad() { this.OnLoad?.Invoke(this.args); }
