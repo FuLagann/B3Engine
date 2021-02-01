@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace B3 {
 	/// <summary>The state of the keyboard input</summary>
-	public struct KeyboardState {
+	public partial struct KeyboardState {
 		#region Field Variables
 		// Variables
 		private InputState[] keys;
@@ -11,10 +11,17 @@ namespace B3 {
 		private Queue<Keys> prevKeys;
 		private int trackingAmount;
 		private bool isAnyKeyDown;
+		private bool isTextInput;
 		
 		#endregion // Field Variables
 		
 		#region Public Properties
+		
+		/// <summary>Gets and sets if the keyboard is looking for text input</summary>
+		public bool IsTextInput { get { return this.isTextInput; } set {
+			if(value) { this.StartTextInput(); }
+			else { this.StopTextInput(); }
+		}}
 		
 		/// <summary>Gets the input type from the given key</summary>
 		/// <param name="key">The key to inquery</param>
@@ -64,6 +71,7 @@ namespace B3 {
 		/// <summary>A base constructor for created the keyboard input structure</summary>
 		/// <param name="trackingAmount">The amount of keys to keep track of</param>
 		public KeyboardState(int trackingAmount) {
+			this.isTextInput = false;
 			this.trackingAmount = Mathx.Abs(trackingAmount);
 			this.keys = new InputState[System.Enum.GetNames(typeof(Keys)).Length - 1];
 			this.prevKeys = new Queue<Keys>();
@@ -74,6 +82,22 @@ namespace B3 {
 		#endregion // Public Constructors
 		
 		#region Public Methods
+		
+		/// <summary>Starts the text input</summary>
+		public void StartTextInput() {
+			if(!this.isTextInput) {
+				this.PartialStartTextInput();
+			}
+			this.isTextInput = true;
+		}
+		
+		/// <summary>Stops the text input</summary>
+		public void StopTextInput() {
+			if(this.isTextInput) {
+				this.PartialStopTextInput();
+			}
+			this.isTextInput = false;
+		}
 		
 		/// <summary>Clears all the keys' presses</summary>
 		public void Clear() {
@@ -137,5 +161,15 @@ namespace B3 {
 		public void ClearPreviousKeys() { this.prevKeys.Clear(); }
 		
 		#endregion // Public Methods
+		
+		#region Partial Methods
+		
+		/// <summary>A partial method that starts the text input</summary>
+		partial void PartialStartTextInput();
+		
+		/// <summary>A partial method that stops the text input</summary>
+		partial void PartialStopTextInput();
+		
+		#endregion // Partial Methods
 	}
 }

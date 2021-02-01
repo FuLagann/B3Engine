@@ -36,7 +36,10 @@ namespace B3.Testing {
 		public static void Update(UpdateEventArgs args) {
 			if(!Program.held && Input.IsDown(Keys.P)) {
 				Program.held = true;
-				Program.window.Icon = System.Drawing.Image.FromStream(FS.ReadStream(@"https://media.thetab.com/blogs.dir/90/files/2020/02/befunky-collage-23-scaled-e1582628715285.jpg"));
+				Logger.Log(Input.Clipboard.HasText);
+				if(Input.Clipboard.HasText) {
+					Input.Clipboard.SetText("Doggo");
+				}
 			}
 			else if(Program.held && Input.IsUp(Keys.P)) {
 				Program.held = false;

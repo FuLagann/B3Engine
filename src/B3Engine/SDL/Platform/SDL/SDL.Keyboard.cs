@@ -27,6 +27,12 @@ namespace B3.Utilities {
 			return results;
 		}
 		
+		/// <summary>Starts the text input</summary>
+		public static void StartTextInput() { Keyboard.startInput(); }
+		
+		/// <summary>Stops the text input</summary>
+		public static void StopTextInput() { Keyboard.stopInput(); }
+		
 		#endregion // Public Static Methods
 		
 		#region Private Static Methods
@@ -77,6 +83,8 @@ namespace B3.Utilities {
 			#region Field Variables
 			// Variables
 			internal static SDL_GetKeyboardState getState = FuncLoader.LoadFunc<SDL_GetKeyboardState>(library, "SDL_GetKeyboardState");
+			internal static SDL.Action startInput = FuncLoader.LoadFunc<SDL.Action>(library, "SDL_StartTextInput");
+			internal static SDL.Action stopInput = FuncLoader.LoadFunc<SDL.Action>(library, "SDL_StopTextInput");
 			
 			// Delegates
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]

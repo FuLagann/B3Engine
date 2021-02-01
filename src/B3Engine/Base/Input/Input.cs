@@ -9,6 +9,7 @@ namespace B3 {
 		private static MouseState mouse;
 		private static GamepadState gamepad;
 		private static GamepadState[] gamepads;
+		private static ClipboardState clipboard;
 		
 		#endregion // Field Variables
 		
@@ -26,6 +27,9 @@ namespace B3 {
 		/// <summary>Gets the array of gamepads</summary>
 		public static GamepadState[] Gamepads { get { return gamepads; } }
 		
+		/// <summary>Gets the clipboard input</summary>
+		public static ClipboardState Clipboard { get { return clipboard; } }
+		
 		#endregion // Public Static Properties
 		
 		#region Public Constructors
@@ -36,6 +40,7 @@ namespace B3 {
 			keyboard = new KeyboardState(10);
 			mouse = new MouseState(10);
 			gamepad = new GamepadState(System.IntPtr.Zero, 10, true);
+			clipboard = new ClipboardState();
 			gamepads = null;
 		}
 		
