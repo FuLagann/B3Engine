@@ -40,7 +40,7 @@ namespace B3 {
 			keyboard = new KeyboardState(10);
 			mouse = new MouseState(10);
 			gamepad = new GamepadState(System.IntPtr.Zero, 10, true);
-			clipboard = new ClipboardState();
+			clipboard = new ClipboardState("");
 			gamepads = null;
 		}
 		

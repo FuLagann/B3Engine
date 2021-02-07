@@ -56,6 +56,55 @@ namespace B3.Utilities {
 		/// <param name="resizable">Set to true to make the window resizable</param>
 		public static void SetWindowResizable(IntPtr window, bool resizable) { Window.setResizable(window, resizable); }
 		
+		/// <summary>Gets the id of the window</summary>
+		/// <param name="window">The window to query the id of</param>
+		/// <returns>Returns the id of the window, returning 0 means there's an error</returns>
+		public static uint GetWindowId(IntPtr window) { return Window.getId(window); }
+		
+		/// <summary>Shows the given window</summary>
+		/// <param name="window">The window to show</param>
+		public static void ShowWindow(IntPtr window) { Window.show(window); }
+		
+		/// <summary>Hides the given window</summary>
+		/// <param name="window">The window to hide</param>
+		public static void HideWindow(IntPtr window) { Window.hide(window); }
+		
+		/// <summary>Sets the window to be a modal for the given parent window</summary>
+		/// <param name="window">The window to make into a modal</param>
+		/// <param name="parent">The window to parent to</param>
+		/// <returns>Returns true if the method was called successfully</returns>
+		public static bool SetWindowModalFor(IntPtr window, IntPtr parent) { return GetError(Window.setModalFor(window, parent)) == 0; }
+		
+		/// <summary>Sets the window to fullscreen</summary>
+		/// <param name="window">The window to set to fullscreen</param>
+		/// <param name="mode">
+		/// Sets the fullscreen mode to the following:
+		/// * <see cref="B3.WindowMode.Windowed"/> will return the window to normal.
+		/// * <see cref="B3.WindowMode.Fullscreen"/> will make the window into a "true" fullscreen.
+		/// * <see cref="B3.WindowMode.BorderlessFullscreen"/> will make the window into a "false" fullscreen that will be a borderless full sized window.
+		/// </param>
+		/// <returns>Returns true if the method was called sucessfully</returns>
+		public static bool SetWindowFullscreen(IntPtr window, WindowMode mode) {
+			// Variables
+			WindowFlags flags = WindowFlags.None;
+			
+			if(mode == WindowMode.Fullscreen) { flags = WindowFlags.Fullscreen; }
+			if(mode == WindowMode.BorderlessFullscreen) { flags = WindowFlags.FullscreenDesktop; }
+			
+			return (GetError(Window.setFullscreen(window, flags)) == 0);
+		}
+		
+		/// <summary>Sets the window's brightness</summary>
+		/// <param name="window">The window to change the brightness to</param>
+		/// <param name="brightness">The gamma brightness. Where 0.0f is completely dark and 1.0f is normal brightness</param>
+		/// <returns>Returns true if the method was called successfully</returns>
+		public static bool SetWindowBrightness(IntPtr window, float brightness) { return (GetError(Window.setBrightness(window, brightness)) == 0); }
+		
+		/// <summary>Sets if the window should be bordered or unbordered</summary>
+		/// <param name="window">The window to set if it will have borders or not</param>
+		/// <param name="bordered">Set to true to make the window bordered</param>
+		public static void SetWindowBordered(IntPtr window, bool bordered) { Window.setBordered(window, bordered); }
+		
 		/// <summary>Gets a managed pointer to the OpenGL</summary>
 		/// <param name="proc">The name of the OpenGL function</param>
 		/// <returns>Returns the managed pointer to the OpenGL function</returns>
@@ -80,6 +129,11 @@ namespace B3.Utilities {
 		/// <param name="window">The window to swap</param>
 		public static void GL_SwapWindow(IntPtr window) { Window.swap(window); }
 		
+		/// <summary>Sets the OpenGL attribute</summary>
+		/// <param name="attr">The attribute to set</param>
+		/// <param name="value">The value to set the attribute to</param>
+		public static void GL_SetAttribute(GLAttribute attr, int value) { GetError(Window.setAttribute(attr, value)); }
+		
 		#endregion //Public Static Methods
 		
 		#region Nested Types
@@ -99,6 +153,14 @@ namespace B3.Utilities {
 			internal static SDL_DestroyWindow deleteContext = FuncLoader.LoadFunc<SDL_DestroyWindow>(library, "SDL_GL_DeleteContext");
 			internal static SDL_DestroyWindow swap = FuncLoader.LoadFunc<SDL_DestroyWindow>(library, "SDL_GL_SwapWindow");
 			internal static SDL_SetWindowResizable setResizable = FuncLoader.LoadFunc<SDL_SetWindowResizable>(library, "SDL_SetWindowResizable");
+			internal static SDL_GL_SetAttribute setAttribute = FuncLoader.LoadFunc<SDL_GL_SetAttribute>(library, "SDL_GL_SetAttribute");
+			internal static SDL_GetWindowID getId = FuncLoader.LoadFunc<SDL_GetWindowID>(library, "SDL_GetWindowID");
+			internal static SDL_DestroyWindow show = FuncLoader.LoadFunc<SDL_DestroyWindow>(library, "SDL_ShowWindow");
+			internal static SDL_DestroyWindow hide = FuncLoader.LoadFunc<SDL_DestroyWindow>(library, "SDL_HideWindow");
+			internal static SDL_GL_MakeCurrent setModalFor = FuncLoader.LoadFunc<SDL_GL_MakeCurrent>(library, "SDL_SetWindowModalFor");
+			internal static SDL_SetWindowFullscreen setFullscreen = FuncLoader.LoadFunc<SDL_SetWindowFullscreen>(library, "SDL_SetWindowFullscreen");
+			internal static SDL_SetWindowResizable setBordered = FuncLoader.LoadFunc<SDL_SetWindowResizable>(library, "SDL_SetWindowBordered");
+			internal static SDL_SetWindowBrightness setBrightness = FuncLoader.LoadFunc<SDL_SetWindowBrightness>(library, "SDL_SetWindowBrightness");
 			
 			// Delegates
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -121,6 +183,14 @@ namespace B3.Utilities {
 			internal delegate void SDL_DestroyWindow(IntPtr window);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate void SDL_SetWindowResizable(IntPtr window, bool resizable);
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			internal delegate int SDL_GL_SetAttribute(GLAttribute attribute, int value);
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			internal delegate uint SDL_GetWindowID(IntPtr window);
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			internal delegate int SDL_SetWindowFullscreen(IntPtr window, WindowFlags flags);
+			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+			internal delegate int SDL_SetWindowBrightness(IntPtr window, float brightness);
 			
 			#endregion // Field Variables
 		}
@@ -177,7 +247,7 @@ namespace B3.Utilities {
 		
 		/// <summary>An enumeration for flags made for window specific properties</summary>
 		[System.Flags]
-		public enum WindowFlags {
+		public enum WindowFlags : uint {
 			/// <summary>Has no flags to use</summary>
 			None = 0,
 			/// <summary>Fullscreens the window</summary>
@@ -224,6 +294,84 @@ namespace B3.Utilities {
 			Vulkan = 268435456,
 			/// <summary>Makes the window usable with metal</summary>
 			Metal = 536870912
+		}
+		
+		/// <summary>An enumeration of all the OpenGL attributes used with SDL to set an attribute</summary>
+		public enum GLAttribute {
+			/// <summary>The minimum number of bits for the red channel of the color buffer; defaults to 3</summary>
+			RedSize,
+			/// <summary>The minimum number of bits for the green channel of the color buffer; defaults to 3</summary>
+			GreenSize,
+			/// <summary>The minimum number of bits for the blue channel of the color buffer; defaults to 2</summary>
+			BlueSize,
+			/// <summary>The minimum number of bits for the alpha channel of the color buffer; defaults to 0</summary>
+			AlphaSize,
+			/// <summary>The minimum number of bits for frame buffer size; defaults to 0</summary>
+			BufferSize,
+			/// <summary>Whether the output is single or double buffered; defaults to double buffering on</summary>
+			DoubleBuffer,
+			/// <summary>The minimum number of bits in the depth buffer; defaults to 16</summary>
+			DepthSize,
+			/// <summary>The minimum number of bits in the stencil buffer; defaults to 0</summary>
+			StencilSize,
+			/// <summary>The minimum number of bits for the red channel of the accumulation buffer; defaults to 0</summary>
+			AccumRedSize,
+			/// <summary>The minimum number of bits for the green channel of the accumulation buffer; defaults to 0</summary>
+			AccumGreenSize,
+			/// <summary>The minimum number of bits for the blue channel of the accumulation buffer; defaults to 0</summary>
+			AccumBlueSize,
+			/// <summary>The minimum number of bits for the alpha channel of the accumulation buffer; defaults to 0</summary>
+			AccumAlphaSize,
+			/// <summary>Whether the output is stereo 3D; defaults to off</summary>
+			Stereo,
+			/// <summary>The number of buffers used for multisample anti-aliasing; defaults to 0</summary>
+			MultiSampleBuffers,
+			/// <summary>The number of samples used around the current pixel used for multisample anti-aliasing; defaults to 0</summary>
+			MultiSampleSamples,
+			/// <summary>Set to 1 to require hardware acceleration, set to 0 to force software rendering</summary>
+			AcceleratedVisual,
+			/// <summary>Not used (deprecated)</summary>
+			RetainedBacking,
+			/// <summary>OpenGL context major version</summary>
+			ContextMajorVersion,
+			/// <summary>OpenGL context minor version</summary>
+			ContextMinorVersion,
+			/// <summary>Not used (deprecated)</summary>
+			ContextEGL,
+			/// <summary>Some combination of 0 or more of elements of the <see cref="B3.Utilities.SDL.GLFlags"/></summary>
+			ContextFlags,
+			/// <summary>Type of GL context (Core, Compatibility, ES). Uses the <see cref="B3.Utilities.SDL.GLProfile"/> enumeration</summary>
+			ContextProfileMask,
+			/// <summary>OpenGL context sharing; defaults to 0</summary>
+			ShareWithCurrentContext,
+			/// <summary>Requests sRGB capable visual; defaults to 0 (>= SDL 2.0.1)</summary>
+			FrameBufferSrgbCapable,
+			/// <summary>Sets the context's release behavior; defaults to 1 (>= SDL 2.0.4)</summary>
+			ContextReleaseBehavior,
+			/// <summary>Resets the context's notification</summary>
+			ContextResetNotification,
+			/// <summary>Sets the context to hold no error</summary>
+			ContextNoError
+		}
+		
+		/// <summary>The flags of OpenGL context configurations</summary>
+		[System.Flags]
+		public enum GLFlags {
+			/// <summary>Intended to put the GL into debug mode</summary>
+			Debug = 1,
+			/// <summary>Intended to put the GL into a forward compatible mode</summary>
+			ForwardCompatible = 2,
+		}
+		
+		/// <summary>The profile of the OpenGL context to use</summary>
+		[System.Flags]
+		public enum GLProfile {
+			/// <summary>The OpenGL core profile. Deprecated functions are disabled</summary>
+			Core = 1,
+			/// <summary>The OpenGL compatibility profile. Deprecated functions are allowed</summary>
+			Compatibility = 2,
+			/// <summary>The OpenGL ES profile. Only a subset of the base OpenGL functionality is available</summary>
+			ES = 4
 		}
 		
 		/// <summary>The structure for a display event</summary>

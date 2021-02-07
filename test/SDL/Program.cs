@@ -26,6 +26,7 @@ namespace B3.Testing {
 		
 		public static void Destroy(EventArgs args) {
 			SDL.ShowCursor(true);
+			SDL.SetWindowBrightness(Program.window.WindowHandle, 1f);
 		}
 		
 		public static void Load(EventArgs args) {
@@ -34,12 +35,11 @@ namespace B3.Testing {
 		}
 		
 		public static void Update(UpdateEventArgs args) {
+			if(Input.IsDown(Keys.A)) {
+				Logger.Log("AS");
+			}
 			if(!Program.held && Input.IsDown(Keys.P)) {
 				Program.held = true;
-				Logger.Log(Input.Clipboard.HasText);
-				if(Input.Clipboard.HasText) {
-					Input.Clipboard.SetText("Doggo");
-				}
 			}
 			else if(Program.held && Input.IsUp(Keys.P)) {
 				Program.held = false;

@@ -39,8 +39,9 @@ namespace B3 {
 		/// <summary>Gets and sets if the window is able to use Alt + F4 to close the window. This is meant for input purposes</summary>
 		bool AllowAltF4 { get; set; }
 		
-		/// <summary>Gets if the game is multi-threaded</summary>
-		bool IsMultiThreaded { get; }
+		/// <summary>Gets and sets if the game is multi-threaded</summary>
+		/// <remarks>Setting only works before running the window</remarks>
+		bool IsMultiThreaded { get; set; }
 		
 		/// <summary>Gets if the game is running slowly</summary>
 		bool IsRunningSlowly { get; }

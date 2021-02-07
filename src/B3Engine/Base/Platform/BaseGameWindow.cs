@@ -29,6 +29,7 @@ namespace B3 {
 		private float updateFrequency;
 		private float updateEpsilon;
 		private EventArgs args;
+		private bool isMultiThreaded;
 		
 		#endregion // Field Variables
 		
@@ -77,8 +78,13 @@ namespace B3 {
 		/// <summary>Gets and sets if the window is able to use Alt + F4 to close the window. This is meant for input purposes</summary>
 		public virtual bool AllowAltF4 { get; set; }
 		
-		/// <summary>Gets if the game is multi-threaded</summary>
-		public bool IsMultiThreaded { get; protected set; }
+		/// <summary>Gets and sets if the game is multi-threaded</summary>
+		/// <remarks>Setting only works before running the window</remarks>
+		public bool IsMultiThreaded { get { return this.isMultiThreaded; } set {
+			if(!this.IsInitialized) {
+				this.isMultiThreaded = value;
+			}
+		} }
 		
 		/// <summary>Gets if the game is running slowly</summary>
 		public bool IsRunningSlowly { get; protected set; }
@@ -188,6 +194,7 @@ namespace B3 {
 					this.SwapBuffers();
 				}
 			}
+			this.DestroyWindow();
 		}
 		
 		/// <summary>Runs the window</summary>

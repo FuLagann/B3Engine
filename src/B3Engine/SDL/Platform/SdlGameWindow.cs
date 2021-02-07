@@ -5,7 +5,13 @@ using Drawing = System.Drawing;
 
 namespace B3 {
 	/// <summary>The game window created and handled by SDL</summary>
-	public class SdlGameWindow : BaseGameWindow {
+	public sealed class SdlGameWindow : BaseGameWindow {
+		#region Field Variables
+		// Variables
+		private uint windowId;
+		
+		#endregion // Field Variables
+		
 		#region Public Properties
 		
 		/// <summary>Gets and sets the title of the window</summary>
@@ -60,6 +66,7 @@ namespace B3 {
 			
 			SdlHelper.Initialize();
 			if(!SdlHelper.IsOnMainThread) { throw new System.Exception("Can only create windows on main thread"); }
+			SDL.OnEvent += WindowEventListener;
 			flags |= SDL.WindowFlags.Resizable;
 			this.AllowResize = true;
 			flags |= SDL.WindowFlags.Show;
@@ -72,6 +79,7 @@ namespace B3 {
 				(int)this.Size.y,
 				flags
 			);
+			this.windowId = SDL.GetWindowId(this.window);
 			this.context = SDL.GL_CreateContext(this.window);
 			cursor = SDL.GetCursor();
 			Input.Mouse.SetCursor(ref cursor);
@@ -80,7 +88,6 @@ namespace B3 {
 				SDL.SetWindowIcon(this.window, this.Icon);
 			}
 			this.MakeContextCurrent(true);
-			SDL.OnEvent += WindowEventListener;
 			this.IsInitialized = true;
 		}
 		
@@ -129,9 +136,11 @@ namespace B3 {
 			if(e.type == SDL.EventType.Quit) {
 				this.IsExiting = true;
 			}
-			else if(e.type == SDL.EventType.Window) {
+			if(e.type == SDL.EventType.Window) {
 				if(e.window.eventId == SDL.WindowEventId.Close) {
-					this.IsExiting = true;
+					if(e.window.windowId == this.windowId) {
+						this.IsExiting = true;
+					}
 				}
 				else if(
 					e.window.eventId == SDL.WindowEventId.Resized

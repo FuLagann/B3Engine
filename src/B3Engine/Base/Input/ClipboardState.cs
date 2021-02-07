@@ -9,6 +9,17 @@ namespace B3 {
 		
 		#endregion // Field Variables
 		
+		#region Public Constructors
+		
+		/// <summary>A base constructor for setting up the state of the clipboard</summary>
+		/// <param name="text">The text to start out the state of the clipboard</param>
+		public ClipboardState(string text) {
+			this.hasText = !string.IsNullOrEmpty(text);
+			this.text = text;
+		}
+		
+		#endregion // Public Constructors
+		
 		#region Public Properties
 		
 		/// <summary>Gets and sets the text of the clipboard</summary>
