@@ -62,39 +62,6 @@ namespace B3.Utilities {
 		
 		#endregion // GetError Methods
 		
-		#region SDL Joystick Methods
-		
-		/// <summary>Gets the number of joysticks present</summary>
-		/// <returns>Returns the number of joysticks present</returns>
-		public static int NumJoysticks() { return GetError(Joystick.num()); }
-		
-		/// <summary>Opens up a joystick</summary>
-		/// <param name="index">The index to open the joystick with</param>
-		/// <returns>Returns the managed pointer to the joystick</returns>
-		public static IntPtr JoystickOpen(int index) { return GetError(Joystick.open(index)); }
-		
-		/// <summary>Closes the given joystick</summary>
-		/// <param name="joystick">The managed pointer to the joystick to close</param>
-		public static void JoystickClose(IntPtr joystick) { Joystick.close(joystick); }
-		
-		/// <summary>Sets the LED color of the joystick</summary>
-		/// <param name="joystick">The joystick to set the LED color to</param>
-		/// <param name="color">The color to set the LED to</param>
-		/// <returns>Returns 0 if successful, -1 if the joystick does not have an LED</returns>
-		public static int JoystickSetLed(IntPtr joystick, Color color) { return GetError(Joystick.setLed(joystick, color.R, color.G, color.B)); }
-		
-		/// <summary>Gets the joystick from the given instance id</summary>
-		/// <param name="index">The index of the joystick to get from</param>
-		/// <returns>Returns a managed pointer to the joystick</returns>
-		public static IntPtr JoystickFromInstanceId(int index) { return GetError(Joystick.fromInstanceId(index)); }
-		
-		/// <summary>Finds if the given joystick is a gamepad using an index</summary>
-		/// <param name="index">The index of the joystick</param>
-		/// <returns>Returns true if the joystick is a gamepad</returns>
-		public static bool IsGamepad(int index) { return (GetError(Joystick.isGameController(index)) > 0);}
-		
-		#endregion // SDL Joystick Methods
-		
 		#region SDL Event Methods
 		
 		/// <summary>Polls any events that may arise</summary>
@@ -895,32 +862,6 @@ namespace B3.Utilities {
 			internal delegate int SDL_EventFilter(IntPtr data, ref Event e);
 			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 			internal delegate void SDL_AddEventWatch(SDL_EventFilter filter, IntPtr data);
-			
-			#endregion // Field Variables
-		}
-		
-		/// <summary>The joystick portion of the SDL framework</summary>
-		private static class Joystick {
-			#region Field Variables
-			// Variables
-			internal static SDL_NumJoysticks num = FuncLoader.LoadFunc<SDL_NumJoysticks>(library, "SDL_NumJoysticks");
-			internal static SDL_JoystickOpen open = FuncLoader.LoadFunc<SDL_JoystickOpen>(library, "SDL_JoystickOpen");
-			internal static SDL_JoystickClose close = FuncLoader.LoadFunc<SDL_JoystickClose>(library, "SDL_JoystickClose");
-			internal static SDL_JoystickSetLed setLed = FuncLoader.LoadFunc<SDL_JoystickSetLed>(library, "SDL_JoystickSetLED");
-			internal static SDL_JoystickOpen fromInstanceId = FuncLoader.LoadFunc<SDL_JoystickOpen>(library, "SDL_JoystickFromInstanceID");
-			internal static SDL_IsGameController isGameController = FuncLoader.LoadFunc<SDL_IsGameController>(library, "SDL_IsGameController");
-			
-			// Delegates
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate int SDL_NumJoysticks();
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate IntPtr SDL_JoystickOpen(int index);
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate void SDL_JoystickClose(IntPtr joystick);
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate int SDL_JoystickSetLed(IntPtr joystick, byte red, byte green, byte blue);
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			internal delegate int SDL_IsGameController(int index);
 			
 			#endregion // Field Variables
 		}

@@ -8,7 +8,9 @@ namespace B3.Testing {
 	public static class Program {
 		// Variables
 		private static IGameWindow window;
+		private static System.IntPtr joystick;
 		private static bool held;
+		private static int id = -1;
 		
 		public static void Main(string[] args) {
 			Program.window = new SdlGameWindow();
@@ -27,15 +29,30 @@ namespace B3.Testing {
 		public static void Destroy(EventArgs args) {
 			SDL.ShowCursor(true);
 			SDL.SetWindowBrightness(Program.window.WindowHandle, 1f);
+			SDL.JoystickClose(Program.joystick);
 		}
 		
 		public static void Load(EventArgs args) {
 			Logger.Log("Loading in the bindings!");
 			GL.LoadBindings(new SdlBindingContext());
+			Program.joystick = SDL.JoystickOpen(1);
 		}
 		
 		public static void Update(UpdateEventArgs args) {
-			if(Input.IsDown(Keys.A)) {
+			if(id >= 0) {
+				Vector2 dir = Input.Gamepads[id].Triggers;
+				
+				if(dir != Vector2.Zero) {
+					Logger.Log(dir);
+				}
+			}
+			else {
+				id = Input.GetGamepadIdFromButtons(GamepadButton.LeftShoulder, GamepadButton.RightShoulder);
+				if(id != -1) {
+					Logger.Log("Player 1 Connected!");
+				}
+			}
+			if(Input.IsDown(GamepadButton.A)) {
 				Logger.Log("AS");
 			}
 			if(!Program.held && Input.IsDown(Keys.P)) {

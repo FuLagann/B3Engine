@@ -192,6 +192,27 @@ namespace B3 {
 		
 		#endregion // GetHeldDuration Methods
 		
+		/// <summary>Gets the index of the gamepad from the first gamepad that pressed the specific list of buttons</summary>
+		/// <param name="buttons">The list of buttons to check for</param>
+		/// <returns>Returns the index of the gamepad that has pressed the list of buttons</returns>
+		public static int GetGamepadIdFromButtons(params GamepadButton[] buttons) {
+			// Variables
+			int amount;
+			
+			for(int i = 0; i < gamepads.Length; i++) {
+				amount = 0;
+				foreach(GamepadButton button in buttons) {
+					if(gamepads[i][button] != InputState.Released) {
+						amount++;
+					}
+				}
+				if(amount == buttons.Length) {
+					return i;
+				}
+			}
+			return -1;
+		}
+		
 		/// <summary>Sets the input processor</summary>
 		/// <param name="inputProcessor">The input processor</param>
 		public static void SetProcessor(IInputProcessor inputProcessor) { processor = inputProcessor; }

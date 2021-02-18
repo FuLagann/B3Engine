@@ -23,6 +23,12 @@ namespace B3 {
 		/// <summary>Gets the managed handle of the gamepad</summary>
 		public System.IntPtr Handle { get { return this.handle; } }
 		
+		/// <summary>Gets the number of buttons the gamepad supports</summary>
+		public int NumButtons { get { return this.buttons.Length; } }
+		
+		/// <summary>Gets the number of axes the gamepad supports</summary>
+		public int NumAxes { get { return this.axes.Length; } }
+		
 		/// <summary>Gets and sets the gamepad buttons that are pressed</summary>
 		/// <param name="button">The gamepad button to get or set the input type from/to</param>
 		public InputState this[GamepadButton button] { get { return this.buttons[(int)button]; } internal set {
