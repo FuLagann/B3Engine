@@ -7,4 +7,6 @@
 	<ItemGroup>
 		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\*.cs"/>
 	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)Interfaces.targets" Condition="'!$(InternalConstants.Contains(`__interfaces__`))'"/>
 </Project>

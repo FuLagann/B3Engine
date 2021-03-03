@@ -1,10 +1,12 @@
 
+using B3.Graphics;
+
 using System.Runtime.InteropServices;
 
 namespace B3 {
 	/// <summary>A vector to represent points and directions in 3D space</summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public partial struct Vector3 : System.IEquatable<Vector3>, System.IComparable, System.IComparable<Vector3> {
+	public partial struct Vector3 : IVertexAttributable, System.IEquatable<Vector3>, System.IComparable, System.IComparable<Vector3> {
 		#region Field Variables
 		// Variables
 		/// <summary>The x coordinate of the 3D vector</summary>
@@ -593,6 +595,13 @@ namespace B3 {
 		/// <param name="other">The other vector to cross product with</param>
 		/// <returns>Returns the vector that is orthogonal to the vectors provided</returns>
 		public Vector3 CrossProduct(Vector3 other) { return Vector3.CrossProduct(ref this, ref other); }
+		
+		/// <summary>Gets the list of attributes the vertex contains</summary>
+		public VertexAttributeData[] GetVertexAttributes() {
+			return new VertexAttributeData[] {
+				new VertexAttributeData(3, VertexAttributeDataType.Float, false)
+			};
+		}
 		
 		/// <summary>Finds if this vector is equal to the other vector</summary>
 		/// <param name="other">The other vector to compare it to</param>

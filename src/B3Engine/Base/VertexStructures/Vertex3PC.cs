@@ -1,10 +1,11 @@
 
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace B3.Graphics {
 	/// <summary>A vertex structure that holds a 3D position and a color</summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Vertex3PC {
+	public struct Vertex3PC : IVertexAttributable {
 		#region Field Variables
 		// Variables
 		/// <summary>The position of the vertex</summary>
@@ -25,5 +26,20 @@ namespace B3.Graphics {
 		}
 		
 		#endregion // Public Constructors
+		
+		#region Public Methods
+		
+		/// <summary>Gets the list of attributes the vertex contains</summary>
+		public VertexAttributeData[] GetVertexAttributes() {
+			// Variables
+			List<VertexAttributeData> data = new List<VertexAttributeData>();
+			
+			data.AddRange(this.position.GetVertexAttributes());
+			data.AddRange(this.color.GetVertexAttributes());
+			
+			return data.ToArray();
+		}
+		
+		#endregion // Public Methods
 	}
 }

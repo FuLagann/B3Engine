@@ -4,6 +4,8 @@ using B3.Utilities;
 
 using OpenTK.Graphics.OpenGL;
 
+using System.Runtime.InteropServices;
+
 namespace B3.Testing {
 	public static class Program {
 		// Variables
@@ -11,6 +13,36 @@ namespace B3.Testing {
 		private static System.IntPtr joystick;
 		private static bool held;
 		private static int id = -1;
+		private static int fragid;
+		private static int vertid;
+		private static int progid;
+		private static int bufferid;
+		private static int indexid;
+		private static int arrayid;
+		private static Vector3[] vertices = new Vector3[] {
+			new Vector3(0.5f, 0.5f, 0.0f),
+			new Vector3(0.5f, -0.5f, 0.0f),
+			new Vector3(-0.5f, -0.5f, 0.0f),
+			new Vector3(-0.5f, 0.5f, 0.0f)
+		};
+		private static uint[] indices = new uint[] {
+			0, 1, 3,
+			1, 2, 3
+		};
+		private static string vertexCode = @"#version 330 core
+layout (location = 0) in vec3 aPos;
+
+void main()
+{
+    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+}";
+		private static string fragmentCode = @"#version 330 core
+out vec4 FragColor;
+
+void main()
+{
+    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+}";
 		
 		public static void Main(string[] args) {
 			Program.window = new SdlGameWindow();
@@ -36,6 +68,45 @@ namespace B3.Testing {
 			Logger.Log("Loading in the bindings!");
 			GL.LoadBindings(new SdlBindingContext());
 			Program.joystick = SDL.JoystickOpen(1);
+			
+			// Shaders
+			vertid = GL.CreateShader(ShaderType.VertexShader);
+			GL.ShaderSource(vertid, vertexCode);
+			GL.CompileShader(vertid);
+			Logger.Log(GL.GetShaderInfoLog(vertid));
+			
+			fragid = GL.CreateShader(ShaderType.FragmentShader);
+			GL.ShaderSource(fragid, fragmentCode);
+			GL.CompileShader(fragid);
+			Logger.Log(GL.GetShaderInfoLog(fragid));
+			
+			progid = GL.CreateProgram();
+			GL.AttachShader(progid, vertid);
+			GL.AttachShader(progid, fragid);
+			GL.LinkProgram(progid);
+			GL.DeleteShader(fragid);
+			GL.DeleteShader(vertid);
+			
+			// Buffers
+			/*
+			bufferid = GL.GenBuffer();
+			arrayid = GL.GenVertexArray();
+			GL.BindVertexArray(arrayid);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferid);
+			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * Marshal.SizeOf<Vector3>(), vertices, BufferUsageHint.StaticDraw);
+			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, Marshal.SizeOf<Vector3>(), System.IntPtr.Zero);
+			GL.EnableVertexAttribArray(0);
+			*/
+			bufferid = GL.GenBuffer();
+			indexid = GL.GenBuffer();
+			arrayid = GL.GenVertexArray();
+			GL.BindVertexArray(arrayid);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferid);
+			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * Marshal.SizeOf<Vector3>(), vertices, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexid);
+			GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(int), indices, BufferUsageHint.StaticDraw);
+			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, Marshal.SizeOf<Vector3>(), System.IntPtr.Zero);
+			GL.EnableVertexAttribArray(0);
 		}
 		
 		public static void Update(UpdateEventArgs args) {
@@ -64,17 +135,20 @@ namespace B3.Testing {
 		}
 		
 		public static void Render(UpdateEventArgs args) {
-			GL.ClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+			GL.ClearColor(0.05f, 0.15f, 0.1f, 1.0f);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			
-			GL.Begin(PrimitiveType.Triangles);
-			{
-				GL.Color4(1.0f, 1.0f, 1.0f, 1.0f);
-				GL.Vertex3(0.5f, 0.0f, 0.0f);
-				GL.Vertex3(-0.5f, 0.5f, 0.0f);
-				GL.Vertex3(-0.5f, 0.0f, 0.0f);
-			}
-			GL.End();
+			/*
+			GL.UseProgram(progid);
+			GL.BindVertexArray(arrayid);
+			GL.DrawArrays(PrimitiveType.Triangles, 0, vertices.Length);
+			*/
+			GL.UseProgram(progid);
+			GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+			GL.BindVertexArray(arrayid);
+			GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, System.IntPtr.Zero);
+			GL.BindVertexArray(0);
+			GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
 		}
 	}
 	

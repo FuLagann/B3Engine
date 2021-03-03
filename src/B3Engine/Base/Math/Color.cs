@@ -1,10 +1,12 @@
 
+using B3.Graphics;
+
 using System.Runtime.InteropServices;
 
 namespace B3 {
 	/// <summary>A structure for color with floats going from 0 to 1</summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Color : System.IEquatable<Color> {
+	public struct Color : IVertexAttributable, System.IEquatable<Color> {
 		#region Field Variables
 		// Variables
 		private float red;
@@ -503,6 +505,13 @@ namespace B3 {
 					alpha
 				);
 			}
+		}
+		
+		/// <summary>Gets the list of attributes the vertex contains</summary>
+		public VertexAttributeData[] GetVertexAttributes() {
+			return new VertexAttributeData[] {
+				new VertexAttributeData(4, VertexAttributeDataType.Float, true)
+			};
 		}
 		
 		/// <summary>Finds if the given color is equal to this color</summary>

@@ -1,10 +1,12 @@
 
+using B3.Graphics;
+
 using System.Runtime.InteropServices;
 
 namespace B3 {
 	/// <summary>A vector to represent points and directions in 4D space</summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public partial struct Vector4 : System.IEquatable<Vector4>, System.IComparable, System.IComparable<Vector4> {
+	public partial struct Vector4 : IVertexAttributable, System.IEquatable<Vector4>, System.IComparable, System.IComparable<Vector4> {
 		#region Field Variables
 		// Variables
 		/// <summary>The x coordinate of the 4D vector</summary>
@@ -538,6 +540,13 @@ namespace B3 {
 		/// <summary>Negates this vector and returns a negative version of it</summary>
 		/// <returns>Returns the negated vector</returns>
 		public Vector4 Negate() { return Vector4.Negate(ref this); }
+		
+		/// <summary>Gets the list of attributes the vertex contains</summary>
+		public VertexAttributeData[] GetVertexAttributes() {
+			return new VertexAttributeData[] {
+				new VertexAttributeData(4, VertexAttributeDataType.Float, false)
+			};
+		}
 		
 		/// <summary>Finds if this vector is equal to the other vector</summary>
 		/// <param name="other">The other vector to compare it to</param>

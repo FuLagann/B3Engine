@@ -1,0 +1,10 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__opengl_graphics__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\*.cs"/>
+	</ItemGroup>
+</Project>
