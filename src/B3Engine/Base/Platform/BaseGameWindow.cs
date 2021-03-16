@@ -95,7 +95,7 @@ namespace B3 {
 		/// <summary>Gets if the game window exists</summary>
 		public bool Exists { get; protected set; }
 		
-		/// <summary>Gets if the game window is already initialized</summary>
+		/// <summary>Gets if the game window has finished initialized</summary>
 		public bool IsInitialized { get; protected set; }
 		
 		/// <summary>Gets and sets the window's icon</summary>

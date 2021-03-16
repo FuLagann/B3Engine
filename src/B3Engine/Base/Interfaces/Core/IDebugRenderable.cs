@@ -10,10 +10,10 @@ namespace B3 {
 		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>
 		void DebugRender(IGame game);
 		
-		// /// <summary>Renders the object when debugging mode is on using a specific shader program</summary>
-		// /// <param name="game">The reference to the game, used to get to the RenderingContext</param>
-		// /// <param name="program">The shading program used</param>
-		// void DebugRender(IGame game, IShaderProgram program);
+		/// <summary>Renders the object when debugging mode is on using a specific shader program</summary>
+		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>
+		/// <param name="program">The shading program used</param>
+		void DebugRender(IGame game, IShaderProgram program);
 		
 		#endregion // Methods
 	}

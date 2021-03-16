@@ -5,6 +5,11 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
+		<PackageReference Include="OpenTK.Graphics" Version="4.4.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\*.cs"/>
 	</ItemGroup>
+	
 </Project>

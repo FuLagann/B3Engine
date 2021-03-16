@@ -7,11 +7,14 @@ namespace B3.Graphics {
 		/// <summary>Gets the handle used by graphics libraries to reference the shader program</summary>
 		int Handle { get; }
 		
-		/// <summary>Gets the reference to the game</summary>
-		IGame Game { get; }
-		
 		/// <summary>Gets and sets the shaders used in the program</summary>
 		IShader[] Shaders { get; set; }
+		
+		/// <summary>Gets if the shader had an error while compiling</summary>
+		bool HasError { get; }
+		
+		/// <summary>Gets the error message while compiling if any</summary>
+		string ErrorMessage { get; }
 		
 		#endregion // Properties
 		

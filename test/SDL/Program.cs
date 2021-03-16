@@ -1,5 +1,6 @@
 
 using B3.Events;
+using B3G = B3.Graphics;
 using B3.Utilities;
 
 using OpenTK.Graphics.OpenGL;
@@ -45,17 +46,21 @@ void main()
 }";
 		
 		public static void Main(string[] args) {
-			Program.window = new SdlGameWindow();
+			Game game = new Game();
 			
-			Program.window.OnRender += Render;
-			Program.window.OnUpdate += Update;
-			Program.window.OnLoad += Load;
-			Program.window.OnDestroy += Destroy;
-			Program.window.Title = "Testing";
-			Program.held = false;
-			Program.window.Icon = System.Drawing.Image.FromStream(FS.ReadStream(@"https://www.telegraph.co.uk/content/dam/technology/2021/01/28/Screenshot-2021-01-28-at-13-20-35_trans_NvBQzQNjv4BqEGKV9LrAqQtLUTT1Z0gJNRFI0o2dlzyIcL3Nvd0Rwgc.png?imwidth=450"));
+			game.Window.Title = "Hello";
+			game.Run();
+			// Program.window = new SdlGameWindow();
 			
-			Program.window.Run(60);
+			// Program.window.OnRender += Render;
+			// Program.window.OnUpdate += Update;
+			// Program.window.OnLoad += Load;
+			// Program.window.OnDestroy += Destroy;
+			// Program.window.Title = "Testing";
+			// Program.held = false;
+			// Program.window.Icon = System.Drawing.Image.FromStream(FS.ReadStream(@"https://www.telegraph.co.uk/content/dam/technology/2021/01/28/Screenshot-2021-01-28-at-13-20-35_trans_NvBQzQNjv4BqEGKV9LrAqQtLUTT1Z0gJNRFI0o2dlzyIcL3Nvd0Rwgc.png?imwidth=450"));
+			
+			// Program.window.Run(60);
 		}
 		
 		public static void Destroy(EventArgs args) {
@@ -156,5 +161,41 @@ void main()
 		public System.IntPtr GetProcAddress(string procName) {
 			return SDL.GL_GetProcAddress(procName);
 		}
+	}
+	
+	public class Game : BaseGame {
+		
+		public Game() : base(new SdlGameWindow()) {
+			
+		}
+		
+		/// <summary>The callback for setting global uniform variables for shaders</summary>
+		/// <param name="program">The program to set uniforms to</param>
+		public override void GlobalSetUniforms(B3G.IShaderProgram program) {}
+		
+		/// <summary>Initializes the game</summary>
+		public override void Initialize() {
+			GL.ClearColor(this.ClearColor.Redf, this.ClearColor.Greenf, this.ClearColor.Bluef, this.ClearColor.Alphaf);
+		}
+		
+		protected override void LoadBindings() {
+			GL.LoadBindings(new SdlBindingContext());
+		}
+
+		public override void Render(B3G.IShaderProgram program) {
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.Begin(PrimitiveType.Triangles);
+			{
+				float sin = 0.5f + 0.5f * Mathx.Sin((float)Time.TotalTime.TotalSeconds);
+				float cos = 0.5f + 0.5f * Mathx.Cos((float)Time.TotalTime.TotalSeconds);
+				GL.Color4(cos, sin, cos, 1.0f);
+				GL.Vertex2(0.5f, 0.5f);
+				GL.Vertex2(0.5f, -0.5f);
+				GL.Vertex2(-0.5f, -0.5f);
+			}
+			GL.End();
+		}
+
+		
 	}
 }

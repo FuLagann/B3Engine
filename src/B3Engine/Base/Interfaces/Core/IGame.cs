@@ -1,5 +1,6 @@
 
 using B3.Events;
+using B3.Graphics;
 
 using System.Collections.Generic;
 
@@ -24,6 +25,15 @@ namespace B3 {
 		/// <summary>Gets and sets if the game is in debug mode</summary>
 		bool DebugMode { get; set; }
 		
+		/// <summary>Gets and sets the default shader program that the game uses</summary>
+		IShaderProgram DefaultProgram { get; set; }
+		
+		/// <summary>Gets if the window has finished initializing</summary>
+		bool IsWindowInitialized { get; }
+		
+		/// <summary>Gets if the game has finished initializing</summary>
+		bool IsInitialized { get; }
+		
 		#endregion // Properties
 		
 		#region Events
@@ -37,13 +47,16 @@ namespace B3 {
 		/// <summary>An event for when the game is updating</summary>
 		event EventHandler<UpdateEventArgs> OnUpdate;
 		
+		/// <summary>An event for when the game's debug mode has changed</summary>
+		event EventHandler<EventArgs> OnDebugModeChange;
+		
 		#endregion // Events
 		
 		#region Methods
 		
-		// /// <summary>The callback for setting global uniform variables for shaders</summary>
-		// /// <param name="program">The program to set uniforms to</param>
-		// void GlobalSetUniforms(IShaderProgram program);
+		/// <summary>The callback for setting global uniform variables for shaders</summary>
+		/// <param name="program">The program to set uniforms to</param>
+		void GlobalSetUniforms(IShaderProgram program);
 		
 		/// <summary>Initializes the game</summary>
 		void Initialize();

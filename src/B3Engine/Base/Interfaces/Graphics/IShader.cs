@@ -10,6 +10,12 @@ namespace B3.Graphics {
 		/// <summary>Gets the type of shader that the shader is</summary>
 		ShaderType ShaderType { get; }
 		
+		/// <summary>Gets if the shader had an error while compiling</summary>
+		bool HasError { get; }
+		
+		/// <summary>Gets the error message while compiling if any</summary>
+		string ErrorMessage { get; }
+		
 		#endregion // Properties
 	}
 }

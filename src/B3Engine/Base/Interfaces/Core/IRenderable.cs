@@ -10,9 +10,9 @@ namespace B3 {
 		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>
 		void Render(IGame game);
 		
-		// /// <summary>Renders the object with a specific shading program</summary>
-		// /// <param name="program">The shader program used to render the object</param>
-		// void Render(IShaderProgram program);
+		/// <summary>Renders the object with a specific shading program</summary>
+		/// <param name="program">The shader program used to render the object</param>
+		void Render(IShaderProgram program);
 		
 		#endregion // Methods
 	}
