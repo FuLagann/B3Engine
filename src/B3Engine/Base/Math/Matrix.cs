@@ -1644,6 +1644,17 @@ namespace B3 {
 		
 		#region Public Methods
 		
+		/// <summary>Converts the matrix into an array of floating point numbers</summary>
+		/// <returns>Returns an array of floating point numbers that represent this matrix</returns>
+		public float[] ToArray() {
+			return new float[] {
+				this.A11, this.A12, this.A13, this.A14,
+				this.A21, this.A22, this.A23, this.A24,
+				this.A31, this.A32, this.A33, this.A34,
+				this.A41, this.A42, this.A43, this.A44
+			};
+		}
+		
 		/// <summary>Adds the two matrices together</summary>
 		/// <param name="other">The other matrix</param>
 		/// <returns>Returns the resulting matrix that is added together</returns>

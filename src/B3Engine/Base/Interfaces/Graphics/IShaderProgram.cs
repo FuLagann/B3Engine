@@ -38,6 +38,16 @@ namespace B3.Graphics {
 		/// <param name="unif1">The number to send over to the shaders</param>
 		void SendUniform(string name, float unif1);
 		
+		/// <summary>Sends over a single integer</summary>
+		/// <param name="name">The name of the uniform found within the shader</param>
+		/// <param name="unif1">The number to send over to the shaders</param>
+		void SendUniform(string name, int unif1);
+		
+		/// <summary>Sends over a single boolean</summary>
+		/// <param name="name">The name of the uniform found within the shader</param>
+		/// <param name="unif1">The number to send over to the shaders</param>
+		void SendUniform(string name, bool unif1);
+		
 		/// <summary>Sends over two floating point numbers as a <see cref="B3.Vector2"/></summary>
 		/// <param name="name">The name of the uniform found within the shader</param>
 		/// <param name="vec">The <see cref="B3.Vector2"/> to send over to the shaders</param>
@@ -45,8 +55,8 @@ namespace B3.Graphics {
 		
 		/// <summary>Sends over two floating point numbers as a <see cref="B3.Vector2"/></summary>
 		/// <param name="name">The name of the uniform found within the shader</param>
-		/// <param name="vector">The <see cref="B3.Vector2"/> to send over to the shaders</param>
-		void SendUniform(string name, ref Vector2 vector);
+		/// <param name="vec">The <see cref="B3.Vector2"/> to send over to the shaders</param>
+		void SendUniform(string name, ref Vector2 vec);
 		
 		/// <summary>Sends over three floating point numbers as a <see cref="B3.Vector3"/></summary>
 		/// <param name="name">The name of the uniform found within the shader</param>
@@ -77,6 +87,18 @@ namespace B3.Graphics {
 		/// <param name="name">The name of the uniform found within the shader</param>
 		/// <param name="matrix">The <see cref="B3.Matrix"/> to send over to the shaders</param>
 		void SendUniform(string name, ref Matrix matrix);
+		
+		/// <summary>Sends over the <see cref="B3.Matrix"/> 4x4</summary>
+		/// <param name="name">The name of the uniform found within the shader</param>
+		/// <param name="transpose">Set to true to transpose the matrix before passing it through</param>
+		/// <param name="matrix">The <see cref="B3.Matrix"/> to send over to the shaders</param>
+		void SendUniform(string name, bool transpose, Matrix matrix);
+		
+		/// <summary>Sends over the <see cref="B3.Matrix"/> 4x4</summary>
+		/// <param name="name">The name of the uniform found within the shader</param>
+		/// <param name="transpose">Set to true to transpose the matrix before passing it through</param>
+		/// <param name="matrix">The <see cref="B3.Matrix"/> to send over to the shaders</param>
+		void SendUniform(string name, bool transpose, ref Matrix matrix);
 		
 		#endregion // Methods
 	}
