@@ -1,0 +1,15 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__b3engine_base__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+	  <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)**\*.cs"/>
+		<Compile Remove="$(MSBuildThisFileDirectory)Math\*.Boundary.cs"/>
+	</ItemGroup>
+</Project>

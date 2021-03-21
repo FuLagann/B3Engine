@@ -1,0 +1,17 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__b3engine_opengl__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="OpenTK.Graphics" Version="4.4.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)**\*.cs"/>
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)..\Base\B3Engine.Base.targets" Condition="'!$(InternalConstants.Contains(`__b3engine_base__`))'"/>
+	
+</Project>

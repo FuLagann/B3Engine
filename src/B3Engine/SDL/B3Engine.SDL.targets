@@ -1,0 +1,17 @@
+
+<Project>
+	<PropertyGroup>
+		<InternalConstants>$(InternalConstants);__b3engine_sdl__</InternalConstants>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)**\*.cs"/>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+	</ItemGroup>
+	
+	<Import Project="$(MSBuildThisFileDirectory)..\Base\B3Engine.Base.targets" Condition="'!$(InternalConstants.Contains(`__b3engine_base__`))'"/>
+	
+</Project>
