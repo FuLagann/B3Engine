@@ -43,7 +43,7 @@ namespace B3.Graphics {
 		public Shader(IGame game, ShaderType type, string shaderCode) {
 			this.type = type;
 			this.errorMessage = "";
-			if(game.IsInitialized) {
+			if(game == null || game.IsInitialized) {
 				this.Initialize(shaderCode);
 			}
 			else {

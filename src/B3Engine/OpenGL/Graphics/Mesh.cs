@@ -4,9 +4,9 @@ using B3.Events;
 using OpenTK.Graphics.OpenGL;
 
 namespace B3.Graphics {
-	/// <summary>A class for a vertex array that renders an array of vertices</summary>
-	/// <typeparam name="T">The data type of the vertex, needs to be a struct</typeparam>
-	public class VertexArray<T> : IVertexArray<T> where T : struct {
+	/// <summary>A class that creates an indexed vertex array mesh</summary>
+	/// <typeparam name="T">The data type of the vertex used by the mesh, needs to be a struct</typeparam>
+	public class Mesh<T> : IMesh<T> where T : struct {
 		#region Field Variables
 		// Variables
 		private int handle;
@@ -16,21 +16,26 @@ namespace B3.Graphics {
 		
 		#region Public Properties
 		
-		/// <summary>Gets and sets the vertex buffer used by the vertex array</summary>
+		/// <summary>Gets the handle of the mesh</summary>
+		public int Handle { get { return this.handle; } }
+		
+		/// <summary>Gets and sets the vertex buffer of the mesh</summary>
 		public IVertexBuffer<T> VertexBuffer { get; set; }
 		
-		/// <summary>Gets the id handle of the buffer that gets generated and used by the graphics library</summary>
-		public int Handle { get { return this.handle; } }
+		/// <summary>Gets and sets the index buffer of the mesh</summary>
+		public IIndexBuffer IndexBuffer { get; set; }
 		
 		#endregion // Public Properties
 		
 		#region Public Constructors
 		
-		/// <summary>A base constructor for a vertex array</summary>
-		/// <param name="game"></param>
-		/// <param name="vertexBuffer"></param>
-		public VertexArray(IGame game, IVertexBuffer<T> vertexBuffer) {
+		/// <summary>A base constructor for the mesh</summary>
+		/// <param name="game">The game used to make sure OpenGL was loaded in correctly</param>
+		/// <param name="vertexBuffer">The vertex buffer used to get all the vertex data</param>
+		/// <param name="indexBuffer">The index buffer used to</param>
+		public Mesh(IGame game, IVertexBuffer<T> vertexBuffer, IIndexBuffer indexBuffer) {
 			this.VertexBuffer = vertexBuffer;
+			this.IndexBuffer = indexBuffer;
 			if(game == null || game.IsWindowInitialized) {
 				this.handle = GL.GenVertexArray();
 			}
@@ -57,6 +62,8 @@ namespace B3.Graphics {
 			
 			this.VertexBuffer.Bind();
 			this.VertexBuffer.Buffer();
+			this.IndexBuffer.Bind();
+			this.IndexBuffer.Buffer();
 			this.attrsLength = data.Length;
 			
 			foreach(VertexAttributeData attr in data) { stride += attr.stride; }
@@ -79,13 +86,14 @@ namespace B3.Graphics {
 				program.Use();
 			}
 			this.Bind();
-			GL.DrawArrays(PrimitiveType.Triangles, 0, this.VertexBuffer.Count);
+			GL.DrawElements(PrimitiveType.Triangles, this.IndexBuffer.Count, DrawElementsType.UnsignedInt, 0);
 		}
 		
-		/// <summary>Disposes of the vertex array</summary>
+		/// <summary>Disposes of the mesh</summary>
 		public void Dispose() {
-			this.VertexBuffer.Dispose();
 			GL.DeleteVertexArray(this.handle);
+			this.VertexBuffer.Dispose();
+			this.IndexBuffer.Dispose();
 		}
 		
 		#endregion // Public Methods

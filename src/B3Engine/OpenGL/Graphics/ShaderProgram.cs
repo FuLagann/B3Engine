@@ -54,7 +54,7 @@ namespace B3.Graphics {
 		public ShaderProgram(IGame game, params Shader[] shaders) {
 			this.shaders = shaders;
 			this.errorMessage = "";
-			if(game.IsInitialized) {
+			if(game == null || game.IsInitialized) {
 				this.Initialize();
 			}
 			else {

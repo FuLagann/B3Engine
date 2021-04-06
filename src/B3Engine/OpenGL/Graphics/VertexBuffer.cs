@@ -83,7 +83,7 @@ namespace B3.Graphics {
 		public void Buffer() {
 			GL.BufferData(
 				BufferTarget.ArrayBuffer,
-				this.vertices.Length * Marshal.SizeOf<T>(),
+				this.Count * Marshal.SizeOf<T>(),
 				this.vertices,
 				this.type.ToOpenGL()
 			);

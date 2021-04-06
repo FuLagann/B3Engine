@@ -14,21 +14,21 @@ namespace B3 {
 		private float blue;
 		private float alpha;
 		/// <summary>The color white (#FFFFFF)</summary>
-		public static readonly Color White = new Color(0xffffff);
+		public static readonly Color White = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		/// <summary>The color black (#000000)</summary>
-		public static readonly Color Black = new Color(0x000000);
+		public static readonly Color Black = new Color(0.0f, 0.0f, 0.0f, 1.0f);
 		/// <summary>The color red (#FF0000)</summary>
-		public static readonly Color Red = new Color(0xff0000);
+		public static readonly Color Red = new Color(1.0f, 0.0f, 0.0f, 1.0f);
 		/// <summary>The color green (#00FF00)</summary>
-		public static readonly Color Green = new Color(0x00ff00);
+		public static readonly Color Green = new Color(0.0f, 1.0f, 0.0f, 1.0f);
 		/// <summary>The color blue (#0000FF)</summary>
-		public static readonly Color Blue = new Color(0x0000ff);
+		public static readonly Color Blue = new Color(0.0f, 0.0f, 1.0f, 1.0f);
 		/// <summary>The color yellow (#FFFF00)</summary>
-		public static readonly Color Yellow = new Color(0xffff00);
+		public static readonly Color Yellow = new Color(1.0f, 1.0f, 0.0f, 1.0f);
 		/// <summary>The color cyan (#00FFFF)</summary>
-		public static readonly Color Cyan = new Color(0x00ffff);
+		public static readonly Color Cyan = new Color(0.0f, 1.0f, 1.0f, 1.0f);
 		/// <summary>The color magenta (#FF00FF)</summary>
-		public static readonly Color Magenta = new Color(0xff00ff);
+		public static readonly Color Magenta = new Color(1.0f, 0.0f, 1.0f, 1.0f);
 		
 		#endregion // Field Variables
 		
