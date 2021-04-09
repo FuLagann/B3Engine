@@ -5,7 +5,23 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<Compile Include="$(MSBuildThisFileDirectory)**\*.cs"/>
+		<!-- Input -->
+		<Compile Include="$(MSBuildThisFileDirectory)Input\ClipboardState.SDL.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardState.SDL.TextInput.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\MouseState.SDL.Cursor.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\SdlInputProcessor.cs"/>
+		<!-- Platform -->
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SdlGameWindow.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SdlHelper.cs"/>
+		<!-- Platform\SDL -->
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\SDL.Clipboard.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\SDL.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\SDL.Haptic.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\SDL.Joysticks.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\SDL.Keyboard.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\SDL.Mouse.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\SDL.Surface.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\SDL\SDL.Video.cs"/>
 	</ItemGroup>
 	
 	<ItemGroup>

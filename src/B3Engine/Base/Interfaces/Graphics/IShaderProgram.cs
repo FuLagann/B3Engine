@@ -1,4 +1,6 @@
 
+using B3.Events;
+
 namespace B3.Graphics {
 	/// <summary>An interface for shader programs used to render the scenes in unique ways</summary>
 	public interface IShaderProgram : System.IDisposable {
@@ -17,6 +19,13 @@ namespace B3.Graphics {
 		string ErrorMessage { get; }
 		
 		#endregion // Properties
+		
+		#region Events
+		
+		/// <summary>An event for when the program gets used, this is used to apply uniforms</summary>
+		event EventHandler<EventArgs> OnUse;
+		
+		#endregion // Events
 		
 		#region Methods
 		

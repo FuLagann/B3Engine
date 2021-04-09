@@ -11,6 +11,7 @@ namespace B3.Graphics {
 		private int handle;
 		private IShader[] shaders;
 		private string errorMessage;
+		private EventArgs args;
 		
 		#endregion // Field Variables
 		
@@ -23,28 +24,19 @@ namespace B3.Graphics {
 		public IShader[] Shaders { get; set; }
 		
 		/// <summary>Gets if the shader had an error while compiling</summary>
-		public bool HasError { get {
-			// foreach(Shader shader in this.shaders) {
-			// 	if(shader.HasError) { return true; }
-			// }
-			// return false;
-			return !string.IsNullOrEmpty(this.errorMessage);
-		} }
+		public bool HasError { get { return !string.IsNullOrEmpty(this.errorMessage); } }
 		
 		/// <summary>Gets the error message while compiling if any</summary>
-		public string ErrorMessage { get {
-			// Variables
-			// string error = "";
-			
-			// foreach(Shader shader in this.shaders) {
-			// 	error += $"{shader.ShaderType}:\n\t{(shader.HasError ? shader.ErrorMessage : "No Errors.")}";
-			// }
-			
-			// return error;
-			return this.errorMessage;
-		} }
+		public string ErrorMessage { get { return this.errorMessage; } }
 		
 		#endregion // Public Properties
+		
+		#region Public Events
+		
+		/// <summary>An event for when the program gets used, this is used to apply uniforms</summary>
+		public event EventHandler<EventArgs> OnUse;
+		
+		#endregion // Public Events
 		
 		#region Public Constructors
 		
@@ -54,6 +46,7 @@ namespace B3.Graphics {
 		public ShaderProgram(IGame game, params Shader[] shaders) {
 			this.shaders = shaders;
 			this.errorMessage = "";
+			this.args = new EventArgs(this);
 			if(game == null || game.IsInitialized) {
 				this.Initialize();
 			}
@@ -69,7 +62,10 @@ namespace B3.Graphics {
 		#region Public Methods
 		
 		/// <summary>Uses the shader program</summary>
-		public void Use() { GL.UseProgram(this.handle); }
+		public void Use() {
+			GL.UseProgram(this.handle);
+			this.OnUse?.Invoke(this.args);
+		}
 		
 		/// <summary>Gets the location of the attribute from the given name</summary>
 		/// <param name="name">The name of the attribute</param>

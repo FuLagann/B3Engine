@@ -9,7 +9,115 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<Compile Include="$(MSBuildThisFileDirectory)**\*.cs"/>
-		<Compile Remove="$(MSBuildThisFileDirectory)Math\*.Boundary.cs"/>
+		<!-- Events -->
+		<Compile Include="$(MSBuildThisFileDirectory)Events\EventArgs.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Events\UpdateEventArgs.cs"/>
+		<!-- Helpers -->
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\AssetLocation.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Convert.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\DefaultLoggerOutput.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\FileLocationType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\FS.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\ILoggerOutput.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\LoggingType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Time.cs"/>
+		<!-- Input -->
+		<Compile Include="$(MSBuildThisFileDirectory)Input\ClipboardState.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\GamepadAxis.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\GamepadButton.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\GamepadState.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\IInputProcessor.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\Input.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\InputType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardState.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\Keys.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\MouseButton.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\MouseState.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\SystemCursorType.cs"/>
+		<!-- Interfaces -->
+		<!-- Interfaces/Core -->
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IDebugRenderable.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IDialogWindow.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IGame.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IGameWindow.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IRenderable.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IUpdatable.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\WindowMode.cs"/>
+		<!-- Interfaces/Graphics -->
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\BufferUsage.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IGraphicsBuffer.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IIndexBuffer.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IMesh.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IShader.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IShaderProgram.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IShaderVariable.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\ITexture.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IVertexArray.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IVertexAttributable.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IVertexBuffer.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\ShaderType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\TexParam.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\TextureType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\VertexAttributeData.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\VertexAttributeDataType.cs"/>
+		<!-- Math -->
+		<Compile Include="$(MSBuildThisFileDirectory)Math\BezierCurve.cs"/>
+		<!-- <Compile Include="$(MSBuildThisFileDirectory)Math\Box.Boundary.cs"/> -->
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Box.cs"/>
+		<!-- <Compile Include="$(MSBuildThisFileDirectory)Math\Circle.Boundary.cs"/> -->
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Circle.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Color.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\InterpolationLoopType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Mathx.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Mathx.Matrix.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Mathx.Quaternion.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Mathx.Vectors.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Matrix.cs"/>
+		<!-- <Compile Include="$(MSBuildThisFileDirectory)Math\Plane.Boundary.cs"/> -->
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Plane.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Polygon.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Polyhedron.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Quaternion.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Random.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Ray.cs"/>
+		<!-- <Compile Include="$(MSBuildThisFileDirectory)Math\Rectangle.Boundary.cs"/> -->
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Rectangle.cs"/>
+		<!-- <Compile Include="$(MSBuildThisFileDirectory)Math\Sphere.Boundary.cs"/> -->
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Sphere.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Spline.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\SplineType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Transform.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Tween.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Vector2.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Vector2.Math.Basic.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Vector3.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Vector3.Math.Basic.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Vector4.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Math\Vector4.Math.Basic.cs"/>
+		<!-- Platform -->
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\BaseDialogWindow.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\BaseGame.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\BaseGameWindow.cs"/>
+		<!-- Platform/Utilities -->
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\Utilities\FuncLoader.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\Utilities\OS.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Platform\Utilities\Platform.cs"/>
+		<!-- VertexStructures -->
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex2P.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex2PC.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex2PCT.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex2PCTN.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex2PN.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex2PT.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex2PTN.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex3P.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex3PC.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex3PCT.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex3PCTN.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex3PN.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex3PT.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)VertexStructures\Vertex3PTN.cs"/>
 	</ItemGroup>
 </Project>

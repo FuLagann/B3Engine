@@ -5,11 +5,19 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="OpenTK.Graphics" Version="4.4.0" />
+		<PackageReference Include="OpenTK.Graphics" Version="4.6.3" />
 	</ItemGroup>
 	
 	<ItemGroup>
-		<Compile Include="$(MSBuildThisFileDirectory)**\*.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\BaseTexture.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\GraphicsEnumConverter.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\IndexBuffer.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\Mesh.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\Shader.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\ShaderProgram.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\Texture2D.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\VertexArray.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\VertexBuffer.cs"/>
 	</ItemGroup>
 	
 	<Import Project="$(MSBuildThisFileDirectory)..\Base\B3Engine.Base.targets" Condition="'!$(InternalConstants.Contains(`__b3engine_base__`))'"/>
