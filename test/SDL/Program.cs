@@ -15,6 +15,8 @@ namespace B3.Testing {
 		private static B3G.ShaderProgram program;
 		private static B3G.Mesh<B3G.Vertex3PCT> mesh;
 		private static B3G.VertexArray<B3G.Vertex3PCT> array;
+		private static B3G.Texture2D texture;
+		private static B3G.Texture2D texture2;
 		private static B3G.Vertex3PCT[] vertices = new B3G.Vertex3PCT[] {
 			new B3G.Vertex3PCT(new Vector3(0.5f, 0.5f, 0.0f), Color.Red, new Vector2(1.0f, 0.0f)),
 			new B3G.Vertex3PCT(new Vector3(0.5f, -0.5f, 0.0f), Color.Green, new Vector2(1.0f, 1.0f)),
@@ -36,32 +38,8 @@ namespace B3.Testing {
 			0, 1, 3,
 			1, 2, 3
 		};
-		private static string vertexCode = @"#version 330 core
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec4 aColor;
-layout (location = 2) in vec2 aTexCoord;
-
-out vec4 oColor;
-out vec2 oTexCoord;
-
-void main()
-{
-    gl_Position = vec4(aPos.xyz, 1.0);
-	oColor = aColor;
-	oTexCoord = aTexCoord;
-}";
-		private static string fragmentCode = @"#version 330 core
-in vec4 oColor;
-in vec2 oTexCoord;
-out vec4 FragColor;
-
-uniform sampler2D tex;
-uniform float uTime;
-
-void main()
-{
-    FragColor = oColor * max(abs(sin(uTime)), abs(cos(uTime))) * texture(tex, oTexCoord);
-}";
+		private static string vertexFile = FS.BasePath + @"basic.vert";
+		private static string fragmentFile = FS.BasePath + @"basic.frag";
 		
 		public static void Main(string[] args) {
 			Game game = new Game();
@@ -72,13 +50,12 @@ void main()
 			game.Run();
 		}
 		
-		private static int texture;
 		
 		public static void Load(EventArgs args) {
 			program = new B3G.ShaderProgram(
 				null,
-				new B3G.Shader(null, B3G.ShaderType.Vertex, vertexCode),
-				new B3G.Shader(null, B3G.ShaderType.Fragment, fragmentCode)
+				new B3G.Shader(null, B3G.ShaderType.Vertex, FS.Read(vertexFile)),
+				new B3G.Shader(null, B3G.ShaderType.Fragment, FS.Read(fragmentFile))
 			);
 			array = new B3G.VertexArray<B3G.Vertex3PCT>(null, new B3G.VertexBuffer<B3G.Vertex3PCT>(null, arrayVertices, B3G.BufferUsage.StaticDraw));
 			array.Bind();
@@ -90,34 +67,9 @@ void main()
 			);
 			mesh.Bind();
 			mesh.Buffer();
-			texture = GL.GenTexture();
-			GL.BindTexture(TextureTarget.Texture2D, texture);
-			using(Stream stream = FS.ReadStream(@"https://media.discordapp.net/attachments/692488800823410710/828774678121545738/image0.jpg?width=507&height=676")) {
-				Drawing.Bitmap bmp = Drawing.Bitmap.FromStream(stream) as Drawing.Bitmap;
-				System.Drawing.Imaging.BitmapData data = bmp.LockBits(
-					new Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
-					Drawing.Imaging.ImageLockMode.ReadOnly,
-					Drawing.Imaging.PixelFormat.Format32bppArgb
-				);
-				
-				GL.TexImage2D(
-					TextureTarget.Texture2D,
-					0,
-					PixelInternalFormat.Rgba,
-					bmp.Width,
-					bmp.Height,
-					0,
-					PixelFormat.Rgba,
-					PixelType.UnsignedByte,
-					data.Scan0
-				);
-				bmp.UnlockBits(data);
-				GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-			}
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+			
+			texture = new B3G.Texture2D(null, @"https://media.discordapp.net/attachments/692488800823410710/828774678121545738/image0.jpg?width=507&height=676");
+			texture2 = new B3G.Texture2D(null, @"https://serebii.net/Banner.jpg");
 			
 			program.OnUse += delegate(EventArgs args) {
 				// Variables
@@ -125,7 +77,8 @@ void main()
 				
 				prog.SendUniform("uTime", (float)Time.TotalTime.TotalSeconds);
 				prog.SendUniform("uCursor", Input.Mouse.Position);
-				GL.BindTexture(TextureTarget.Texture2D, texture);
+				prog.SendUniform("tex", texture, 0);
+				prog.SendUniform("tex2", texture2, 1);
 			};
 		}
 		

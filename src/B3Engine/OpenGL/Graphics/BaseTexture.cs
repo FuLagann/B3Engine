@@ -58,6 +58,16 @@ namespace B3.Graphics {
 		/// <summary>Binds the buffer to use</summary>
 		public virtual void Bind() { GL.BindTexture(this.type.ToOpenGL(), this.handle); }
 		
+		/// <summary>Binds the texture and activates it into any of the 32 slots used by the graphics library</summary>
+		/// <param name="index">The index of the texture reserved by the graphics library to bind to</param>
+		/// <remarks>The maximum index is 31, it loops around afterwards)</remarks>
+		public void Bind(byte index) {
+			// Variables
+			int unit = (int)TextureUnit.Texture0 + (int)(index % 32);
+			GL.ActiveTexture((TextureUnit)unit);
+			this.Bind();
+		}
+		
 		/// <summary>Buffers the data</summary>
 		public virtual void Buffer() {
 			// Variables

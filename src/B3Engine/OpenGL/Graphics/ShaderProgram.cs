@@ -183,6 +183,16 @@ namespace B3.Graphics {
 			GL.UniformMatrix4(index, marr.Length, transpose, marr);
 		}
 		
+		/// <summary>Sends over the <see cref="B3.Graphics.ITexture"/></summary>
+		/// <param name="name">The name of the uniform found within the shader</param>
+		/// <param name="texture">The texture used to send over</param>
+		/// <param name="index">The index of the texture to slot into that the graphics library reserves</param>
+		public void SendUniform(string name, ITexture texture, byte index) {
+			if(texture == null) { return; }
+			texture.Bind(index);
+			this.SendUniform(name, index);
+		}
+		
 		/// <summary>Disposes of the shader program</summary>
 		public void Dispose() {
 			foreach(Shader shader in this.shaders) {

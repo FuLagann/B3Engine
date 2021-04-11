@@ -3,6 +3,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\build\B3Engine.OpenGL.csproj" />
     <None Update="test.bmp" CopyToOutputDirectory="Always" />
+    <None Update="basic.vert" CopyToOutputDirectory="Always" />
+    <None Update="basic.frag" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>

@@ -109,6 +109,12 @@ namespace B3.Graphics {
 		/// <param name="matrix">The <see cref="B3.Matrix"/> to send over to the shaders</param>
 		void SendUniform(string name, bool transpose, ref Matrix matrix);
 		
+		/// <summary>Sends over the <see cref="B3.Graphics.ITexture"/></summary>
+		/// <param name="name">The name of the uniform found within the shader</param>
+		/// <param name="texture">The texture used to send over</param>
+		/// <param name="index">The index of the texture to slot into that the graphics library reserves</param>
+		void SendUniform(string name, ITexture texture, byte index);
+		
 		#endregion // Methods
 	}
 }

@@ -18,6 +18,10 @@ namespace B3.Graphics {
 		/// <param name="location">The location of the file</param>
 		void SetFromFile(string location);
 		
+		/// <summary>Binds the texture and activates it into any of the 32 slots used by the graphics library</summary>
+		/// <param name="index">The index of the texture reserved by the graphics library to bind to</param>
+		void Bind(byte index);
+		
 		#endregion // Methods
 	}
 }
