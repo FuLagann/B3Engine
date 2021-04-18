@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace B3.Graphics {
 	/// <summary>A vertex buffer that holds data about the vertices for OpenGL to use</summary>
 	/// <typeparam name="T">The data type of the vertex, needs to be a struct</typeparam>
-	public class VertexBuffer<T> : IVertexBuffer<T> where T : struct {
+	public sealed class VertexBuffer<T> : IVertexBuffer<T> where T : struct {
 		#region Field Variables
 		// Variables
 		private T[] vertices;

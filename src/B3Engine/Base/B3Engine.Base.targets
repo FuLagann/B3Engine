@@ -13,13 +13,17 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventArgs.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\UpdateEventArgs.cs"/>
+		<!-- Graphics -->
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\TexParam.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\TextureType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\VertexAttributeData.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\VertexAttributeDataType.cs"/>
 		<!-- Helpers -->
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\AssetLocation.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Convert.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\DefaultLoggerOutput.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\FileLocationType.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\FS.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Helpers\ILoggerOutput.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\LoggingType.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Time.cs"/>
@@ -28,7 +32,6 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Input\GamepadAxis.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\GamepadButton.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\GamepadState.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Input\IInputProcessor.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\Input.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\InputType.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardState.cs"/>
@@ -42,11 +45,14 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IDialogWindow.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IGame.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IGameWindow.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IInputProcessor.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\ILoggerOutput.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IRenderable.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IUpdatable.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\WindowMode.cs"/>
 		<!-- Interfaces/Graphics -->
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\BufferUsage.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IFrameBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IGraphicsBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IIndexBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IMesh.cs"/>
@@ -58,10 +64,6 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IVertexAttributable.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IVertexBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\ShaderType.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\TexParam.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\TextureType.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\VertexAttributeData.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\VertexAttributeDataType.cs"/>
 		<!-- Math -->
 		<Compile Include="$(MSBuildThisFileDirectory)Math\BezierCurve.cs"/>
 		<!-- <Compile Include="$(MSBuildThisFileDirectory)Math\Box.Boundary.cs"/> -->

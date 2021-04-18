@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace B3.Graphics {
 	/// <summary>A class for a shader program used by OpenGL to use shaders on meshes and models</summary>
-	public class ShaderProgram : IShaderProgram {
+	public sealed class ShaderProgram : IShaderProgram {
 		#region Field Variables
 		// Variables
 		private int handle;
@@ -213,6 +213,9 @@ namespace B3.Graphics {
 			}
 			GL.LinkProgram(this.handle);
 			this.errorMessage = GL.GetProgramInfoLog(this.handle);
+			if(!string.IsNullOrEmpty(this.errorMessage)) {
+				Logger.Error(this.errorMessage);
+			}
 			foreach(Shader shader in this.shaders) {
 				shader.Dispose();
 			}

@@ -10,6 +10,7 @@
 	
 	<ItemGroup>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\BaseTexture.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\FrameBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\GraphicsEnumConverter.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\IndexBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\Mesh.cs"/>

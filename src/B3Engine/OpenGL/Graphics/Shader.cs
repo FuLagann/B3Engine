@@ -3,13 +3,11 @@ using B3.Events;
 
 using OpenTK.Graphics.OpenGL;
 
-using ShaderType = B3.Graphics.ShaderType;
-
 using TKShaderType = OpenTK.Graphics.OpenGL.ShaderType;
 
 namespace B3.Graphics {
 	/// <summary>A class that creates an OpenGL shader</summary>
-	public class Shader : IShader {
+	public sealed class Shader : IShader {
 		#region Field Variables
 		// Variables
 		private int handle;
@@ -84,6 +82,9 @@ namespace B3.Graphics {
 			GL.ShaderSource(this.handle, shaderCode);
 			GL.CompileShader(this.handle);
 			this.errorMessage = GL.GetShaderInfoLog(this.handle);
+			if(!string.IsNullOrEmpty(this.errorMessage)) {
+				Logger.Error(this.errorMessage);
+			}
 		}
 		
 		/// <summary>Gets the opengl enumeration of shader type</summary>

@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace B3.Graphics {
 	/// <summary>A class that holds a buffer for all the indices in a mesh/model</summary>
-	public class IndexBuffer : IIndexBuffer {
+	public sealed class IndexBuffer : IIndexBuffer {
 		#region Field Variables
 		// Variables
 		private int handle;

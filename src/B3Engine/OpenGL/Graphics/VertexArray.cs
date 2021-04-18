@@ -61,6 +61,7 @@ namespace B3.Graphics {
 			
 			foreach(VertexAttributeData attr in data) { stride += attr.stride; }
 			for(int i = 0; i < data.Length; i++) {
+				Logger.Log($"{i} - {data[i].dataType}:: {data[i].size}, {data[i].stride}");
 				GL.VertexAttribPointer(i, data[i].size, (VertexAttribPointerType)data[i].dataType, data[i].isNormalized, stride, new System.IntPtr(offset));
 				GL.EnableVertexAttribArray(i);
 				offset += data[i].stride;
@@ -75,10 +76,10 @@ namespace B3.Graphics {
 		/// <summary>Renders the object with a specific shading program</summary>
 		/// <param name="program">The shader program used to render the object</param>
 		public void Render(IShaderProgram program) {
+			this.Bind();
 			if(program != null) {
 				program.Use();
 			}
-			this.Bind();
 			GL.DrawArrays(PrimitiveType.Triangles, 0, this.VertexBuffer.Count);
 		}
 		

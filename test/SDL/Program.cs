@@ -15,8 +15,10 @@ namespace B3.Testing {
 		private static B3G.ShaderProgram program;
 		private static B3G.Mesh<B3G.Vertex3PCT> mesh;
 		private static B3G.VertexArray<B3G.Vertex3PCT> array;
+		private static B3G.FrameBuffer frameBuffer;
 		private static B3G.Texture2D texture;
 		private static B3G.Texture2D texture2;
+		private static B3G.Texture2D texture3;
 		private static B3G.Vertex3PCT[] vertices = new B3G.Vertex3PCT[] {
 			new B3G.Vertex3PCT(new Vector3(0.5f, 0.5f, 0.0f), Color.Red, new Vector2(1.0f, 0.0f)),
 			new B3G.Vertex3PCT(new Vector3(0.5f, -0.5f, 0.0f), Color.Green, new Vector2(1.0f, 1.0f)),
@@ -40,9 +42,10 @@ namespace B3.Testing {
 		};
 		private static string vertexFile = FS.BasePath + @"basic.vert";
 		private static string fragmentFile = FS.BasePath + @"basic.frag";
+		private static Game game;
 		
 		public static void Main(string[] args) {
-			Game game = new Game();
+			game = new Game();
 			
 			game.Window.Title = "Hello";
 			game.OnLoad += Load;
@@ -70,6 +73,7 @@ namespace B3.Testing {
 			
 			texture = new B3G.Texture2D(null, @"https://media.discordapp.net/attachments/692488800823410710/828774678121545738/image0.jpg?width=507&height=676");
 			texture2 = new B3G.Texture2D(null, @"https://serebii.net/Banner.jpg");
+			texture3 = new B3G.Texture2D(null, "600;800");
 			
 			program.OnUse += delegate(EventArgs args) {
 				// Variables
@@ -80,14 +84,16 @@ namespace B3.Testing {
 				prog.SendUniform("tex", texture, 0);
 				prog.SendUniform("tex2", texture2, 1);
 			};
+			
+			frameBuffer = new B3G.FrameBuffer(game, 0);
+			frameBuffer.OnRender += delegate(EventArgs args) {
+				array.Render(program);
+				mesh.Render(program);
+			};
 		}
 		
 		public static void Render(UpdateEventArgs args) {
-			GL.ClearColor(0.05f, 0.15f, 0.1f, 1.0f);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-			
-			array.Render(program);
-			mesh.Render(program);
+			frameBuffer.Render(game);
 		}
 	}
 	

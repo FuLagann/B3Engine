@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 
 using System.IO;
+using System.Text.RegularExpressions;
 
 using Drawing = System.Drawing;
 using Imaging = System.Drawing.Imaging;
@@ -18,11 +19,49 @@ namespace B3.Graphics {
 		
 		#endregion // Public Constructors
 		
+		#region Public Static Methods
+		
+		/// <summary>Creates an empty texture with a set width and height</summary>
+		/// <param name="game">The game used to make sure OpenGL was loaded in correctly</param>
+		/// <param name="width">The width of the texture</param>
+		/// <param name="height">The height of the texture</param>
+		/// <returns>Returns an empty texture with a set width and height</returns>
+		public static Texture2D CreateEmpty(IGame game, int width, int height) {
+			return new Texture2D(game, $"{width};{height}");
+		}
+		
+		#endregion // Public Static Methods
+		
 		#region Public Methods
 		
 		/// <summary>Sets the texture from the given file</summary>
 		/// <param name="location">The location of the file</param>
 		public override void SetFromFile(string location) {
+			// Variables
+			Regex regex = new Regex(@"(\d+);(\d+)");
+			Match match = regex.Match(location);
+			
+			if(match.Success) {
+				// Variables
+				int width, height;
+				
+				int.TryParse(match.Groups[1].Value, out width);
+				int.TryParse(match.Groups[2].Value, out height);
+				
+				GL.TexImage2D(
+					this.Target.ToOpenGL(),
+					0,
+					PixelInternalFormat.Rgba8,
+					width,
+					height,
+					0,
+					PixelFormat.Rgb,
+					PixelType.Byte,
+					System.IntPtr.Zero
+				);
+				return;
+			}
+			
 			using(Stream stream = FS.ReadStream(location)) {
 				// Variables
 				Drawing.Bitmap bmp = Drawing.Bitmap.FromStream(stream) as Drawing.Bitmap;
