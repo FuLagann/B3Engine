@@ -51,7 +51,7 @@ namespace B3.Graphics {
 				this.Initialize();
 			}
 			else {
-				game.OnLoad += delegate(EventArgs args) {
+				game.OnLoad += () => {
 					this.Initialize();
 				};
 			}

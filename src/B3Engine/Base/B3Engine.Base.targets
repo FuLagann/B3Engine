@@ -12,6 +12,7 @@
 		<!-- Events -->
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventArgs.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.T.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\UpdateEventArgs.cs"/>
 		<!-- Graphics -->
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\TexParam.cs"/>

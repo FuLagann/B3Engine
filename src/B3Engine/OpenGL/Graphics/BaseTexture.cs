@@ -40,7 +40,7 @@ namespace B3.Graphics {
 				this.Initialize(location);
 			}
 			else {
-				game.OnLoad += delegate(EventArgs args) {
+				game.OnLoad += () => {
 					this.handle = GL.GenTexture();
 					this.Initialize(location);
 				};

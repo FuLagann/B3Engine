@@ -45,7 +45,7 @@ namespace B3.Graphics {
 				this.Initialize(shaderCode);
 			}
 			else {
-				game.OnLoad += delegate(EventArgs args) {
+				game.OnLoad += () => {
 					this.Initialize(shaderCode);
 				};
 			}

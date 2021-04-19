@@ -39,7 +39,7 @@ namespace B3 {
 		#region Events
 		
 		/// <summary>An event for when the game is loading</summary>
-		event EventHandler<EventArgs> OnLoad;
+		event EventHandler OnLoad;
 		
 		/// <summary>An event for when the game is rendering</summary>
 		event EventHandler<UpdateEventArgs> OnRender;
@@ -48,7 +48,7 @@ namespace B3 {
 		event EventHandler<UpdateEventArgs> OnUpdate;
 		
 		/// <summary>An event for when the game's debug mode has changed</summary>
-		event EventHandler<EventArgs> OnDebugModeChange;
+		event EventHandler OnDebugModeChange;
 		
 		#endregion // Events
 		

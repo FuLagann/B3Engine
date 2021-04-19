@@ -12,7 +12,7 @@ namespace B3.Graphics {
 		private int renderBufferHandle;
 		private Texture2D renderTexture;
 		private EventArgs args;
-		public VertexArray<Vertex2PT> vao;
+		private VertexArray<Vertex2PT> vao;
 		private IShaderProgram program;
 		
 		#endregion // Field Variables
@@ -34,6 +34,7 @@ namespace B3.Graphics {
 		/// <summary>Gets the id handle of the buffer that gets generated and used by the graphics library</summary>
 		public int Handle { get { return this.handle; } }
 		
+		/// <summary>Gets and sets the shader program being used</summary>
 		public IShaderProgram Program { get; set; }
 		
 		#endregion // Properties
@@ -61,8 +62,8 @@ namespace B3.Graphics {
 				this.Initialize(game, width, height);
 			}
 			else {
-				game.OnLoad += delegate(EventArgs args) {
-				this.Initialize(game, width, height);
+				game.OnLoad += () => {
+					this.Initialize(game, width, height);
 				};
 			}
 		}
@@ -82,9 +83,8 @@ namespace B3.Graphics {
 		/// <summary>Buffers the data</summary>
 		public void Buffer() {}
 		
-		/// <summary>Renders the object with no special shading</summary>
-		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>
-		public void Render(IGame game) {
+		/// <summary>Renders the object</summary>
+		public void Render() {
 			this.Bind();
 			GL.Enable(EnableCap.DepthTest);
 			GL.ClearColor(
@@ -97,18 +97,12 @@ namespace B3.Graphics {
 			GL.Disable(EnableCap.DepthTest);
 			GL.ClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 			GL.Clear(ClearBufferMask.ColorBufferBit);
-			this.vao.Render(this.program);
+			this.program.Use();
+			this.vao.Render();
 			// this.program.Use();
 			// this.vao.Bind();
 			// GL.BindTexture(TextureTarget.Texture2D, this.renderTexture.Handle);
 			// GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
-		}
-		
-		/// <summary>Renders the object with a specific shading program</summary>
-		/// <param name="program">The shader program used to render the object</param>
-		public void Render(IShaderProgram program) {
-			Logger.Error("Needs the game");
-			throw new System.Exception();
 		}
 		
 		/// <summary>Disposes the frame buffer</summary>

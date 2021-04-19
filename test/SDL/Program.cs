@@ -54,7 +54,7 @@ namespace B3.Testing {
 		}
 		
 		
-		public static void Load(EventArgs args) {
+		public static void Load() {
 			program = new B3G.ShaderProgram(
 				null,
 				new B3G.Shader(null, B3G.ShaderType.Vertex, FS.Read(vertexFile)),
@@ -87,13 +87,14 @@ namespace B3.Testing {
 			
 			frameBuffer = new B3G.FrameBuffer(game, 0);
 			frameBuffer.OnRender += delegate(EventArgs args) {
-				array.Render(program);
-				mesh.Render(program);
+				program.Use();
+				array.Render();
+				mesh.Render();
 			};
 		}
 		
 		public static void Render(UpdateEventArgs args) {
-			frameBuffer.Render(game);
+			frameBuffer.Render();
 		}
 	}
 	

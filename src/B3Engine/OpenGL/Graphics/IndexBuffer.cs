@@ -63,7 +63,7 @@ namespace B3.Graphics {
 				this.handle = GL.GenBuffer();
 			}
 			else {
-				game.OnLoad += delegate(EventArgs args) {
+				game.OnLoad += () => {
 					this.handle = GL.GenBuffer();
 				};
 			}

@@ -10,7 +10,6 @@ namespace B3 {
 		private IGameWindow window;
 		private bool isInitialized;
 		private bool debugMode;
-		private EventArgs args;
 		
 		#endregion // Field Variables
 		
@@ -49,7 +48,7 @@ namespace B3 {
 		#region Public Events
 		
 		/// <summary>An event for when the game is loading</summary>
-		public event EventHandler<EventArgs> OnLoad;
+		public event EventHandler OnLoad;
 		
 		/// <summary>An event for when the game is rendering</summary>
 		public event EventHandler<UpdateEventArgs> OnRender;
@@ -58,7 +57,7 @@ namespace B3 {
 		public event EventHandler<UpdateEventArgs> OnUpdate;
 		
 		/// <summary>An event for when the game's debug mode has changed</summary>
-		public event EventHandler<EventArgs> OnDebugModeChange;
+		public event EventHandler OnDebugModeChange;
 		
 		#endregion // Public Events
 		
@@ -73,7 +72,6 @@ namespace B3 {
 			this.ClearColor = new Color(0x6AB4E6);
 			this.DefaultProgram = null;
 			this.isInitialized = false;
-			this.args = new EventArgs(this);
 			//this.managers = new Dictionary<ManagerType, IManager>();
 		}
 		
@@ -92,13 +90,8 @@ namespace B3 {
 		/// <param name="delta">The time elapsed between frames</param>
 		public virtual void Update(float delta) {}
 		
-		/// <summary>Renders the object with a specific shading program</summary>
-		/// <param name="program">The shader program used to render the object</param>
-		public virtual void Render(IShaderProgram program) {}
-		
-		/// <summary>Renders the object with no special shading</summary>
-		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>
-		public void Render(IGame game) { this.Render(this.DefaultProgram); }
+		/// <summary>Renders the object</summary>
+		public void Render() {}
 		
 		/// <summary>Renders the object when debugging mode is on using a specific shader program</summary>
 		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>
@@ -133,10 +126,10 @@ namespace B3 {
 		// protected virtual void InitializeManagers() {}
 		
 		/// <summary>Calls the <see cref="B3.BaseGame.OnLoad"/> event</summary>
-		protected virtual void OnLoadCall() { this.OnLoad?.Invoke(this.args); }
+		protected virtual void OnLoadCall() { this.OnLoad?.Invoke(); }
 		
 		/// <summary>Calls the <see cref="B3.BaseGame.OnDebugModeChange"/> event</summary>
-		protected virtual void OnDebugModeChangeCall() { this.OnDebugModeChange?.Invoke(this.args); }
+		protected virtual void OnDebugModeChangeCall() { this.OnDebugModeChange?.Invoke(); }
 		
 		/// <summary>Calls the <see cref="B3.BaseGame.OnRender"/> event</summary>
 		/// <param name="args">The arguments that hold the time that elapsed between frames</param>
@@ -164,7 +157,7 @@ namespace B3 {
 		/// <summary>Called when the window is rendering</summary>
 		/// <param name="args">The arguments that hold the time that elapsed between frames</param>
 		private void OnWindowRender(UpdateEventArgs args) {
-			this.Render(this.DefaultProgram);
+			this.Render();
 			this.OnRenderCall(args);
 		}
 		

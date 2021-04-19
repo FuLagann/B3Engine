@@ -35,7 +35,7 @@ namespace B3.Graphics {
 				this.handle = GL.GenVertexArray();
 			}
 			else {
-				game.OnLoad += delegate(EventArgs args) {
+				game.OnLoad += () => {
 					this.handle = GL.GenVertexArray();
 				};
 			}
@@ -69,17 +69,9 @@ namespace B3.Graphics {
 			GL.BindVertexArray(0);
 		}
 		
-		/// <summary>Renders the object with no special shading</summary>
-		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>
-		public void Render(IGame game) { this.Render(game.DefaultProgram); }
-		
-		/// <summary>Renders the object with a specific shading program</summary>
-		/// <param name="program">The shader program used to render the object</param>
-		public void Render(IShaderProgram program) {
+		/// <summary>Renders the object</summary>
+		public void Render() {
 			this.Bind();
-			if(program != null) {
-				program.Use();
-			}
 			GL.DrawArrays(PrimitiveType.Triangles, 0, this.VertexBuffer.Count);
 		}
 		
