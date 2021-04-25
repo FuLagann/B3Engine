@@ -1,6 +1,7 @@
 
 using B3.Events;
 using B3G = B3.Graphics;
+using B3.Graphics.VertexStructures;
 using B3.Utilities;
 
 using OpenTK.Graphics.OpenGL;
@@ -13,22 +14,22 @@ namespace B3.Testing {
 	public static class Program {
 		// Variables
 		private static B3G.ShaderProgram program;
-		private static B3G.Mesh<B3G.Vertex3PCT> mesh;
-		private static B3G.VertexArray<B3G.Vertex3PCT> array;
+		private static B3G.Mesh<Vertex3PCT> mesh;
+		private static B3G.VertexArray<Vertex3PCT> array;
 		private static B3G.FrameBuffer frameBuffer;
 		private static B3G.Texture2D texture;
 		private static B3G.Texture2D texture2;
 		private static B3G.Texture2D texture3;
-		private static B3G.Vertex3PCT[] vertices = new B3G.Vertex3PCT[] {
-			new B3G.Vertex3PCT(new Vector3(0.5f, 0.5f, 0.0f), Color.Red, new Vector2(1.0f, 0.0f)),
-			new B3G.Vertex3PCT(new Vector3(0.5f, -0.5f, 0.0f), Color.Green, new Vector2(1.0f, 1.0f)),
-			new B3G.Vertex3PCT(new Vector3(-0.5f, -0.5f, 0.0f), Color.Blue, new Vector2(0.0f, 1.0f)),
-			new B3G.Vertex3PCT(new Vector3(-0.5f, 0.5f, 0.0f), Color.Magenta, new Vector2(0.0f, 0.0f))
+		private static Vertex3PCT[] vertices = new Vertex3PCT[] {
+			new Vertex3PCT(new Vector3(0.5f, 0.5f, 0.0f), Color.Red, new Vector2(1.0f, 0.0f)),
+			new Vertex3PCT(new Vector3(0.5f, -0.5f, 0.0f), Color.Green, new Vector2(1.0f, 1.0f)),
+			new Vertex3PCT(new Vector3(-0.5f, -0.5f, 0.0f), Color.Blue, new Vector2(0.0f, 1.0f)),
+			new Vertex3PCT(new Vector3(-0.5f, 0.5f, 0.0f), Color.Magenta, new Vector2(0.0f, 0.0f))
 		};
-		private static B3G.Vertex3PCT[] arrayVertices = new B3G.Vertex3PCT[] {
-			new B3G.Vertex3PCT(new Vector3(0.0f, 0.8f, 0.0f), Color.Magenta, new Vector2(0.0f, 0.0f)),
-			new B3G.Vertex3PCT(new Vector3(0.5f, 0.6f, 0.0f), Color.Yellow, new Vector2(1.0f, 0.0f)),
-			new B3G.Vertex3PCT(new Vector3(-0.5f, 0.6f, 0.0f), Color.Yellow, new Vector2(0.5f, 1.0f))
+		private static Vertex3PCT[] arrayVertices = new Vertex3PCT[] {
+			new Vertex3PCT(new Vector3(0.0f, 0.8f, 0.0f), Color.Magenta, new Vector2(0.0f, 0.0f)),
+			new Vertex3PCT(new Vector3(0.5f, 0.6f, 0.0f), Color.Yellow, new Vector2(1.0f, 0.0f)),
+			new Vertex3PCT(new Vector3(-0.5f, 0.6f, 0.0f), Color.Yellow, new Vector2(0.5f, 1.0f))
 		};
 		// private static Vector3[] vertices = new Vector3[] {
 		// 	new Vector3(0.5f, 0.5f, 0.0f),
@@ -60,12 +61,12 @@ namespace B3.Testing {
 				new B3G.Shader(null, B3G.ShaderType.Vertex, FS.Read(vertexFile)),
 				new B3G.Shader(null, B3G.ShaderType.Fragment, FS.Read(fragmentFile))
 			);
-			array = new B3G.VertexArray<B3G.Vertex3PCT>(null, new B3G.VertexBuffer<B3G.Vertex3PCT>(null, arrayVertices, B3G.BufferUsage.StaticDraw));
+			array = new B3G.VertexArray<Vertex3PCT>(null, new B3G.VertexBuffer<Vertex3PCT>(null, arrayVertices, B3G.BufferUsage.StaticDraw));
 			array.Bind();
 			array.Buffer();
-			mesh = new B3G.Mesh<B3G.Vertex3PCT>(
+			mesh = new B3G.Mesh<Vertex3PCT>(
 				null,
-				new B3G.VertexBuffer<B3G.Vertex3PCT>(null, vertices, B3G.BufferUsage.StaticDraw),
+				new B3G.VertexBuffer<Vertex3PCT>(null, vertices, B3G.BufferUsage.StaticDraw),
 				new B3G.IndexBuffer(null, indices, B3G.BufferUsage.StaticDraw)
 			);
 			mesh.Bind();
@@ -96,9 +97,9 @@ namespace B3.Testing {
 		public static void Render(UpdateEventArgs args) {
 			game.Renderer.MeshShaderProgram = program;
 			game.Renderer.Batch(
-				new B3G.Vertex2P(new Vector2(0.5f, 0.5f)),
-				new B3G.Vertex2P(new Vector2(-0.5f, 0.5f)),
-				new B3G.Vertex2P(new Vector2(-0.5f, -0.5f))
+				new Vertex2P(new Vector2(0.5f, 0.5f)),
+				new Vertex2P(new Vector2(-0.5f, 0.5f)),
+				new Vertex2P(new Vector2(-0.5f, -0.5f))
 			);
 			B3G.Renderer.Instance.Batch(
 				new Vector2(-0.5f, -0.5f),

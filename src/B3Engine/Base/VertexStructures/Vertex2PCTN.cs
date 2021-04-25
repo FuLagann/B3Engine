@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace B3.Graphics {
+namespace B3.Graphics.VertexStructures {
 	/// <summary>A vertex structure that holds a 2D position, a color, a texture coordinate, and a normal</summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public struct Vertex2PCTN : IVertexAttributable, IConvertable<Vertex3PC>, IConvertable<Vertex3PCTN> {

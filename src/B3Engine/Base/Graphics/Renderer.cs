@@ -1,4 +1,6 @@
 
+using B3.Graphics.VertexStructures;
+
 namespace B3.Graphics {
 	/// <summary>An abstract class that helps renders</summary>
 	public abstract class Renderer : IRenderable {

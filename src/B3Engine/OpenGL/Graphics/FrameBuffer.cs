@@ -1,5 +1,6 @@
 
 using B3.Events;
+using B3.Graphics.VertexStructures;
 
 using OpenTK.Graphics.OpenGL;
 

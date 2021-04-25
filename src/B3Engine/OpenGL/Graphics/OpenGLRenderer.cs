@@ -1,4 +1,6 @@
 
+using B3.Graphics.VertexStructures;
+
 namespace B3.Graphics {
 	// TODO: Change this to internal
 	/// <summary>An internal class for creating the opengl renderer</summary>

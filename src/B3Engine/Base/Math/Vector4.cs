@@ -1,5 +1,6 @@
 
 using B3.Graphics;
+using B3.Graphics.VertexStructures;
 
 using System.Runtime.InteropServices;
 
