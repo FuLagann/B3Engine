@@ -20,6 +20,7 @@ namespace B3.Graphics {
 		public int Handle { get { return this.handle; } }
 		
 		/// <summary>Gets and sets the list of indices that make up the index buffer</summary>
+		/// <remarks>Remember to <see cref="B3.Graphics.IndexBuffer.Bind"/> and <see cref="B3.Graphics.IndexBuffer.Buffer"/> afterwards</remarks>
 		public uint[] Indices { get { return this.indices; } set {
 			if(this.IsStatic || value == null) {
 				Logger.Warning(this.IsStatic ?
@@ -29,8 +30,6 @@ namespace B3.Graphics {
 				return;
 			}
 			this.indices = value;
-			this.Bind();
-			this.Buffer();
 		} }
 		
 		/// <summary>Gets the size of the index buffer</summary>

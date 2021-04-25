@@ -8,6 +8,9 @@ namespace B3.Graphics {
 		/// <summary>Gets and sets the vertex buffer used by the vertex array</summary>
 		IVertexBuffer<T> VertexBuffer { get; set; }
 		
+		/// <summary>Gets and sets the rendering type of the vertex array</summary>
+		RenderType RenderType { get; set; }
+		
 		#endregion // Properties
 	}
 }

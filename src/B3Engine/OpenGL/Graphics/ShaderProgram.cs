@@ -201,8 +201,29 @@ namespace B3.Graphics {
 			GL.DeleteProgram(this.handle);
 		}
 		
-		#endregion // Public Methods
+		/// <summary>Finds if this shader program and the given shader program are equal</summary>
+		/// <param name="program">The other shader program to find if it's equal</param>
+		/// <returns>Returns true if the two shader programs are the same</returns>
+		public bool Equals(IShaderProgram program) { return this.handle == program.Handle; }
 		
+		/// <summary>Finds if this shader program and the given shader program are equal</summary>
+		/// <param name="obj">The other shader program to find if it's equal</param>
+		/// <returns>Returns true if the two shader programs are the same</returns>
+		public override bool Equals(object obj) {
+			if(obj == null) { return false; }
+			if(obj.GetType().IsSubclassOf(typeof(IShaderProgram))) {
+				return this.Equals(obj as IShaderProgram);
+			}
+			
+			return base.Equals(obj);
+		}
+		
+		/// <summary>Gets the hash code from the shader program</summary>
+		/// <returns>Retyrbs the hash code</returns>
+		public override int GetHashCode() { return this.Handle ^ base.GetHashCode(); }
+
+		#endregion // Public Methods
+
 		#region Private Methods
 		
 		/// <summary>Initializes the shader program</summary>

@@ -14,6 +14,7 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\GraphicsEnumConverter.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\IndexBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\Mesh.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\OpenGLRenderer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\Shader.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\ShaderProgram.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\Texture2D.cs"/>

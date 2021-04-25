@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace B3 {
 	/// <summary>A vector to represent points and directions in 3D space</summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public partial struct Vector3 : IVertexAttributable, System.IEquatable<Vector3>, System.IComparable, System.IComparable<Vector3> {
+	public partial struct Vector3 : IVertexAttributable, IConvertable<Vertex3PC>, IConvertable<Vertex3PCTN>, System.IEquatable<Vector3>, System.IComparable, System.IComparable<Vector3> {
 		#region Field Variables
 		// Variables
 		/// <summary>The x coordinate of the 3D vector</summary>
@@ -648,6 +648,18 @@ namespace B3 {
 		public override string ToString() { return "{ x: " + this.x + ", y: " + this.y + ", z: " + this.z + " }"; }
 		
 		#endregion // Public Methods
+		
+		#region Methods
+		
+		/// <summary>Converts the object into the target convertable object</summary>
+		/// <returns>Returns the converted object</returns>
+		Vertex3PC IConvertable<Vertex3PC>.Convert() { return new Vertex3PC(this, Color.White); }
+		
+		/// <summary>Converts the object into the target convertable object</summary>
+		/// <returns>Returns the converted object</returns>
+		Vertex3PCTN IConvertable<Vertex3PCTN>.Convert() { return new Vertex3PCTN(this, Color.White, Vector2.Zero, Vector3.Zero); }
+		
+		#endregion // Methods
 		
 		#region Operators
 		

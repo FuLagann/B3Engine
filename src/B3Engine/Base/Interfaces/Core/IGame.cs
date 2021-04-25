@@ -2,8 +2,6 @@
 using B3.Events;
 using B3.Graphics;
 
-using System.Collections.Generic;
-
 namespace B3 {
 	/// <summary>An interface for the game, can be easily modified and changed</summary>
 	public interface IGame : IUpdatable, IRenderable, IDebugRenderable, System.IDisposable {
@@ -33,6 +31,9 @@ namespace B3 {
 		
 		/// <summary>Gets if the game has finished initializing</summary>
 		bool IsInitialized { get; }
+		
+		/// <summary>Gets the renderer used by the game for general purpose rendering</summary>
+		Renderer Renderer { get; }
 		
 		#endregion // Properties
 		

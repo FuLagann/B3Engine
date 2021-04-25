@@ -22,15 +22,20 @@ namespace B3.Graphics {
 		/// <summary>Gets the id handle of the buffer that gets generated and used by the graphics library</summary>
 		public int Handle { get { return this.handle; } }
 		
+		/// <summary>Gets and sets the rendering type of the vertex array</summary>
+		public RenderType RenderType { get; set; }
+		
 		#endregion // Public Properties
 		
 		#region Public Constructors
 		
 		/// <summary>A base constructor for a vertex array</summary>
-		/// <param name="game"></param>
-		/// <param name="vertexBuffer"></param>
-		public VertexArray(IGame game, IVertexBuffer<T> vertexBuffer) {
+		/// <param name="game">The game used for setting up the vertex array properly</param>
+		/// <param name="vertexBuffer">The vertex buffer used by the vertex array</param>
+		/// <param name="renderType">The type of rendering done by the vertex array, defaults to <see cref="B3.Graphics.RenderType.Triangles"/></param>
+		public VertexArray(IGame game, IVertexBuffer<T> vertexBuffer, RenderType renderType = RenderType.Triangles) {
 			this.VertexBuffer = vertexBuffer;
+			this.RenderType = renderType;
 			if(game == null || game.IsWindowInitialized) {
 				this.handle = GL.GenVertexArray();
 			}
@@ -72,7 +77,7 @@ namespace B3.Graphics {
 		/// <summary>Renders the object</summary>
 		public void Render() {
 			this.Bind();
-			GL.DrawArrays(PrimitiveType.Triangles, 0, this.VertexBuffer.Count);
+			GL.DrawArrays((PrimitiveType)this.RenderType, 0, this.VertexBuffer.Count);
 		}
 		
 		/// <summary>Disposes of the vertex array</summary>

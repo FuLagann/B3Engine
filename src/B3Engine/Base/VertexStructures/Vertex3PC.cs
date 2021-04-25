@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace B3.Graphics {
 	/// <summary>A vertex structure that holds a 3D position and a color</summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Vertex3PC : IVertexAttributable {
+	public struct Vertex3PC : IVertexAttributable, IConvertable<Vertex3PC>, IConvertable<Vertex3PCTN> {
 		#region Field Variables
 		// Variables
 		/// <summary>The position of the vertex</summary>
@@ -41,5 +41,17 @@ namespace B3.Graphics {
 		}
 		
 		#endregion // Public Methods
+		
+		#region Methods
+		
+		/// <summary>Converts the object into the target convertable object</summary>
+		/// <returns>Returns the converted object</returns>
+		Vertex3PC IConvertable<Vertex3PC>.Convert() { return this; }
+		
+		/// <summary>Converts the object into the target convertable object</summary>
+		/// <returns>Returns the converted object</returns>
+		Vertex3PCTN IConvertable<Vertex3PCTN>.Convert() { return new Vertex3PCTN(this.position, this.color, Vector2.Zero, Vector3.Zero); }
+		
+		#endregion // Methods
 	}
 }

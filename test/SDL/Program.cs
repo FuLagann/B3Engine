@@ -94,7 +94,31 @@ namespace B3.Testing {
 		}
 		
 		public static void Render(UpdateEventArgs args) {
-			frameBuffer.Render();
+			game.Renderer.MeshShaderProgram = program;
+			game.Renderer.Batch(
+				new B3G.Vertex2P(new Vector2(0.5f, 0.5f)),
+				new B3G.Vertex2P(new Vector2(-0.5f, 0.5f)),
+				new B3G.Vertex2P(new Vector2(-0.5f, -0.5f))
+			);
+			B3G.Renderer.Instance.Batch(
+				new Vector2(-0.5f, -0.5f),
+				new Vector2(0.5f, -0.5f),
+				new Vector2(0.5f, 0.5f)
+			);
+			
+			B3G.Renderer renderer = B3G.Renderer.Instance;
+			
+			renderer.Batch(
+				new Vector2(-1.0f, 0.7f),
+				new Vector2(1.0f, 0.7f),
+				new Vector3(0.0f, 0.6f, -0.1f)
+			);
+			renderer.Batch(
+				new Vector3(-0.4f, -0.6f, 0.0f),
+				new Vector3(0.4f, -0.6f, 0.0f)
+			);
+			
+			game.Renderer.Render();
 		}
 	}
 	
@@ -105,8 +129,9 @@ namespace B3.Testing {
 	}
 	
 	public class Game : BaseGame {
-		
-		public Game() : base(new SdlGameWindow()) {}
+		public Game() : base(new SdlGameWindow()) {
+			this.renderer = new B3G.OpenGLRenderer(this);
+		}
 		
 		/// <summary>The callback for setting global uniform variables for shaders</summary>
 		/// <param name="program">The program to set uniforms to</param>

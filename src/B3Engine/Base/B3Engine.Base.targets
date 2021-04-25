@@ -15,8 +15,12 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.T.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\UpdateEventArgs.cs"/>
 		<!-- Graphics -->
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\LineBatcher.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\PointBatcher.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\Renderer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\TexParam.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\TextureType.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Graphics\TriangleBatcher.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\VertexAttributeData.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\VertexAttributeDataType.cs"/>
 		<!-- Helpers -->
@@ -42,6 +46,7 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Input\SystemCursorType.cs"/>
 		<!-- Interfaces -->
 		<!-- Interfaces/Core -->
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IConvertable.T.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IDebugRenderable.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IDialogWindow.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\IGame.cs"/>
@@ -53,6 +58,7 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Core\WindowMode.cs"/>
 		<!-- Interfaces/Graphics -->
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\BufferUsage.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IBatcher.T.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IFrameBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IGraphicsBuffer.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IIndexBuffer.cs"/>
@@ -64,6 +70,7 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IVertexArray.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IVertexAttributable.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\IVertexBuffer.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\RenderType.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Interfaces\Graphics\ShaderType.cs"/>
 		<!-- Math -->
 		<Compile Include="$(MSBuildThisFileDirectory)Math\BezierCurve.cs"/>

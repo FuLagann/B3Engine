@@ -35,6 +35,7 @@ namespace B3.Graphics {
 		public BufferUsage BufferUsageType { get { return this.type; } set { this.type = value; } }
 		
 		/// <summary>Gets and sets the data within the buffer</summary>
+		/// <remarks>Remember to <see cref="B3.Graphics.VertexBuffer{T}.Bind"/> and <see cref="B3.Graphics.VertexBuffer{T}.Buffer"/> afterwards</remarks>
 		public T[] Vertices { get { return this.vertices; } set {
 			if(this.IsStatic || value == null) {
 				Logger.Warning(this.IsStatic ?
@@ -44,8 +45,6 @@ namespace B3.Graphics {
 				return;
 			}
 			this.vertices = value;
-			this.Bind();
-			this.Buffer();
 		} }
 		
 		/// <summary>Gets the id handle of the buffer that gets generated and used by the graphics library</summary>

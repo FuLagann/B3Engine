@@ -25,6 +25,9 @@ namespace B3.Graphics {
 		/// <summary>Gets and sets the index buffer of the mesh</summary>
 		public IIndexBuffer IndexBuffer { get; set; }
 		
+		/// <summary>Gets and sets the rendering type of the vertex array</summary>
+		public RenderType RenderType { get; set; }
+		
 		#endregion // Public Properties
 		
 		#region Public Constructors
@@ -33,9 +36,11 @@ namespace B3.Graphics {
 		/// <param name="game">The game used to make sure OpenGL was loaded in correctly</param>
 		/// <param name="vertexBuffer">The vertex buffer used to get all the vertex data</param>
 		/// <param name="indexBuffer">The index buffer used to</param>
-		public Mesh(IGame game, IVertexBuffer<T> vertexBuffer, IIndexBuffer indexBuffer) {
+		/// <param name="renderType">The type of rendering done for the mesh, defaults to <see cref="B3.Graphics.RenderType.Triangles"/></param>
+		public Mesh(IGame game, IVertexBuffer<T> vertexBuffer, IIndexBuffer indexBuffer, RenderType renderType = RenderType.Triangles) {
 			this.VertexBuffer = vertexBuffer;
 			this.IndexBuffer = indexBuffer;
+			this.RenderType = renderType;
 			if(game == null || game.IsWindowInitialized) {
 				this.handle = GL.GenVertexArray();
 			}
@@ -78,7 +83,7 @@ namespace B3.Graphics {
 		/// <summary>Renders the object</summary>
 		public void Render() {
 			this.Bind();
-			GL.DrawElements(PrimitiveType.Triangles, this.IndexBuffer.Count, DrawElementsType.UnsignedInt, 0);
+			GL.DrawElements((PrimitiveType)this.RenderType, this.IndexBuffer.Count, DrawElementsType.UnsignedInt, 0);
 		}
 		
 		/// <summary>Disposes of the mesh</summary>

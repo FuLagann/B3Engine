@@ -7,6 +7,8 @@ namespace B3 {
 	public abstract class BaseGame : IGame {
 		#region Field Variables
 		// Variables
+		/// <summary>The renderer used by the game</summary>
+		protected Renderer renderer;
 		private IGameWindow window;
 		private bool isInitialized;
 		private bool debugMode;
@@ -42,6 +44,9 @@ namespace B3 {
 		
 		/// <summary>Gets if the game has finished initializing</summary>
 		public bool IsInitialized { get { return this.IsWindowInitialized && this.isInitialized; } }
+		
+		/// <summary>Gets the renderer used by the game for general purpose rendering</summary>
+		public Renderer Renderer { get { return this.renderer; } }
 		
 		#endregion // Public Properties
 		
