@@ -39,7 +39,7 @@ namespace B3.Graphics {
 		/// <summary>Sends the batcher a single point to render</summary>
 		/// <param name="point">The point to render</param>
 		public void Batch(ref T point) {
-			if(this.Count >= this.BatchSize) {
+			if(this.BatchSize > 0 && this.Count >= this.BatchSize) {
 				this.Flush();
 			}
 			

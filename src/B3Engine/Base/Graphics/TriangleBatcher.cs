@@ -50,7 +50,7 @@ namespace B3.Graphics {
 		/// <param name="triB">The second point that makes a triangle</param>
 		/// <param name="triC">The third point that makes a triangle</param>
 		public void Batch(ref T triA, ref T triB, ref T triC) {
-			if(this.Count >= this.BatchSize) {
+			if(this.BatchSize > 0 && this.Count >= this.BatchSize) {
 				this.Flush();
 			}
 			

@@ -1,6 +1,4 @@
 
-using B3.Events;
-
 using OpenTK.Graphics.OpenGL;
 
 using TKShaderType = OpenTK.Graphics.OpenGL.ShaderType;

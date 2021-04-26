@@ -96,7 +96,7 @@ namespace B3 {
 		public virtual void Update(float delta) {}
 		
 		/// <summary>Renders the object</summary>
-		public void Render() {}
+		public virtual void Render() {}
 		
 		/// <summary>Renders the object when debugging mode is on using a specific shader program</summary>
 		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>

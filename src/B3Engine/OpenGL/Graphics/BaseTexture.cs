@@ -1,6 +1,4 @@
 
-using B3.Events;
-
 using OpenTK.Graphics.OpenGL;
 
 namespace B3.Graphics {

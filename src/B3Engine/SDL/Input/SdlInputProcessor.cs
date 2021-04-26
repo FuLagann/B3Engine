@@ -43,6 +43,7 @@ namespace B3.Utilities {
 			float normedAxis = 0.0f;
 			
 			for(int i = 0; i < state.Length; i++) {
+				// TODO: This makes the keyboard input release, change this to events
 				keyboard[(Keys)i] = state[i];
 			}
 			keyboard.CheckForClearing();

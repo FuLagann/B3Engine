@@ -1,6 +1,4 @@
 
-using B3.Events;
-
 using OpenTK.Graphics.OpenGL;
 
 using System.Runtime.InteropServices;

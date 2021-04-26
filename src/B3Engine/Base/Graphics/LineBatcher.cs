@@ -44,7 +44,7 @@ namespace B3.Graphics {
 		/// <param name="segA">The first point that makes a line segment</param>
 		/// <param name="segB">The second point that makes a line segment</param>
 		public void Batch(ref T segA, ref T segB) {
-			if(this.Count >= this.BatchSize) {
+			if(this.BatchSize > 0 && this.Count >= this.BatchSize) {
 				this.Flush();
 			}
 			
@@ -54,6 +54,9 @@ namespace B3.Graphics {
 			
 			lines.Add(segA);
 			lines.Add(segB);
+			
+			buffer.Vertices = lines.ToArray();
+			this.array.VertexBuffer = buffer;
 		}
 		
 		/// <summary>Sends the batcher three points to render a triangle</summary>
