@@ -6,6 +6,8 @@ namespace B3.Utilities {
 	public class SdlInputProcessor : IInputProcessor {
 		#region Field Variables
 		// Variables
+		private Queue<Keys> keyDown;
+		private Queue<Keys> keyUp;
 		private Vector2 mousePos;
 		private float mouseWheel;
 		private bool shouldConnectController;
@@ -19,6 +21,8 @@ namespace B3.Utilities {
 			this.mousePos = Vector2.Zero;
 			this.mouseWheel = 0.0f;
 			this.shouldConnectController = true;
+			this.keyDown = new Queue<Keys>();
+			this.keyUp = new Queue<Keys>();
 			
 			SDL.OnEvent += this.InputEventsCallback;
 		}
@@ -37,14 +41,19 @@ namespace B3.Utilities {
 		/// <param name="gamepads">The reference to an array of gamepad's input structure</param>
 		public void ProcessInput(ref KeyboardState keyboard, ref MouseState mouse, ref GamepadState generalGamepad, ref GamepadState[] gamepads) {
 			// Variables
+			Keys key;
 			InputState[] state = SDL.GetKeyboardState();
 			bool pressed = false;
 			short axis = 0;
 			float normedAxis = 0.0f;
 			
-			for(int i = 0; i < state.Length; i++) {
-				// TODO: This makes the keyboard input release, change this to events
-				keyboard[(Keys)i] = state[i];
+			while(this.keyUp.Count > 0) {
+				key = this.keyUp.Dequeue();
+				keyboard[key] = InputState.Released;
+			}
+			while(this.keyDown.Count > 0) {
+				key = this.keyDown.Dequeue();
+				keyboard[key] = InputState.Pressed;
 			}
 			keyboard.CheckForClearing();
 			
@@ -117,6 +126,12 @@ namespace B3.Utilities {
 		private void InputEventsCallback(SDL.Event e) {
 			if(e.type == SDL.EventType.MouseWheel) {
 				this.mouseWheel += e.mouseWheel.y;
+			}
+			if(e.type == SDL.EventType.KeyDown) {
+				this.keyDown.Enqueue(e.keyboard.keySymbol.Key);
+			}
+			if(e.type == SDL.EventType.KeyUp) {
+				this.keyUp.Enqueue(e.keyboard.keySymbol.Key);
 			}
 		}
 		
