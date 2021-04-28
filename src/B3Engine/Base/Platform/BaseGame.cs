@@ -84,12 +84,16 @@ namespace B3 {
 		
 		#region Public Methods
 		
-		/// <summary>The callback for setting global uniform variables for shaders</summary>
-		/// <param name="program">The program to set uniforms to</param>
-		public abstract void GlobalSetUniforms(IShaderProgram program);
-		
 		/// <summary>Initializes the game</summary>
 		public abstract void Initialize();
+		
+		/// <summary>The callback for setting global uniform variables for shaders</summary>
+		/// <param name="program">The program to set uniforms to</param>
+		public virtual void GlobalSetUniforms(IShaderProgram program) {
+			program.SendUniform("time", Time.TotalTime);
+			program.SendUniform("mouse", Input.Mouse.Position);
+			program.SendUniform("resolution", this.window.Size);
+		}
 		
 		/// <summary>Updates the object</summary>
 		/// <param name="delta">The time elapsed between frames</param>

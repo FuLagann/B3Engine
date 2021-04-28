@@ -80,7 +80,7 @@ namespace B3.Testing {
 				// Variables
 				B3G.ShaderProgram prog = args.Sender as B3G.ShaderProgram;
 				
-				prog.SendUniform("uTime", (float)Time.TotalTime.TotalSeconds);
+				prog.SendUniform("uTime", Time.TotalTime);
 				prog.SendUniform("uCursor", Input.Mouse.Position);
 				prog.SendUniform("tex", texture, 0);
 				prog.SendUniform("tex2", texture2, 1);

@@ -19,7 +19,9 @@ namespace B3 {
 		
 		/// <summary>The callback for setting global uniform variables for shaders</summary>
 		/// <param name="program">The program to set uniforms to</param>
-		public override void GlobalSetUniforms(IShaderProgram program) {}
+		public override void GlobalSetUniforms(IShaderProgram program) {
+			base.GlobalSetUniforms(program);
+		}
 		
 		/// <summary>Initializes the game</summary>
 		public override void Initialize() {}

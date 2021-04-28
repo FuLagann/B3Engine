@@ -2,14 +2,14 @@
 using B3.Graphics;
 using B3.Graphics.VertexStructures;
 
-using OpenTK.Graphics.OpenGL;
+using TK = OpenTK.Graphics.OpenGL;
 
 namespace B3.Testing {
 	public sealed class GlslGame : Game {
 		#region Field Variables
 		// Variables
 		private bool[] held;
-		private IShaderProgram program;
+		private IShaderProgram defaultProgram;
 		
 		#endregion // Field Variables
 		
@@ -24,12 +24,20 @@ namespace B3.Testing {
 
 		#region Public Methods
 
+		public override void Initialize() {
+			this.defaultProgram = new ShaderProgram(
+				this,
+				new Shader(this, ShaderType.Vertex, FS.Read(FS.BasePath + "default.vert.glsl")),
+				new Shader(this, ShaderType.Fragment, FS.Read(FS.BasePath + "default.frag.glsl"))
+			);
+		}
+
+		
 		public override void Update(float delta) {
+			// TODO: Add empty shader program
 			if(Input.IsDown(Keys.One) && !this.held[0]) {
-				Logger.Log($"Hello");
 				this.held[0] = true;
-				// TODO: Fix input
-				// TODO: Add empty shader program
+				this.renderer.MeshShaderProgram = this.defaultProgram;
 			}
 			else if(this.held[0] && !Input.IsDown(Keys.One)) {
 				this.held[0] = false;
@@ -38,19 +46,19 @@ namespace B3.Testing {
 
 		
 		public override void Render() {
-			GL.ClearColor(1.0f, 0.0f, 1.0f, 1.0f);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			TK.GL.ClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+			TK.GL.Clear(TK.ClearBufferMask.ColorBufferBit | TK.ClearBufferMask.DepthBufferBit);
 			
 			this.renderer.Batch(
-				new Vector2(0.5f, 0.5f),
-				new Vector2(-0.5f, 0.5f),
-				new Vector2(-0.5f, -0.5f)
+				new Vector2(1.0f, 1.0f),
+				new Vector2(-1.0f, 1.0f),
+				new Vector2(-1.0f, -1.0f)
 			);
 			
 			this.renderer.Batch(
-				new Vector2(-0.5f, -0.5f),
-				new Vector2(0.5f, -0.5f),
-				new Vector2(0.5f, 0.5f)
+				new Vector2(-1.0f, -1.0f),
+				new Vector2(1.0f, -1.0f),
+				new Vector2(1.0f, 1.0f)
 			);
 			
 			this.renderer.Render();

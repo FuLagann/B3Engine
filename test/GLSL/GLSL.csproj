@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\build\B3Engine.OpenGL.csproj" />
+    <None Update="default.vert.glsl" CopyToOutputDirectory="Always" />
+    <None Update="default.frag.glsl" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <PropertyGroup>
