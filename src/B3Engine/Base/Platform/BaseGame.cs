@@ -10,6 +10,7 @@ namespace B3 {
 		/// <summary>The renderer used by the game</summary>
 		protected Renderer renderer;
 		private IGameWindow window;
+		private EventBus bus;
 		private bool isInitialized;
 		private bool debugMode;
 		
@@ -48,6 +49,9 @@ namespace B3 {
 		/// <summary>Gets the renderer used by the game for general purpose rendering</summary>
 		public Renderer Renderer { get { return this.renderer; } }
 		
+		/// <summary>Gets the event bus used by the game</summary>
+		public EventBus EventBus { get { return this.bus; } }
+		
 		#endregion // Public Properties
 		
 		#region Public Events
@@ -77,6 +81,7 @@ namespace B3 {
 			this.ClearColor = new Color(0x6AB4E6);
 			this.DefaultProgram = null;
 			this.isInitialized = false;
+			this.bus = new EventBus(this);
 			//this.managers = new Dictionary<ManagerType, IManager>();
 		}
 		

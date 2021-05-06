@@ -11,8 +11,10 @@
 	<ItemGroup>
 		<!-- Events -->
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventArgs.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Events\EventBus.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventHandler.T.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Events\SubscribeAttribute.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Events\UpdateEventArgs.cs"/>
 		<!-- Graphics -->
 		<Compile Include="$(MSBuildThisFileDirectory)Graphics\LineBatcher.cs"/>

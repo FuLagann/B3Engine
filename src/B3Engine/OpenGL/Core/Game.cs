@@ -10,7 +10,12 @@ namespace B3 {
 		
 		/// <summary>A base constructor that sets up the game</summary>
 		public Game() : base(new SdlGameWindow()) {
-			this.renderer = new OpenGLRenderer(this);
+			if(B3.Graphics.Renderer.Instance == null) {
+				this.renderer = new OpenGLRenderer(this);
+			}
+			else {
+				this.renderer = B3.Graphics.Renderer.Instance;
+			}
 		}
 		
 		#endregion // Public Constructor

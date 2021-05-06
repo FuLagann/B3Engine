@@ -5,6 +5,7 @@ namespace B3.Events {
 		#region Field Variables
 		// Variables
 		private object sender;
+		internal bool shouldStopPropagation;
 		
 		#endregion // Field Variables
 		
@@ -21,6 +22,7 @@ namespace B3.Events {
 		/// <param name="sender">The object that is creating the event</param>
 		public EventArgs(object sender) {
 			this.sender = sender;
+			this.shouldStopPropagation = false;
 		}
 		
 		#endregion // Public Constructor
@@ -31,6 +33,9 @@ namespace B3.Events {
 		/// <typeparam name="T">The type to cast to</typeparam>
 		/// <returns>Returns the casted sender</returns>
 		public T GetSender<T>() { return (T)this.sender; }
+		
+		/// <summary>Stops the event from propagating, making further registered methods not receive the event</summary>
+		public void StopPropagation() { this.shouldStopPropagation = true; }
 		
 		#endregion // Public Methods
 	}
