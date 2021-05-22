@@ -3,139 +3,336 @@ using Xunit;
 using Xunit.Abstractions;
 
 namespace B3.Events.Testing {
+	/// <summary>Tests the <see cref="B3.Events.EventBus"/> class to make sure it works correctly. Contains 21 tests</summary>
 	public class EventBusTest {
-		// Variables
-		private ITestOutputHelper output;
-		private string name;
+		#region Public Test Methods
 		
-		public EventBusTest(ITestOutputHelper output) {
-			this.output = output;
-			this.name = "";
-		}
+		#region Register Tests
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Register(object)"/> functionality.
+		/// Uses only a single class as a subscriber.
+		/// Should alter the data into 123 and checks for that
+		/// </summary>
 		[Fact]
-		public void Listen_Unlisten_Emit() {
+		public void Register_SingleSubscriber_Returns123() {
 			// Variables
 			EventBus bus = new EventBus();
-			DummyClass dummy = new DummyClass(this);
-			string id;
+			DataObject dataObj = new DataObject();
 			
-			Logger.Output = new TestLogger(this);
+			bus.Register(new DataShifter_123(dataObj));
+			bus.Emit<EventArgs>(new EventArgs(this));
 			
-			this.name = "Testing 123";
+			Assert.Equal("123", dataObj.data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Register(object)"/> functionality.
+		/// Uses only a single class as a subscriber that has priorities set.
+		/// Should alter the data into 24351 and checks for that
+		/// </summary>
+		[Fact]
+		public void Register_SingleSubscriberWithPriority_Returns24351() {
+			// Variables
+			EventBus bus = new EventBus();
+			DataObject dataObj = new DataObject();
 			
-			id = bus.Register((EventArgs args) => {
-				Assert.Equal("Regular priority", this.name);
-			});
-			bus.Register(dummy);
-			bus.Register(new DummyClass2(this));
-			
+			bus.Register(new DataShifter_24351(dataObj));
 			bus.Emit(new EventArgs(this));
-			bus.Emit(new UpdateEventArgs(this, 10.4f));
 			
-			bus.Unregister(dummy);
+			Assert.Equal("24351", dataObj.data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Register(object)"/> functionality.
+		/// Uses two classes that are subscribers. First one adds in 123, second one add in 24351 but as priorities
+		/// Should alter the data into 24123351 and checks for that
+		/// </summary>
+		[Fact]
+		public void Register_MultipleSubscribers_Returns24123351() {
+			// Variables
+			EventBus bus = new EventBus();
+			DataObject dataObj = new DataObject();
 			
-			Assert.Throws<System.Reflection.TargetInvocationException>(() => {
-				bus.Emit(new UpdateEventArgs(this, 10.0f));
+			bus.Register(new DataShifter_123(dataObj));
+			bus.Register(new DataShifter_24351(dataObj));
+			bus.Emit(new EventArgs(this));
+			
+			Assert.Equal("24123351", dataObj.data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Register(object)"/> functionality.
+		/// Uses a single subscriber class.
+		/// Should only fire off one type of argument and alter the data into 4 and checks for that
+		/// </summary>
+		[Fact]
+		public void Register_SingleSubscriberDifferentArgument_Returns4() {
+			// Variables
+			EventBus bus = new EventBus();
+			DataObject dataObj = new DataObject();
+			
+			bus.Register(new DataShifter_123(dataObj));
+			bus.Emit(new UpdateEventArgs(this, 0.0f));
+			
+			Assert.Equal("4", dataObj.data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Register{TArgs}(EventHandler{TArgs})"/> functionality.
+		/// Uses a single delegate.
+		/// Should alter the data into "Hello World!" and checks for that
+		/// </summary>
+		[Fact]
+		public void Register_Delegate_ReturnsHelloWorld() {
+			// Variables
+			EventBus bus = new EventBus();
+			string data = "Incorrect";
+			
+			bus.Register(delegate(EventArgs args) {
+				data = "Hello World!";
+			});
+			bus.Emit(new EventArgs(this));
+			
+			Assert.Equal("Hello World!", data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Register{TArgs}(EventHandler{TArgs})"/> functionality.
+		/// Uses a single lambda method.
+		/// Should alter the data into the input string and checks for that
+		/// </summary>
+		[Theory]
+		[InlineData("123")]
+		[InlineData("Hello World!")]
+		[InlineData("Should change")]
+		public void Register_Lambda_ReturnsInputString(string expected) {
+			// Variables
+			EventBus bus = new EventBus();
+			string data = "Incorrect";
+			
+			bus.Register((EventArgs args) => {
+				data = expected;
+			});
+			bus.Emit(new EventArgs(this));
+			
+			Assert.Equal(expected, data);
+		}
+		
+		#endregion // Register Tests
+		
+		#region Unregister Tests
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Unregister(object)"/> functionality.
+		/// Uses a single subscriber class.
+		/// Should not alter any data and checks if its the same as the input string
+		/// </summary>
+		/// <param name="expected">The input string to check for and expect</param>
+		[Theory]
+		[InlineData("123")]
+		[InlineData("Hello World!")]
+		[InlineData("Nothing should change")]
+		public void Unregister_SingleSubscriber_ReturnsInputString(string expected) {
+			// Variables
+			EventBus bus = new EventBus();
+			DataObject dataObj = new DataObject(expected);
+			DataShifter_123 shifter = new DataShifter_123(dataObj);
+			
+			bus.Register(shifter);
+			bus.Unregister(shifter);
+			bus.Emit(new EventArgs(this));
+			
+			Assert.Equal(expected, dataObj.data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Unregister(object)"/> functionality.
+		/// Uses two subscriber classes.
+		/// Should not alter any data and checks if its the same as the input string
+		/// </summary>
+		/// <param name="expected">The input string to check for and expect</param>
+		[Theory]
+		[InlineData("123")]
+		[InlineData("Hello World!")]
+		[InlineData("Nothing should change")]
+		public void Unregister_MultipleSubscribers_ReturnsInputString(string expected) {
+			// Variables
+			EventBus bus = new EventBus();
+			DataObject dataObj = new DataObject(expected);
+			DataShifter_123 shifter = new DataShifter_123(dataObj);
+			
+			bus.Register(shifter);
+			bus.Register(new DataShifter_24351(dataObj));
+			bus.Unregister(shifter);
+			bus.Unregister(new DataShifter_24351(dataObj));
+			bus.Emit(new EventArgs(this));
+			
+			Assert.Equal(expected, dataObj.data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Unregister(object)"/> functionality.
+		/// Uses two subscriber classes, but only removes one of them.
+		/// Should alter the data into 123 and checks for that
+		/// </summary>
+		[Fact]
+		public void Unregister_MultipleSubscribers_Returns123() {
+			// Variables
+			EventBus bus = new EventBus();
+			DataObject dataObj = new DataObject();
+			
+			bus.Register(new DataShifter_123(dataObj));
+			bus.Register(new DataShifter_24351(dataObj));
+			bus.Unregister(new DataShifter_24351(dataObj));
+			bus.Emit(new EventArgs(this));
+			
+			Assert.Equal("123", dataObj.data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Unregister{TArgs}(string)"/> functionality.
+		/// Uses a delegate.
+		/// Should not alter the data
+		/// </summary>
+		/// <param name="expected"></param>
+		[Theory]
+		[InlineData("123")]
+		[InlineData("Hello World!")]
+		[InlineData("Nothing should change")]
+		public void Unregister_Delegate_ReturnsInputString(string expected) {
+			// Variables
+			EventBus bus = new EventBus();
+			DataObject dataObj = new DataObject(expected);
+			string id = "";
+			
+			id = bus.Register(delegate(EventArgs args) {
+				dataObj.data += "Incorrect";
 			});
 			bus.Unregister<EventArgs>(id);
 			bus.Emit(new EventArgs(this));
-			this.name = "Regular priority";
-			bus.Unregister(new DummyClass2(this));
+			
+			Assert.Equal(expected, dataObj.data);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Events.EventBus.Unregister{TArgs}(string)"/> functionality.
+		/// Uses two lambdas and removes only one of them.
+		/// Should alter the data to add 1 to the input string
+		/// </summary>
+		[Theory]
+		[InlineData("123")]
+		[InlineData("Hello World!")]
+		[InlineData("Nothing should change")]
+		public void Unregister_Lambda_ReturnsInputString1(string expected) {
+			// Variables
+			EventBus bus = new EventBus();
+			DataObject dataObj = new DataObject(expected);
+			string id = "";
+			
+			id = bus.Register((EventArgs args) => {
+				dataObj.data += "Incorrect";
+			});
+			bus.Register((EventArgs args) => {
+				dataObj.data += "1";
+			});
+			bus.Unregister<EventArgs>(id);
 			bus.Emit(new EventArgs(this));
 			
-			Logger.Output = Logger.DefaultOutput;
+			Assert.Equal($"{expected}1", dataObj.data);
 		}
 		
-		public class TestLogger : ILoggerOutput {
+		#endregion // Unregister Tests
+		
+		#endregion // Public Test Methods
+		
+		#region Nested Objects
+		
+		private class DataObject {
+			#region Field Variables
 			// Variables
-			EventBusTest test;
+			public string data;
 			
-			public TestLogger(EventBusTest test) {
-				this.test = test;
+			#endregion // Field Variables
+			
+			#region Public Constructors
+			
+			public DataObject(string data) {
+				this.data = data;
 			}
 			
-			/// <summary>Writes to the output with a newline at the end</summary>
-			/// <param name="output">The string to output</param>
-			public void WriteLine(string output) {
-				this.test.output.WriteLine(output);
-			}
+			public DataObject() : this("") {}
 			
-			/// <summary>Writes to the output without a newline at the end</summary>
-			/// <param name="output">The string to output</param>
-			public void Write(string output) { this.WriteLine(output); }
+			#endregion // Public Constructors
 		}
 		
-		public class DummyClass {
+		/// <summary>Changes the data object into adding 123 into it's data</summary>
+		private class DataShifter_123 {
+			#region Field Variables
 			// Variables
-			EventBusTest test;
+			public DataObject dataObj;
 			
-			public DummyClass(EventBusTest test) {
-				this.test = test;
+			#endregion // Field Variables
+			
+			#region Public Constructors
+			
+			public DataShifter_123(DataObject dataObj) {
+				this.dataObj = dataObj;
 			}
+			
+			#endregion // Public Constructors
+			
+			#region Public Methods
+			
+			[Subscribe]
+			public void Add1(EventArgs args) { this.dataObj.data += "1"; }
+			
+			[Subscribe]
+			public void Add2(EventArgs args) { this.dataObj.data += "2"; }
+			
+			[Subscribe]
+			public void Add3(EventArgs args) { this.dataObj.data += "3"; }
+			
+			[Subscribe]
+			public void Add4(UpdateEventArgs args) { this.dataObj.data += "4"; }
+			
+			#endregion // Public Methods
+		}
+		
+		private class DataShifter_24351 {
+			#region Field Variables
+			// Variables
+			public DataObject dataObj;
+			
+			#endregion // Field Variables
+			
+			#region Public Constructors
+			
+			public DataShifter_24351(DataObject dataObj) {
+				this.dataObj = dataObj;
+			}
+			
+			#endregion // Public Constructors
+			
+			#region Public Methods
 			
 			[Subscribe(Priority = -1)]
-			public void CalledLast(EventArgs args) {
-				Assert.Equal("Last Testing Call", this.test.name);
-			}
-			
-			[Subscribe]
-			public void CalledWithRegularPriority(EventArgs args) {
-				Assert.Equal("Regular priority", this.test.name);
-				this.test.name = "Last Testing Call";
-			}
-			
-			[Subscribe]
-			public void AlsoCalledWithRegularPriority(EventArgs args) {
-				Assert.NotEqual("Regular priority", this.test.name);
-			}
-			
-			[Subscribe(Priority = 2)]
-			public void CalledFirst(EventArgs args) {
-				Assert.Equal("Testing 123", this.test.name);
-				this.test.name = "Going down a priority";
-			}
+			public void Add1(EventArgs args) { this.dataObj.data +=  "1"; }
 			
 			[Subscribe(Priority = 1)]
-			public void CalledSecond(EventArgs args) {
-				Assert.Equal("Going down a priority", this.test.name);
-				this.test.name = "Regular priority";
-			}
-			
-			[Subscribe(Priority = 100)]
-			public void StopsPropagation(UpdateEventArgs args) {
-				Assert.Equal(10.4f, args.DeltaTime);
-				args.StopPropagation();
-			}
+			public void Add2(EventArgs args) { this.dataObj.data += "2"; }
 			
 			[Subscribe]
-			public void ThrowsException(UpdateEventArgs args) {
-				throw new System.NotImplementedException();
-			}
+			public void Add3(EventArgs args) { this.dataObj.data += "3"; }
+			
+			[Subscribe(Priority = 1)]
+			public void Add4(EventArgs args) { this.dataObj.data += "4"; }
 			
 			[Subscribe]
-			public void AlsoThrowsException(UpdateEventArgs args) {
-				throw new System.NotImplementedException();
-			}
+			public void Add5(EventArgs args) { this.dataObj.data += "5"; }
+			
+			#endregion // Public Methods
 		}
-		
-		public class DummyClass2 {
-			// Variables
-			EventBusTest test;
-			
-			public DummyClass2(EventBusTest test) {
-				this.test = test;
-			}
-			
-			[Subscribe]
-			public void AlsoHasRegularPriorty(EventArgs args) {
-				Assert.NotEqual("Regular priority", this.test.name);
-			}
-			
-			[Subscribe(Priority = 100)]
-			public void ThrowsException(UpdateEventArgs args) {
-				throw new System.NotImplementedException();
-			}
-		}
+		#endregion // Nested Objects
 	}
 }

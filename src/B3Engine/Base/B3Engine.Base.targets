@@ -89,8 +89,6 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Math\Matrix.cs"/>
 		<!-- <Compile Include="$(MSBuildThisFileDirectory)Math\Plane.Boundary.cs"/> -->
 		<Compile Include="$(MSBuildThisFileDirectory)Math\Plane.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Math\Polygon.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Math\Polyhedron.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Math\Quaternion.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Math\Random.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Math\Ray.cs"/>

@@ -5,6 +5,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Version>0.1.0.0</Version>
+		<Configuration>Debug</Configuration>
 	</PropertyGroup>
 	
 	<Import Project="$(MSBuildProjectDirectory)\..\src\B3Engine\Base\B3Engine.Base.targets" Condition="'!$(InternalConstants.Contains(`__b3engine_base__`))'"/>
