@@ -30,6 +30,12 @@ namespace B3.Testing {
 				new Shader(this, ShaderType.Vertex, FS.Read(FS.BasePath + "default.vert.glsl")),
 				new Shader(this, ShaderType.Fragment, FS.Read(FS.BasePath + "default.frag.glsl"))
 			);
+			Logger.Warning("Testing");
+			Logger.Log("", false);
+			Logger.Log("Hello", false, "red");
+			Logger.Log(" World!");
+			Logger.Error("Testing");
+			Logger.Log("world");
 		}
 
 		

@@ -12,6 +12,14 @@ namespace B3 {
 		/// <param name="output">The string to output</param>
 		void Write(string output);
 		
+		/// <summary>Starts coloring the log message</summary>
+		/// <param name="colorName">The name of the color to color code the message with</param>
+		string ColorCodeStart(string colorName);
+		
+		/// <summary>Ends coloring the log message</summary>
+		/// <param name="colorName">The name of the color to color code the message with</param>
+		string ColorCodeEnd(string colorName);
+		
 		#endregion // Methods
 	}
 }

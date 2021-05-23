@@ -47,8 +47,9 @@ namespace B3 {
 		/// <summary>Logs the given object</summary>
 		/// <param name="obj">The object to log</param>
 		/// <param name="newline">Set to true if you want the log to create a new line afterwards</param>
+		/// <param name="colorName">The color to color code the message with</param>
 		/// <param name="loggingType">The type of log the report; either info, warning, or error</param>
-		public static void Log(object obj, bool newline = true, LoggingType loggingType = LoggingType.Info) {
+		public static void Log(object obj, bool newline = true, string colorName = "", LoggingType loggingType = LoggingType.Info) {
 			if(OutputOnDebugOnly && !IsInDebugMode) {
 				return;
 			}
@@ -65,18 +66,18 @@ namespace B3 {
 				
 				if(obj == null) {
 					if(isPrevNewline) {
-						Write(newline, $"{prefix} Object presented is null");
+						Write(newline, $"{prefix} Object presented is null", colorName);
 					}
 					else {
-						Write(newline, "");
+						Write(newline, "", colorName);
 					}
 				}
 				else {
 					if(isPrevNewline) {
-						Write(newline, $"{prefix} {obj}");
+						Write(newline, $"{prefix} {obj}", colorName);
 					}
 					else {
-						Write(newline, obj.ToString());
+						Write(newline, obj.ToString(), colorName);
 					}
 				}
 			}
@@ -86,18 +87,18 @@ namespace B3 {
 				
 				if(obj == null) {
 					if(isPrevNewline) {
-						Write(newline, $"{prefix} ");
+						Write(newline, $"{prefix} ", colorName);
 					}
 					else {
-						Write(newline, "");
+						Write(newline, "", colorName);
 					}
 				}
 				else {
 					if(isPrevNewline) {
-						Write(newline, $"{prefix} {obj}");
+						Write(newline, $"{prefix} {obj}", colorName);
 					}
 					else {
-						Write(newline, obj.ToString());
+						Write(newline, obj.ToString(), colorName);
 					}
 				}
 			}
@@ -107,9 +108,10 @@ namespace B3 {
 		/// <summary>Logs the given object as informational</summary>
 		/// <param name="obj">The object to log</param>
 		/// <param name="newline">Set to true if you want the log to create a new line afterwards</param>
-		public static void Info(object obj, bool newline = true) {
+		/// <param name="colorName">The color to color code the message with</param>
+		public static void Info(object obj, bool newline = true, string colorName = "") {
 			frameDistance = 2;
-			Log(obj, newline, LoggingType.Info);
+			Log(obj, newline, colorName, LoggingType.Info);
 			frameDistance = 1;
 		}
 		
@@ -118,7 +120,7 @@ namespace B3 {
 		/// <param name="newline">Set to true if you want the log to create a new line afterwards</param>
 		public static void Warning(object obj, bool newline = true) {
 			frameDistance = 2;
-			Log(obj, newline, LoggingType.Warning);
+			Log(obj, newline, "yellow", LoggingType.Warning);
 			frameDistance = 1;
 		}
 		
@@ -127,7 +129,7 @@ namespace B3 {
 		/// <param name="newline">Set to true if you want the log to create a new line afterwards</param>
 		public static void Error(object obj, bool newline = true) {
 			frameDistance = 2;
-			Log(obj, newline, LoggingType.Error);
+			Log(obj, newline, "red", LoggingType.Error);
 			frameDistance = 1;
 		}
 		
@@ -138,9 +140,22 @@ namespace B3 {
 		/// <summary>Writes the content to the output</summary>
 		/// <param name="addNewline">Set to true to have the content write out to a new line</param>
 		/// <param name="content">The content to write out</param>
-		private static void Write(bool addNewline, string content) {
-			if(addNewline) { output.WriteLine(content); }
-			else { output.Write(content); }
+		/// <param name="color">The name of the color to use on the message</param>
+		private static void Write(bool addNewline, string content, string color) {
+			if(addNewline) {
+				output.WriteLine(
+					output.ColorCodeStart(color) +
+					content +
+					output.ColorCodeEnd(color)
+				);
+			}
+			else {
+				output.Write(
+					output.ColorCodeStart(color) +
+					content +
+					output.ColorCodeEnd(color)
+				);
+			}
 		}
 		
 		#endregion // Private Static Methods

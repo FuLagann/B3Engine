@@ -2,120 +2,173 @@
 using Xunit;
 
 namespace B3.Testing {
+	/// <summary>Tests the <see cref="B3.Logger"/> class to make sure it works correctly. Contains 8 tests</summary>
 	public class LoggerTest {
+		#region Field Variables
 		// Variables
-		internal string logContent;
-		public const string prefix = "[B3Engine.Base.Test|B3.Testing.LoggerTest]";
+		internal string actual;
+		public const string Prefix = "[B3Engine.Base.Test|B3.Testing.LoggerTest]";
+		
+		#endregion // Field Variables
+		
+		#region Public Constructors
 		
 		public LoggerTest() {
-			this.logContent = "";
+			this.actual = "";
+			Logger.Output = new LoggerTestOutput(this);
 		}
 		
-		// [Fact]
-		// public void Log() {
-		// 	// Variables
-		// 	string expected = (
-		// 		$"(INFO) {LoggerTest.prefix} Hello World!\n" +
-		// 		$"(INFO) {LoggerTest.prefix} Testing...Tested!\n" +
-		// 		$"(WARNING) {LoggerTest.prefix} Test Warning\n" +
-		// 		$"(ERROR) {LoggerTest.prefix} Test Error\n"
-		// 	);
-			
-		// 	Logger.Output = new LoggerTestOutput(this);
-		// 	Logger.Log("Hello World!");
-		// 	Logger.Log("Testing...", false);
-		// 	Logger.Log("Tested!");
-		// 	Logger.Log("Test Warning", true, LoggingType.Warning);
-		// 	Logger.Log("Test Error", true, LoggingType.Error);
-		// 	Logger.Output = Logger.DefaultOutput;
-			
-		// 	Assert.Equal(expected, this.logContent);
-		// }
+		~LoggerTest() {
+			Logger.Output = new DefaultLoggerOutput();
+		}
 		
-		// [Fact]
-		// public void LogOnlyOnDebug() {
-		// 	// Variables
-		// 	string expected = (
-		// 		$"(INFO) {LoggerTest.prefix} Logging on debug with restriction\n" +
-		// 		$"(INFO) {LoggerTest.prefix} Logging on production\n" +
-		// 		$"(INFO) {LoggerTest.prefix} Logging on debug\n"
-		// 	);
-			
-		// 	Logger.Output = new LoggerTestOutput(this);
-		// 	Logger.OutputOnDebugOnly = true;
-		// 	Logger.IsInDebugMode = false;
-		// 	Logger.Log("Logging on production with restriction");
-		// 	Logger.IsInDebugMode = true;
-		// 	Logger.Log("Logging on debug with restriction");
-		// 	Logger.OutputOnDebugOnly = false;
-		// 	Logger.IsInDebugMode = false;
-		// 	Logger.Log("Logging on production");
-		// 	Logger.IsInDebugMode = true;
-		// 	Logger.Log("Logging on debug");
-		// 	Logger.IsInDebugMode = true;
-		// 	Logger.OutputOnDebugOnly = true;
-		// 	Logger.Output = Logger.DefaultOutput;
-			
-		// 	Assert.Equal(expected, this.logContent);
-		// }
+		#endregion // Public Constructors
 		
-		// [Theory]
-		// [InlineData("Hello World!")]
-		// [InlineData("Testing...Testing")]
-		// [InlineData("1234567890")]
-		// public void Info(string content) {
-		// 	// Variables
-		// 	string expected = $"(INFO) {LoggerTest.prefix} {content}\n";
-			
-		// 	Logger.Output = new LoggerTestOutput(this);
-		// 	Logger.Info(content);
-		// 	Logger.Output = Logger.DefaultOutput;
-			
-		// 	Assert.Equal(expected, this.logContent);
-		// }
+		#region Public Test Methods
 		
-		// [Theory]
-		// [InlineData("Hello World!")]
-		// [InlineData("Testing...Testing")]
-		// [InlineData("1234567890")]
-		// public void Warning(string content) {
-		// 	// Variables
-		// 	string expected = $"(WARNING) {LoggerTest.prefix} {content}\n";
+		/// <summary>
+		/// Tests the <see cref="B3.Logger.Log(object, bool, string, LoggingType)"/> functionality where it writes a new line.
+		/// Writes a line to the logger and checks if it gets written correctly
+		/// </summary>
+		[Fact]
+		public void Log_WriteLine_ReturnsHelloWorld() {
+			this.actual = "";
+			Logger.Log("Hello World!");
 			
-		// 	Logger.Output = new LoggerTestOutput(this);
-		// 	Logger.Warning(content);
-		// 	Logger.Output = Logger.DefaultOutput;
-			
-		// 	Assert.Equal(expected, this.logContent);
-		// }
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", this.actual);
+		}
 		
-		// [Theory]
-		// [InlineData("Hello World!")]
-		// [InlineData("Testing...Testing")]
-		// [InlineData("1234567890")]
-		// public void Error(string content) {
-		// 	// Variables
-		// 	string expected = $"(ERROR) {LoggerTest.prefix} {content}\n";
+		/// <summary>
+		/// Tests the <see cref="B3.Logger.Log(object, bool, string, LoggingType)"/> functionality where it doesn't write a new line.
+		/// Writes some text and then writes a line and checks if it gets written correctly
+		/// </summary>
+		[Fact]
+		public void Log_Write_ReturnsHelloWorld() {
+			this.actual = "";
+			Logger.Log("Hello", false);
+			Logger.Log("World!");
 			
-		// 	Logger.Output = new LoggerTestOutput(this);
-		// 	Logger.Error(content);
-		// 	Logger.Output = Logger.DefaultOutput;
-			
-		// 	Assert.Equal(expected, this.logContent);
-		// }
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} HelloWorld!\n", this.actual);
+		}
 		
-		// public class LoggerTestOutput : ILoggerOutput {
-		// 	// Variables
-		// 	private LoggerTest test;
+		/// <summary>
+		/// Tests the <see cref="B3.Logger.Log(object, bool, string, LoggingType)"/> color coding functionality.
+		/// Writes some text in red and then writes some text with normal coloring and checks to see if it gets written correctly
+		/// </summary>
+		[Fact]
+		public void Log_WriteColorCodeWord_ReturnsRedHelloNormalWorld() {
+			this.actual = "";
+			Logger.Log("", false);
+			Logger.Log("Hello", false, "red");
+			Logger.Log(" World!");
 			
-		// 	public LoggerTestOutput(LoggerTest test) {
-		// 		this.test = test;
-		// 		this.test.logContent = "";
-		// 	}
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} \\{{begin:red}}Hello\\{{end:red}} World!\n", this.actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Logger.OutputOnDebugOnly"/> and <see cref="B3.Logger.IsInDebugMode"/> functionality where debug mode is on.
+		/// Turns on debug and debug only modes and writes a line and checks to see if anything is written
+		/// </summary>
+		[Fact]
+		public void LogOnlyOnDebug_DebugOn_ReturnsString() {
+			this.actual = "";
+			Logger.OutputOnDebugOnly = true;
+			Logger.IsInDebugMode = true;
+			Logger.Log("Hello World!");
+			Logger.OutputOnDebugOnly = false;
 			
-		// 	public void WriteLine(string output) { test.logContent += $"{output}\n"; }
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", this.actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Logger.OutputOnDebugOnly"/> and <see cref="B3.Logger.IsInDebugMode"/> functionality where debug mode is off.
+		/// Turns off debug and turns on debug only modes and writes a line and checks to see if nothing is written
+		/// </summary>
+		[Fact]
+		public void LogOnlyOnDebug_DebugOff_ReturnsEmptyString() {
+			this.actual = "";
+			Logger.OutputOnDebugOnly = true;
+			Logger.IsInDebugMode = false;
+			Logger.Log("Hello World!");
+			Logger.OutputOnDebugOnly = false;
 			
-		// 	public void Write(string output) { test.logContent += output; }
-		// }
+			Assert.Equal("", this.actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Logger.Info(object, bool, string)"/> functionality.
+		/// Writes a line as an info log and checks to see if its written correctly
+		/// </summary>
+		[Fact]
+		public void Info_WriteLine_ReturnsInfoString() {
+			this.actual = "";
+			Logger.Info("Hello World!");
+			
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", this.actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Logger.Warning(object, bool)"/> functionality.
+		/// Writes a line as a warning log and checks to see if its written correctly
+		/// </summary>
+		[Fact]
+		public void Warning_WriteLine_ReturnsWarningString() {
+			this.actual = "";
+			Logger.Warning("Hello World!");
+			
+			Assert.Equal($"\\{{begin:yellow}}(WARNING) {LoggerTest.Prefix} Hello World!\\{{end:yellow}}\n", this.actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Logger.Error(object, bool)"/> functionality.
+		/// Writes a line as an error log and checks to see if its written correctly
+		/// </summary>
+		[Fact]
+		public void Error_WriteLine_ReturnsErrorString() {
+			this.actual = "";
+			Logger.Error("Hello World!");
+			
+			Assert.Equal($"\\{{begin:red}}(ERROR) {LoggerTest.Prefix} Hello World!\\{{end:red}}\n", this.actual);
+		}
+		
+		#endregion // Public Test Methods
+		
+		#region Nested Objects
+		
+		private class LoggerTestOutput : ILoggerOutput {
+			#region Field Variables
+			// Variables
+			public LoggerTest test;
+			
+			#endregion // Field Variables
+			
+			#region Public Constructors
+			
+			public LoggerTestOutput(LoggerTest test) {
+				this.test = test;
+			}
+			
+			#endregion // Public Constructors
+			
+			#region Public Methods
+			
+			public void WriteLine(string output) { test.actual += $"{output}\n"; }
+			
+			public void Write(string output) { test.actual += output; }
+			
+			public string ColorCodeStart(string colorName) {
+				if(colorName == "") { return ""; }
+				return $"\\{{begin:{colorName}}}";
+			}
+			
+			public string ColorCodeEnd(string colorName) {
+				if(colorName == "") { return ""; }
+				return $"\\{{end:{colorName}}}";
+			}
+			
+			#endregion // Public Methods
+		}
+		
+		#endregion // Nested Objects
 	}
 }
