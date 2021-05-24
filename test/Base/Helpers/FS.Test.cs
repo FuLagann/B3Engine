@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using Xunit;
 
 namespace B3.Testing {
-	// TRACK: 29 tests before working on this one
+	/// <summary>Tests the <see cref="B3.FS"/> class to make sure it works correctly. Contains 16 tests</summary>
 	public class FSTest {
 		#region Field Variables
 		// Variables
