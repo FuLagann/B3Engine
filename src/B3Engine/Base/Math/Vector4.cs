@@ -30,6 +30,8 @@ namespace B3 {
 		public static readonly Vector4 UnitZ = new Vector4(0.0f, 0.0f, 1.0f, 0.0f);
 		/// <summary>A unit vector that points a single unit in the w axis (0, 0, 0, 1)</summary>
 		public static readonly Vector4 UnitW = new Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		/// <summary>A unit vector that points towards the coordinates (1, 1, 1, 1)</summary>
+		public static readonly Vector4 UnitOne = new Vector4(0.5f);
 		
 		#endregion // Field Variables
 		

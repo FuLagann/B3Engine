@@ -22,6 +22,8 @@ namespace B3 {
 		public static readonly Vector2 UnitX = new Vector2(1.0f, 0.0f);
 		/// <summary>A unit vector that points a single unit in the y axis (0, 1)</summary>
 		public static readonly Vector2 UnitY = new Vector2(0.0f, 1.0f);
+		/// <summary>A unit vector that points towards the coordinate (1, 1)</summary>
+		public static readonly Vector2 UnitOne = new Vector2(0.70710678f);
 		
 		#endregion // Field Variables
 		

@@ -26,6 +26,8 @@ namespace B3 {
 		public static readonly Vector3 UnitY = new Vector3(0.0f, 1.0f, 0.0f);
 		/// <summary>A unit vector that points a single unit in the z axis (0, 0, 1)</summary>
 		public static readonly Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
+		/// <summary>A unit vector that points towards the coordinate (1, 1, 1)</summary>
+		public static readonly Vector3 UnitOne = new Vector3(0.57735026f);
 		
 		#endregion // Field Variables
 		
