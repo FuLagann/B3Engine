@@ -2,83 +2,203 @@
 using Xunit;
 
 namespace B3.Testing {
+	/// <summary>Tests the <see cref="B3.Random"/> static class to make sure it works correctly. Contains 68 tests</summary>
+	[CollectionDefinition("Random", DisableParallelization = true)]
 	public class RandomTest {
-		// [Fact]
-		// public void Values() {
-		// 	for(int i = 0; i <= 25; i++) {
-		// 		// Variables
-		// 		float val = Random.Value;
-		// 		float angle = Random.Angle;
-				
-		// 		Assert.InRange(val, 0.0f, 1.0f);
-		// 		Assert.InRange(angle, 0.0f, 2.0f * System.Math.PI);
-		// 	}
-		// }
+		#region Public Constructors
 		
-		// [Fact]
-		// public void Range() {
-		// 	for(int i = 0; i <= 25; i++) {
-		// 		// Variables
-		// 		float val = Random.Range(10.0f, 30.0f);
-		// 		int val2 = Random.Range(20, 40);
-		// 		Vector2 val3 = Random.Range(new Vector2(10, 20), new Vector2(20, 30));
-		// 		Vector3 val4 = Random.Range(new Vector3(1, 2, 3), new Vector3(10, 20, 30));
-		// 		Vector4 val5 = Random.Range(new Vector4(24, 55, 10, 5), new Vector4(29, 100, 2000, 3000));
-				
-		// 		Assert.InRange(val, 10.0f, 30.0f);
-		// 		Assert.InRange(val2, 20, 40);
-		// 		Assert.InRange(val3, new Vector2(10, 20), new Vector2(20, 30));
-		// 		Assert.InRange(val4, new Vector3(1, 2, 3), new Vector3(10, 20, 30));
-		// 		Assert.InRange(val5, new Vector4(24, 55, 10, 5), new Vector4(29, 100, 2000, 3000));
-		// 	}
-		// }
+		public RandomTest() {
+			Random.Seed = 1234567890;
+		}
 		
-		// [Fact]
-		// public void Range0To() {
-		// 	for(int i = 0; i <= 25; i++) {
-		// 		// Variables
-		// 		float val = Random.Range0To(30.0f);
-		// 		int val2 = Random.Range0To(40);
-		// 		Vector2 val3 = Random.Range0To(new Vector2(20, 30));
-		// 		Vector3 val4 = Random.Range0To(new Vector3(10, 20, 30));
-		// 		Vector4 val5 = Random.Range0To(new Vector4(29, 100, 2000, 3000));
-				
-		// 		Assert.InRange(val, 0.0f, 30.0f);
-		// 		Assert.InRange(val2, 0, 40);
-		// 		Assert.InRange(val3, new Vector2(0, 0), new Vector2(20, 30));
-		// 		Assert.InRange(val4, new Vector3(0, 0, 0), new Vector3(10, 20, 30));
-		// 		Assert.InRange(val5, new Vector4(0, 0, 0, 0), new Vector4(29, 100, 2000, 3000));
-		// 	}
-		// }
+		#endregion // Public Constructors
 		
-		// [Fact]
-		// public void UnitVector2() {
-		// 	for(int i = 0; i <= 25; i++) {
-		// 		// Variables
-		// 		Vector2 a = Random.UnitVector2;
-				
-		// 		Assert.InRange(a.MagnitudeSquared, 1.0f - 0.000001f, 1.0f + 0.000001f);
-		// 	}
-		// }
+		#region Public Test Methods
 		
-		// [Fact]
-		// public void UnitVector3() {
-		// 	for(int i = 0; i <= 25; i++) {
-		// 		// Variables
-		// 		Vector3 a = Random.UnitVector3;
-				
-		// 		Assert.InRange(a.MagnitudeSquared, 1.0f - 0.000001f, 1.0f + 0.000001f);
-		// 	}
-		// }
+		[Theory]
+		[InlineData(0, 3063190229)]
+		[InlineData(1, 2689250694)]
+		[InlineData(2, 2971965099)]
+		[InlineData(3, 1712531249)]
+		[InlineData(4, 1387866811)]
+		public void GenerateNext_SimpleStates_ReturnsUInt32(int state, uint expected) {
+			Assert.Equal(expected, Random.GenerateNext(state));
+		}
 		
-		// [Fact]
-		// public void UnitVector4() {
-		// 	for(int i = 0; i <= 25; i++) {
-		// 		// Variables
-		// 		Vector4 a = Random.UnitVector4;
-				
-		// 		Assert.InRange(a.MagnitudeSquared, 1.0f - 0.000001f, 1.0f + 0.000001f);
-		// 	}
-		// }
+		[Theory]
+		[InlineData(0, -1231777067)]
+		[InlineData(-1231777067, 1495252724)]
+		[InlineData(1495252724, -1727860201)]
+		[InlineData(-1727860201, 430456237)]
+		[InlineData(430456237, -2136687156)]
+		public void GenerateNextInt32_ContinuousStates_ReturnsInt32(int state, int expected) {
+			// Variables
+			int temp;
+			
+			Assert.Equal(expected, Random.GenerateNextInt32(out temp, state));
+		}
+		
+		[Theory]
+		[InlineData(0, 0.5735714f)]
+		[InlineData(-1231777067, 0.745922f)]
+		[InlineData(1495252724, 0.9456779f)]
+		[InlineData(-1727860201, 0.2409247f)]
+		[InlineData(430456237, 0.74140537f)]
+		public void GenerateNextFloat01_ContinuousStates_ReturnsFloat(int state, float expected) {
+			// Variables
+			int temp;
+			
+			Assert.Equal(expected, Random.GenerateNextFloat01(out temp, state));
+		}
+		
+		#region Noise Test Methods
+		
+		[Theory]
+		[InlineData(0.5735714f, 0)]
+		[InlineData(0.7090868f, 1)]
+		[InlineData(0.58855575f, 2)]
+		[InlineData(0.15309377f, 3)]
+		[InlineData(0.16691844f, 4)]
+		public void Noise_SimpleNumbers_ReturnsFloat(float expected, float x) {
+			Assert.Equal(expected, Random.Noise(x));
+		}
+		
+		[Theory]
+		[InlineData(0.5735714f, 0)]
+		[InlineData(0.07731746f, 0.1)]
+		[InlineData(0.14233616f, 0.2)]
+		[InlineData(0.079835206f, 0.3)]
+		[InlineData(0.9072404f, 0.4)]
+		public void Noise_FractionalNumbers_ReturnsFloat(float expected, float x) {
+			Assert.Equal(expected, Random.Noise(x));
+		}
+		
+		[Theory]
+		[InlineData(0.6561532f, 1, 2, 3)]
+		[InlineData(0.3563897f, 1, 2, 4)]
+		[InlineData(0.21994354f, 2, 2, 4)]
+		[InlineData(0.3123827f, 2, 3, 4)]
+		[InlineData(0.5735714f, 0, 0, 0)]
+		public void Noise_SetOfNumbers_ReturnsFloat(float expected, float x, float y, float z) {
+			Assert.Equal(expected, Random.Noise(x, y, z));
+		}
+		
+		[Theory]
+		[InlineData(0.94288546f, 1, 1)]
+		[InlineData(0.30435646f, 1.1, 1)]
+		[InlineData(0.06736858f, 1.1, 1.1)]
+		[InlineData(0.7502556f, 1.1, 1.2)]
+		[InlineData(0.8491798f, 1.5, 1.5)]
+		public void Noise_Vector2_ReturnsFloat(float expected, float x, float y) {
+			// Variables
+			Vector2 vec = new Vector2(x, y);
+			
+			Assert.Equal(expected, Random.Noise(ref vec));
+		}
+		
+		[Theory]
+		[InlineData(0.6561532f, 1, 2, 3)]
+		[InlineData(0.3563897f, 1, 2, 4)]
+		[InlineData(0.21994354f, 2, 2, 4)]
+		[InlineData(0.3123827f, 2, 3, 4)]
+		[InlineData(0.5735714f, 0, 0, 0)]
+		public void Noise_Vector3_ReturnsFloat(float expected, float x, float y, float z) {
+			// Variables
+			Vector3 vec = new Vector3(x, y, z);
+			
+			Assert.Equal(expected, Random.Noise(ref vec));
+		}
+		
+		[Theory]
+		[InlineData(0.52636f, -1, 1, -1, 1)]
+		[InlineData(0.055344474f, -10, 10, -100, 100)]
+		[InlineData(0.8081483f, -10, -0.1, -100, -1)]
+		[InlineData(0.44077212f, 0, 10, 0, 0.1)]
+		[InlineData(0.93966585f, -0, 10, -10, 30)]
+		public void Noise_Vector4_ReturnsFloat(float expected, float x, float y, float z, float w) {
+			// Variables
+			Vector4 vec = new Vector4(x, y, z, w);
+			
+			Assert.Equal(expected, Random.Noise(ref vec));
+		}
+		
+		#endregion // Noise Test Methods
+		
+		#region Range Methods
+		
+		[Theory]
+		[InlineData(0, 0, 0.00001f)]
+		[InlineData(0, 0, 1)]
+		[InlineData(0, -1, 1)]
+		[InlineData(0, -1000, 0)]
+		[InlineData(0, -12, -4)]
+		public void Range_ReturnsWithinRange(int state, float min, float max) {
+			Random.state = state;
+			Assert.InRange(Random.Range(min, max), min, max);
+		}
+		
+		[Theory]
+		[InlineData(0, 0.05735714, 0, 0.1f)]
+		[InlineData(0, 0.5735714, 0, 1)]
+		[InlineData(0, 0.14714277, -1, 1)]
+		[InlineData(0, -426.4286, -1000, 0)]
+		[InlineData(0, -7.411429, -12, -4)]
+		public void Range_ReturnsFloat(int state, float expected, float min, float max) {
+			Random.state = state;
+			Assert.Equal(expected, Random.Range(min, max));
+		}
+		
+		#endregion // Range Methods
+		
+		[Theory]
+		[InlineData(0)]
+		[InlineData(1)]
+		[InlineData(2)]
+		[InlineData(3)]
+		[InlineData(4)]
+		public void Angle_ReturnsWithinRange(int state) {
+			Random.state = state;
+			Assert.InRange(Random.Angle, 0.0f, Mathx.TwoPi);
+		}
+		
+		[Theory]
+		[InlineData(0)]
+		[InlineData(1)]
+		[InlineData(2)]
+		[InlineData(3)]
+		[InlineData(4)]
+		public void AngleDeg_ReturnsWithinRange(int state) {
+			Random.state = state;
+			Assert.InRange(Random.AngleDeg, 0.0f, 360.0f);
+		}
+		
+		[Fact]
+		public void UnitVector2_ReturnsUnitVector2() {
+			// Variables
+			Vector2 expected = new Vector2(0.2866143f, 0.958046f);
+			
+			Random.state = 0;
+			Assert.Equal(expected, Random.UnitVector2);
+		}
+		
+		[Fact]
+		public void UnitVector3_ReturnsUnitVector3() {
+			// Variables
+			Vector3 expected = new Vector3(0.14304754f, 0.47815523f, 0.8665478f);
+			
+			Random.state = 0;
+			Assert.Equal(expected, Random.UnitVector3);
+		}
+		
+		[Fact]
+		public void UnitVector4_ReturnsUnitVector4() {
+			// Variables
+			Vector4 expected = new Vector4(0.12775445f, 0.42703605f, 0.77390593f, -0.44987628f);
+			
+			Random.state = 0;
+			Assert.Equal(expected, Random.UnitVector4);
+		}
+		
+		#endregion // Public Test Methods
 	}
 }
