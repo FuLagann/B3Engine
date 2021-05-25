@@ -6,23 +6,9 @@ namespace B3.Testing {
 	public class LoggerTest {
 		#region Field Variables
 		// Variables
-		internal string actual;
 		public const string Prefix = "[B3Engine.Base.Test|B3.Testing.LoggerTest]";
 		
 		#endregion // Field Variables
-		
-		#region Public Constructors
-		
-		public LoggerTest() {
-			this.actual = "";
-			Logger.Output = new LoggerTestOutput(this);
-		}
-		
-		~LoggerTest() {
-			Logger.Output = new DefaultLoggerOutput();
-		}
-		
-		#endregion // Public Constructors
 		
 		#region Public Test Methods
 		
@@ -32,10 +18,14 @@ namespace B3.Testing {
 		/// </summary>
 		[Fact]
 		public void Log_WriteLine_ReturnsHelloWorld() {
-			this.actual = "";
-			Logger.Log("Hello World!");
+			// Variables
+			Logger logger = new Logger();
+			LoggerTestOutput output = new LoggerTestOutput();
 			
-			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", this.actual);
+			logger.Output = output;
+			logger.LogLocal("Hello World!");
+			
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", output.actual);
 		}
 		
 		/// <summary>
@@ -44,11 +34,15 @@ namespace B3.Testing {
 		/// </summary>
 		[Fact]
 		public void Log_Write_ReturnsHelloWorld() {
-			this.actual = "";
-			Logger.Log("Hello", false);
-			Logger.Log("World!");
+			// Variables
+			Logger logger = new Logger();
+			LoggerTestOutput output = new LoggerTestOutput();
 			
-			Assert.Equal($"(INFO) {LoggerTest.Prefix} HelloWorld!\n", this.actual);
+			logger.Output = output;
+			logger.LogLocal("Hello", false);
+			logger.LogLocal("World!");
+			
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} HelloWorld!\n", output.actual);
 		}
 		
 		/// <summary>
@@ -57,12 +51,16 @@ namespace B3.Testing {
 		/// </summary>
 		[Fact]
 		public void Log_WriteColorCodeWord_ReturnsRedHelloNormalWorld() {
-			this.actual = "";
-			Logger.Log("", false);
-			Logger.Log("Hello", false, "red");
-			Logger.Log(" World!");
+			// Variables
+			Logger logger = new Logger();
+			LoggerTestOutput output = new LoggerTestOutput();
 			
-			Assert.Equal($"(INFO) {LoggerTest.Prefix} \\{{begin:red}}Hello\\{{end:red}} World!\n", this.actual);
+			logger.Output = output;
+			logger.LogLocal("", false);
+			logger.LogLocal("Hello", false, "red");
+			logger.LogLocal(" World!");
+			
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} \\{{begin:red}}Hello\\{{end:red}} World!\n", output.actual);
 		}
 		
 		/// <summary>
@@ -71,13 +69,17 @@ namespace B3.Testing {
 		/// </summary>
 		[Fact]
 		public void LogOnlyOnDebug_DebugOn_ReturnsString() {
-			this.actual = "";
-			Logger.OutputOnDebugOnly = true;
-			Logger.IsInDebugMode = true;
-			Logger.Log("Hello World!");
-			Logger.OutputOnDebugOnly = false;
+			// Variables
+			Logger logger = new Logger();
+			LoggerTestOutput output = new LoggerTestOutput();
 			
-			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", this.actual);
+			logger.Output = output;
+			logger.OutputOnDebugOnly = true;
+			logger.IsInDebugMode = true;
+			logger.LogLocal("Hello World!");
+			logger.OutputOnDebugOnly = false;
+			
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", output.actual);
 		}
 		
 		/// <summary>
@@ -86,13 +88,17 @@ namespace B3.Testing {
 		/// </summary>
 		[Fact]
 		public void LogOnlyOnDebug_DebugOff_ReturnsEmptyString() {
-			this.actual = "";
-			Logger.OutputOnDebugOnly = true;
-			Logger.IsInDebugMode = false;
-			Logger.Log("Hello World!");
-			Logger.OutputOnDebugOnly = false;
+			// Variables
+			Logger logger = new Logger();
+			LoggerTestOutput output = new LoggerTestOutput();
 			
-			Assert.Equal("", this.actual);
+			logger.Output = output;
+			logger.OutputOnDebugOnly = true;
+			logger.IsInDebugMode = false;
+			logger.LogLocal("Hello World!");
+			logger.OutputOnDebugOnly = false;
+			
+			Assert.Equal("", output.actual);
 		}
 		
 		/// <summary>
@@ -101,10 +107,14 @@ namespace B3.Testing {
 		/// </summary>
 		[Fact]
 		public void Info_WriteLine_ReturnsInfoString() {
-			this.actual = "";
-			Logger.Info("Hello World!");
+			// Variables
+			Logger logger = new Logger();
+			LoggerTestOutput output = new LoggerTestOutput();
 			
-			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", this.actual);
+			logger.Output = output;
+			logger.InfoLocal("Hello World!");
+			
+			Assert.Equal($"(INFO) {LoggerTest.Prefix} Hello World!\n", output.actual);
 		}
 		
 		/// <summary>
@@ -113,10 +123,14 @@ namespace B3.Testing {
 		/// </summary>
 		[Fact]
 		public void Warning_WriteLine_ReturnsWarningString() {
-			this.actual = "";
-			Logger.Warning("Hello World!");
+			// Variables
+			Logger logger = new Logger();
+			LoggerTestOutput output = new LoggerTestOutput();
 			
-			Assert.Equal($"\\{{begin:yellow}}(WARNING) {LoggerTest.Prefix} Hello World!\\{{end:yellow}}\n", this.actual);
+			logger.Output = output;
+			logger.WarningLocal("Hello World!");
+			
+			Assert.Equal($"\\{{begin:yellow}}(WARNING) {LoggerTest.Prefix} Hello World!\\{{end:yellow}}\n", output.actual);
 		}
 		
 		/// <summary>
@@ -125,10 +139,14 @@ namespace B3.Testing {
 		/// </summary>
 		[Fact]
 		public void Error_WriteLine_ReturnsErrorString() {
-			this.actual = "";
-			Logger.Error("Hello World!");
+			// Variables
+			Logger logger = new Logger();
+			LoggerTestOutput output = new LoggerTestOutput();
 			
-			Assert.Equal($"\\{{begin:red}}(ERROR) {LoggerTest.Prefix} Hello World!\\{{end:red}}\n", this.actual);
+			logger.Output = output;
+			logger.ErrorLocal("Hello World!");
+			
+			Assert.Equal($"\\{{begin:red}}(ERROR) {LoggerTest.Prefix} Hello World!\\{{end:red}}\n", output.actual);
 		}
 		
 		#endregion // Public Test Methods
@@ -138,23 +156,23 @@ namespace B3.Testing {
 		private class LoggerTestOutput : ILoggerOutput {
 			#region Field Variables
 			// Variables
-			public LoggerTest test;
+			public string actual;
 			
 			#endregion // Field Variables
 			
 			#region Public Constructors
 			
-			public LoggerTestOutput(LoggerTest test) {
-				this.test = test;
+			public LoggerTestOutput() {
+				this.actual = "";
 			}
 			
 			#endregion // Public Constructors
 			
 			#region Public Methods
 			
-			public void WriteLine(string output) { test.actual += $"{output}\n"; }
+			public void WriteLine(string output) { this.actual += $"{output}\n"; }
 			
-			public void Write(string output) { test.actual += output; }
+			public void Write(string output) { this.actual += output; }
 			
 			public string ColorCodeStart(string colorName) {
 				if(colorName == "") { return ""; }

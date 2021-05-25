@@ -8,6 +8,14 @@
 	  <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
 	</ItemGroup>
 	
+	<ItemGroup Condition="!$(DefineConstants.Contains(`TESTABLE`))">
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs"/>
+	</ItemGroup>
+	
+	<ItemGroup Condition="$(DefineConstants.Contains(`TESTABLE`))">
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.Debug.cs"/>
+	</ItemGroup>
+	
 	<ItemGroup>
 		<!-- Events -->
 		<Compile Include="$(MSBuildThisFileDirectory)Events\EventArgs.cs"/>
@@ -31,7 +39,6 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\DefaultLoggerOutput.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\FileLocationType.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\FS.cs"/>
-		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\LoggingType.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Helpers\Time.cs"/>
 		<!-- Input -->
