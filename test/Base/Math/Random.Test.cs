@@ -15,6 +15,12 @@ namespace B3.Testing {
 		
 		#region Public Test Methods
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.GenerateNext(int[])"/> functionality.
+		/// Inputs a state and checks to see if the output is correct
+		/// </summary>
+		/// <param name="state">The state of the randomizer</param>
+		/// <param name="expected">The expected value to come out of the randomizer</param>
 		[Theory]
 		[InlineData(0, 3063190229)]
 		[InlineData(1, 2689250694)]
@@ -25,6 +31,12 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.GenerateNext(state));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.GenerateNextInt32(out int, int[])"/> functionality.
+		/// Inputs a state and checks to see if the output is correct
+		/// </summary>
+		/// <param name="state">The state of the randomizer</param>
+		/// <param name="expected">The expected value to come out of the randomizer</param>
 		[Theory]
 		[InlineData(0, -1231777067)]
 		[InlineData(-1231777067, 1495252724)]
@@ -38,6 +50,12 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.GenerateNextInt32(out temp, state));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.GenerateNextFloat01(out int, int[])"/> functionality.
+		/// Inputs a state and checks to see if the output is correct
+		/// </summary>
+		/// <param name="state">The state of the randomizer</param>
+		/// <param name="expected">The expected value to come out of the randomizer</param>
 		[Theory]
 		[InlineData(0, 0.5735714f)]
 		[InlineData(-1231777067, 0.745922f)]
@@ -53,6 +71,12 @@ namespace B3.Testing {
 		
 		#region Noise Test Methods
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Noise(float[])"/> functionality using simple whole numbers.
+		/// Inputs a state that are just whole numbers and checks to see if the output is correct
+		/// </summary>
+		/// <param name="expected">The expected value to come out of the noise function</param>
+		/// <param name="x">The value to input</param>
 		[Theory]
 		[InlineData(0.5735714f, 0)]
 		[InlineData(0.7090868f, 1)]
@@ -63,6 +87,12 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.Noise(x));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Noise(float[])"/> functionality using fractional numbers.
+		/// Inputs a state that are fractional numbers and checks to see if the output is correct
+		/// </summary>
+		/// <param name="expected">The expected value to come out of the noise function</param>
+		/// <param name="x">The value to input</param>
 		[Theory]
 		[InlineData(0.5735714f, 0)]
 		[InlineData(0.07731746f, 0.1)]
@@ -73,6 +103,14 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.Noise(x));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Noise(float[])"/> functionality using a set of numbers.
+		/// Inputs a state that are a list of numbers and checks to see if the input is correct
+		/// </summary>
+		/// <param name="expected">The expected value to come out of the noise function</param>
+		/// <param name="x">The first value to pass</param>
+		/// <param name="y">The second value to pass</param>
+		/// <param name="z">The third value to pass</param>
 		[Theory]
 		[InlineData(0.6561532f, 1, 2, 3)]
 		[InlineData(0.3563897f, 1, 2, 4)]
@@ -83,6 +121,13 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.Noise(x, y, z));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Noise(ref Vector2)"/> functionality using a 2D vector.
+		/// Inputs a state that is a vector and checks to see if the input is correct
+		/// </summary>
+		/// <param name="expected">The expected value to come out of the noise function</param>
+		/// <param name="x">The first value to pass in</param>
+		/// <param name="y">The second value to pass in</param>
 		[Theory]
 		[InlineData(0.94288546f, 1, 1)]
 		[InlineData(0.30435646f, 1.1, 1)]
@@ -96,6 +141,14 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.Noise(ref vec));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Noise(ref Vector3)"/> functionality using a 3D vector.
+		/// Inputs a state that is a vector and checks to see if the input is correct
+		/// </summary>
+		/// <param name="expected">The expected value to come out of the noise function</param>
+		/// <param name="x">The first value to pass in</param>
+		/// <param name="y">The second value to pass in</param>
+		/// <param name="z">The third value to pass in</param>
 		[Theory]
 		[InlineData(0.6561532f, 1, 2, 3)]
 		[InlineData(0.3563897f, 1, 2, 4)]
@@ -109,6 +162,15 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.Noise(ref vec));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Noise(ref Vector4)"/> functionality using a 4D vector.
+		/// Inputs a state that is a vector and checks to see if the input is correct
+		/// </summary>
+		/// <param name="expected">The expected value to come out of the noise function</param>
+		/// <param name="x">The first value to pass in</param>
+		/// <param name="y">The second value to pass in</param>
+		/// <param name="z">The third value to pass in</param>
+		/// <param name="w">The forth value to pass in</param>
 		[Theory]
 		[InlineData(0.52636f, -1, 1, -1, 1)]
 		[InlineData(0.055344474f, -10, 10, -100, 100)]
@@ -126,30 +188,49 @@ namespace B3.Testing {
 		
 		#region Range Methods
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Range(float, float)"/> functionality.
+		/// Gets a number within a specific range and checks to see if its within that range
+		/// </summary>
+		/// <param name="state">The state to set the randomizer to</param>
+		/// <param name="min">The minimum extent of the range</param>
+		/// <param name="max">The maximum extent of the range</param>
 		[Theory]
 		[InlineData(0, 0, 0.00001f)]
-		[InlineData(0, 0, 1)]
-		[InlineData(0, -1, 1)]
-		[InlineData(0, -1000, 0)]
-		[InlineData(0, -12, -4)]
+		[InlineData(255, 0, 1)]
+		[InlineData(1024, -1, 1)]
+		[InlineData(-100, -1000, 0)]
+		[InlineData(int.MaxValue, -12, -4)]
 		public void Range_ReturnsWithinRange(int state, float min, float max) {
 			Random.state = state;
 			Assert.InRange(Random.Range(min, max), min, max);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Range(float, float)"/> functionality.
+		/// Gets a number within a specific range at state 0 and checks to see if its the correct number
+		/// </summary>
+		/// <param name="expected">The expected number to check for</param>
+		/// <param name="min">The minimum extent of the range</param>
+		/// <param name="max">The maximum extent of the range</param>
 		[Theory]
-		[InlineData(0, 0.05735714, 0, 0.1f)]
-		[InlineData(0, 0.5735714, 0, 1)]
-		[InlineData(0, 0.14714277, -1, 1)]
-		[InlineData(0, -426.4286, -1000, 0)]
-		[InlineData(0, -7.411429, -12, -4)]
-		public void Range_ReturnsFloat(int state, float expected, float min, float max) {
-			Random.state = state;
+		[InlineData(0.05735714, 0, 0.1f)]
+		[InlineData(0.5735714, 0, 1)]
+		[InlineData(0.14714277, -1, 1)]
+		[InlineData(-426.4286, -1000, 0)]
+		[InlineData(-7.411429, -12, -4)]
+		public void Range_ReturnsFloat(float expected, float min, float max) {
+			Random.state = 0;
 			Assert.Equal(expected, Random.Range(min, max));
 		}
 		
 		#endregion // Range Methods
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.Angle"/> functionality.
+		/// Gets a number within a radian angle [0, 2 pi] and checks to see if its correct
+		/// </summary>
+		/// <param name="state">The state of the randomizer to set</param>
 		[Theory]
 		[InlineData(0)]
 		[InlineData(1)]
@@ -161,6 +242,11 @@ namespace B3.Testing {
 			Assert.InRange(Random.Angle, 0.0f, Mathx.TwoPi);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.AngleDeg"/> functionality.
+		/// Gets a number within a radian angle [0, 360] and checks to see if its correct
+		/// </summary>
+		/// <param name="state">The state of the randomizer to set</param>
 		[Theory]
 		[InlineData(0)]
 		[InlineData(1)]
@@ -172,6 +258,10 @@ namespace B3.Testing {
 			Assert.InRange(Random.AngleDeg, 0.0f, 360.0f);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.UnitVector2"/> functionality.
+		/// Checks to see if the randomizer returns back a normalized vector
+		/// </summary>
 		[Fact]
 		public void UnitVector2_ReturnsUnitVector2() {
 			// Variables
@@ -181,6 +271,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.UnitVector2);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.UnitVector3"/> functionality.
+		/// Checks to see if the randomizer returns back a normalized vector
+		/// </summary>
 		[Fact]
 		public void UnitVector3_ReturnsUnitVector3() {
 			// Variables
@@ -190,6 +284,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, Random.UnitVector3);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Random.UnitVector4"/> functionality.
+		/// Checks to see if the randomizer returns back a normalized vector
+		/// </summary>
 		[Fact]
 		public void UnitVector4_ReturnsUnitVector4() {
 			// Variables
