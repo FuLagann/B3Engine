@@ -133,30 +133,169 @@ namespace B3 {
 		/// Omitting the alpha channel will set the alpha channel to 255
 		/// </param>
 		public Color(string hex) {
-			if(!hex.StartsWith("#")) {
-				throw new System.ArgumentOutOfRangeException("hex", hex, "The string must represent a hexidecimal color (#123456)");
+			// Variables
+			string temp = hex.Trim();
+			
+			if(!temp.StartsWith("#")) {
+				switch(hex.ToLower()) {
+					default: case "black": { temp = "#000"; } break;
+					case "aliceblue": { temp = "#f0f8ff"; } break;
+					case "antiquewhite": { temp = "#faebd7"; } break;
+					case "aqua": { temp = "#0ff"; } break;
+					case "aquamarine": { temp = "#7fffd4"; } break;
+					case "azure": { temp = "#f0ffff"; } break;
+					case "beige": { temp = "#f5f5dc"; } break;
+					case "bisque": { temp = "#ffe4c4"; } break;
+					case "blanchedalmond": { temp = "#ffebcd"; } break;
+					case "blue": { temp = "#00f"; } break;
+					case "blueviolet": { temp = "#8a2be2"; } break;
+					case "brown": { temp = "#a52a2a"; } break;
+					case "burlywood": { temp = "#deb887"; } break;
+					case "cadetblue": { temp = "#5f9ea0"; } break;
+					case "charteuse": { temp = "#7fff00"; } break;
+					case "chocolate": { temp = "#d2691e"; } break;
+					case "coral": { temp = "#ff7f50"; } break;
+					case "cornflowerblue": { temp = "#6495ed"; } break;
+					case "cornsilk": { temp = "#fff8dc"; } break;
+					case "crimson": { temp = "#dc143c"; } break;
+					case "cyan": { temp = "#0ff"; } break;
+					case "darkblue": { temp = "#00008b"; } break;
+					case "darkcyan": { temp = "#008b8b"; } break;
+					case "darkgoldenrod": { temp = "#b8860b"; } break;
+					case "darkgray": case "darkgrey": { temp = "#a9a9a9"; } break;
+					case "darkgreen": { temp = "#006400"; } break;
+					case "darkkhaki": { temp = "#bdb76b"; } break;
+					case "darkmagenta": { temp = "#8b008b"; } break;
+					case "darkolivegreen": { temp = "#556b2f"; } break;
+					case "darkorange": { temp = "#ff8c00"; } break;
+					case "darkorchid": { temp = "#9932cc"; } break;
+					case "darkred": { temp = "#8b0000"; } break;
+					case "darksalmon": { temp = "#e9967a"; } break;
+					case "darkseagreen": { temp = "#8fbc8f"; } break;
+					case "darkslateblue": { temp = "#483d8b"; } break;
+					case "darkslategray": case "darkslategrey": { temp = "#2f4f4f"; } break;
+					case "darkturquoise": { temp = "#00ced1"; } break;
+					case "darkviolet": { temp = "#9400d3"; } break;
+					case "deeppink": { temp = "#ff1493"; } break;
+					case "deepskyblue": { temp = "#00bfff"; } break;
+					case "dimgray": case "dimgrey": { temp = "#696969"; } break;
+					case "dodgerblue": { temp = "#1e90ff"; } break;
+					case "firebrick": { temp = "#b22222"; } break;
+					case "floralwhite": { temp = "#fffaf0"; } break;
+					case "forestgreen": { temp = "#228b22"; } break;
+					case "fuchsia": { temp = "#f0f"; } break;
+					case "gainsboro": { temp = "#dcdcdc"; } break;
+					case "ghostwhite": { temp = "#f8f8ff"; } break;
+					case "gold": { temp = "#ffd700"; } break;
+					case "goldenrod": { temp = "#daa520"; } break;
+					case "gray": case "grey": { temp = "#808080"; } break;
+					case "green": { temp = "#008000"; } break;
+					case "greenyellow": { temp = "#adff2f"; } break;
+					case "honeydew": { temp = "#f0fff0"; } break;
+					case "hotpink": { temp = "#ff69b4"; } break;
+					case "indianred": { temp = "#cd5c5c"; } break;
+					case "indigo": { temp = "#4b0082"; } break;
+					case "ivory": { temp = "#fffff0"; } break;
+					case "khaki": { temp = "#f0e68c"; } break;
+					case "lavender": { temp = "#e6e6fa"; } break;
+					case "lavenderblush": { temp = "#fff0f5"; } break;
+					case "lawngreen": { temp = "#7cfc00"; } break;
+					case "lemonchiffon": { temp = "#fffacd"; } break;
+					case "lightblue": { temp = "#add8e6"; } break;
+					case "lightcoral": { temp = "#f08080"; } break;
+					case "lightcyan": { temp = "#e0ffff"; } break;
+					case "lightgoldenrodyellow": { temp = "#fafad2"; } break;
+					case "lightgray": case "lightgrey": { temp = "#d3d3d3"; } break;
+					case "lightgreen": { temp = "#90ee90"; } break;
+					case "lightpink": { temp = "#ffb6c1"; } break;
+					case "lightsalmon": { temp = "#ffa07a"; } break;
+					case "lightseagreen": { temp = "#20b2aa"; } break;
+					case "lightskyblue": { temp = "#87cefa"; } break;
+					case "lightslategray": case "lightslategrey": { temp = "#789"; } break;
+					case "lightsteelblue": { temp = "#b0c4de"; } break;
+					case "lightyellow": { temp = "#ffffe0"; } break;
+					case "lime": { temp = "#0f0"; } break;
+					case "limegreen": { temp = "#32cd32"; } break;
+					case "linen": { temp = "#faf0e6"; } break;
+					case "magenta": { temp = "#f0f"; } break;
+					case "maroon": { temp = "#800000"; } break;
+					case "mediumaquamarine": { temp = "#66cdaa"; } break;
+					case "mediumblue": { temp = "#0000cd"; } break;
+					case "mediumorchid": { temp = "#ba55d3"; } break;
+					case "mediumpurple": { temp = "#9370db"; } break;
+					case "mediumseagreen": { temp = "#3cb371"; } break;
+					case "mediumturquoise": { temp = "#48d1cc"; } break;
+					case "mediumvioletred": { temp = "#c71585"; } break;
+					case "midnightblue": { temp = "#191970"; } break;
+					case "mintcream": { temp = "#f5fffa"; } break;
+					case "mistyrose": { temp = "#ffe4e1"; } break;
+					case "moccasin": { temp = "#ffe4b5"; } break;
+					case "navajowhite": { temp = "#ffdead"; } break;
+					case "navy": { temp = "#000080"; } break;
+					case "oldlace": { temp = "#fdf5e6"; } break;
+					case "olive": { temp = "#808000"; } break;
+					case "olivedrab": { temp = "#6b8e23"; } break;
+					case "orange": { temp = "#ffa500"; } break;
+					case "orangered": { temp = "#ff4500"; } break;
+					case "orchid": { temp = "#da70d6"; } break;
+					case "palegoldenrod": { temp = "#eee8aa"; } break;
+					case "palegreen": { temp = "#98fb98"; } break;
+					case "paleturquoise": { temp = "#afeeee"; } break;
+					case "palevioletred": { temp = "#db7093"; } break;
+					case "papayawhip": { temp = "#ffefd5"; } break;
+					case "peachpuff": { temp = "#ffdab9"; } break;
+					case "peru": { temp = "#cd853f"; } break;
+					case "pink": { temp = "#ffc0cb"; } break;
+					case "plum": { temp = "#dda0dd"; } break;
+					case "powderblue": { temp = "#b0e0e6"; } break;
+					case "purple": { temp = "#800080"; } break;
+					case "rebeccapurple": { temp = "#639"; } break;
+					case "red": { temp = "#f00"; } break;
+					case "rosybrown": { temp = "#bc8f8f"; } break;
+					case "royalblue": { temp = "#4169e1"; } break;
+					case "saddlebrown": { temp = "#8b4513"; } break;
+					case "salmon": { temp = "#fa8072"; } break;
+					case "sandybrown": { temp = "#f4a460"; } break;
+					case "seagreen": { temp = "#2e8b57"; } break;
+					case "seashell": { temp = "#fff5ee"; } break;
+					case "sienna": { temp = "#a0522d"; } break;
+					case "silver": { temp = "#c0c0c0"; } break;
+					case "skyblue": { temp = "#87ceeb"; } break;
+					case "slateblue": { temp = "#6a5acd"; } break;
+					case "slategray": case "slategrey": { temp = "#708090"; } break;
+					case "snow": { temp = "#fffafa"; } break;
+					case "springgreen": { temp = "#00ff7f"; } break;
+					case "steelblue": { temp = "#4682b4"; } break;
+					case "tan": { temp = "#d2b48c"; } break;
+					case "teal": { temp = "#008080"; } break;
+					case "thistle": { temp = "#d8bfd8"; } break;
+					case "tomato": { temp = "#ff6347"; } break;
+					case "turquoise": { temp = "#40e0d0"; } break;
+					case "violet": { temp = "#ee82ee"; } break;
+					case "wheat": { temp = "#f5deb3"; } break;
+					case "white": { temp = "#000"; } break;
+					case "whitesmoke": { temp = "#f5f5f5"; } break;
+					case "yellow": { temp = "#ff0"; } break;
+					case "yellowgreen": { temp = "#9acd32"; } break;
+					case "transparent": { temp = "#0000"; } break;
+				}
 			}
 			
 			// Variables
-			int rgb;
+			bool isLong = temp.Length > 5;
+			string redHex = "0x" + (isLong ? temp.Substring(1, 2) : $"{temp[1]}{temp[1]}");
+			string greenHex = "0x" + (isLong ? temp.Substring(3, 2) : $"{temp[2]}{temp[2]}");
+			string blueHex = "0x" + (isLong ? temp.Substring(5, 2) : $"{temp[3]}{temp[3]}");
+			string alphaHex = "0xff";
 			
-			if(int.TryParse(hex, out rgb)) {
-				if(rgb > 0x01000000) {
-					this.red = Mathx.Clamp(((byte)(rgb >> 24)) / 255.0f, 0.0f, 1.0f);
-					this.green = Mathx.Clamp(((byte)(rgb >> 16)) / 255.0f, 0.0f, 1.0f);
-					this.blue = Mathx.Clamp(((byte)(rgb >> 8)) / 255.0f, 0.0f, 1.0f);
-					this.alpha = Mathx.Clamp(((byte)rgb) / 255.0f, 0.0f, 1.0f);
-				}
-				else {
-					this.red = Mathx.Clamp(((byte)(rgb >> 16)) / 255.0f, 0.0f, 1.0f);
-					this.green = Mathx.Clamp(((byte)(rgb >> 8)) / 255.0f, 0.0f, 1.0f);
-					this.blue = Mathx.Clamp(((byte)rgb) / 255.0f, 0.0f, 1.0f);
-					this.alpha = 1.0f;
-				}
+			if(temp.Length == 5 || temp.Length == 9) {
+				alphaHex = "0x" + (isLong ? temp.Substring(7, 2) : $"{temp[4]}{temp[4]}");
 			}
-			else {
-				throw new System.ArgumentOutOfRangeException("hex", hex, "The string must represent a hexidecimal color (#123456)");
-			}
+			
+			this.red = (float)System.Convert.ToInt32(redHex, 16) / 255.0f;
+			this.green = (float)System.Convert.ToInt32(greenHex, 16) / 255.0f;
+			this.blue = (float)System.Convert.ToInt32(blueHex, 16) / 255.0f;
+			this.alpha = (float)System.Convert.ToInt32(alphaHex, 16) / 255.0f;
 		}
 		
 		#endregion // Public Constructors
@@ -600,6 +739,11 @@ namespace B3 {
 		/// <param name="right">The floating point number to divide the color with</param>
 		/// <returns>Returns the resulting scaled color</returns>
 		public static Color operator /(Color left, float right) { return Divide(right, ref left); }
+		
+		/// <summary>Inverts the color</summary>
+		/// <param name="uniary">The color to invert</param>
+		/// <returns>Returns the resulting inverted color</returns>
+		public static Color operator -(Color uniary) { return Invert(ref uniary); }
 		
 		#endregion // Operators
 	}
