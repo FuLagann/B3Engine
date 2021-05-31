@@ -17,18 +17,6 @@ namespace B3 {
 		public static readonly Color White = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		/// <summary>The color black (#000000)</summary>
 		public static readonly Color Black = new Color(0.0f, 0.0f, 0.0f, 1.0f);
-		/// <summary>The color red (#FF0000)</summary>
-		public static readonly Color Red = new Color(1.0f, 0.0f, 0.0f, 1.0f);
-		/// <summary>The color green (#00FF00)</summary>
-		public static readonly Color Green = new Color(0.0f, 1.0f, 0.0f, 1.0f);
-		/// <summary>The color blue (#0000FF)</summary>
-		public static readonly Color Blue = new Color(0.0f, 0.0f, 1.0f, 1.0f);
-		/// <summary>The color yellow (#FFFF00)</summary>
-		public static readonly Color Yellow = new Color(1.0f, 1.0f, 0.0f, 1.0f);
-		/// <summary>The color cyan (#00FFFF)</summary>
-		public static readonly Color Cyan = new Color(0.0f, 1.0f, 1.0f, 1.0f);
-		/// <summary>The color magenta (#FF00FF)</summary>
-		public static readonly Color Magenta = new Color(1.0f, 0.0f, 1.0f, 1.0f);
 		
 		#endregion // Field Variables
 		
@@ -273,7 +261,7 @@ namespace B3 {
 					case "turquoise": { temp = "#40e0d0"; } break;
 					case "violet": { temp = "#ee82ee"; } break;
 					case "wheat": { temp = "#f5deb3"; } break;
-					case "white": { temp = "#000"; } break;
+					case "white": { temp = "#fff"; } break;
 					case "whitesmoke": { temp = "#f5f5f5"; } break;
 					case "yellow": { temp = "#ff0"; } break;
 					case "yellowgreen": { temp = "#9acd32"; } break;
@@ -576,9 +564,79 @@ namespace B3 {
 		
 		#endregion // Divide Methods
 		
+		#region Brightness Methods
+		
+		/// <summary>Gets the perceived level of brightness in percentage form</summary>
+		/// <param name="color">The color to get the brightness from</param>
+		/// <returns>Returns a percentage number that represents the brightness of a color</returns>
+		public static float Brightness(ref Color color) {
+			// Variables
+			float[] rgb = new float[] {
+				color.Redf * color.alpha,
+				color.Greenf * color.alpha,
+				color.Bluef * color.alpha
+			};
+			
+			for(int i = 0; i < rgb.Length; i++) {
+				rgb[i] = (rgb[i] < 0.03928f ?
+					rgb[i] / 12.92f :
+					Mathx.Pow((rgb[i] + 0.055f) / 1.055f, 2.4f)
+				);
+			}
+			
+			return (
+				0.2126f * rgb[0] +
+				0.7152f * rgb[1] +
+				0.0722f * rgb[2]
+			);
+		}
+		
+		/// <summary>Gets the perceived level of brightness in percentage form</summary>
+		/// <param name="color">The color to get the brightness from</param>
+		/// <returns>Returns a percentage number that represents the brightness of a color</returns>
+		public static float Brightness(Color color) { return Brightness(ref color); }
+		
+		#endregion // Brightness Methods
+		
+		#region Contrast Methods
+		
+		/// <summary>Compares the two colors and finds the contrast between them</summary>
+		/// <param name="colorA">The first color to compare</param>
+		/// <param name="colorB">The second color to compare</param>
+		/// <returns>Returns a floating point number between 1 and 21</returns>
+		/// <remarks>A rating of 4.5 or larger is an easily percievable color contrast</remarks>
+		public static float Contrast(ref Color colorA, ref Color colorB) {
+			// Variables
+			float brightnessA = Brightness(ref colorA);
+			float brightnessB = Brightness(ref colorB);
+			float brightest = Mathx.Max(brightnessA, brightnessB);
+			float darkest = Mathx.Min(brightnessA, brightnessB);
+			
+			return (brightest + 0.05f) / (darkest + 0.05f);
+		}
+		
+		/// <summary>Compares the two colors and finds the contrast between them</summary>
+		/// <param name="colorA">The first color to compare</param>
+		/// <param name="colorB">The second color to compare</param>
+		/// <returns>Returns a floating point number between 1 and 21</returns>
+		/// <remarks>A rating of 4.5 or larger is an easily percievable color contrast</remarks>
+		public static float Contrast(Color colorA, Color colorB) { return Contrast(ref colorA, ref colorB); }
+		
+		#endregion // Contrast Methods
+		
 		#endregion // Public Static Methods
 		
 		#region Public Methods
+		
+		/// <summary>Gets the perceived level of brightness in percentage form</summary>
+		/// <returns>Returns a percentage number that represents the brightness of a color</returns>
+		public float Brightness() { return Brightness(ref this); }
+		
+		/// <summary>Compares the two colors and finds the contrast between them</summary>
+		/// <param name="other">The other color to compare</param>
+		/// <returns>Returns a floating point number between 1 and 21</returns>
+		/// <remarks>A rating of 4.5 or larger is an easily percievable color contrast</remarks>
+		public float Contrast(Color other) { return Contrast(ref this, ref other); }
 		
 		/// <summary>Adds this color with the other color</summary>
 		/// <param name="other">The other color to add with</param>

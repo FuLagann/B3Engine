@@ -21,15 +21,15 @@ namespace B3.Testing {
 		private static B3G.Texture2D texture2;
 		private static B3G.Texture2D texture3;
 		private static Vertex3PCT[] vertices = new Vertex3PCT[] {
-			new Vertex3PCT(new Vector3(0.5f, 0.5f, 0.0f), Color.Red, new Vector2(1.0f, 0.0f)),
-			new Vertex3PCT(new Vector3(0.5f, -0.5f, 0.0f), Color.Green, new Vector2(1.0f, 1.0f)),
-			new Vertex3PCT(new Vector3(-0.5f, -0.5f, 0.0f), Color.Blue, new Vector2(0.0f, 1.0f)),
-			new Vertex3PCT(new Vector3(-0.5f, 0.5f, 0.0f), Color.Magenta, new Vector2(0.0f, 0.0f))
+			new Vertex3PCT(new Vector3(0.5f, 0.5f, 0.0f), new Color("Red"), new Vector2(1.0f, 0.0f)),
+			new Vertex3PCT(new Vector3(0.5f, -0.5f, 0.0f), new Color("Green"), new Vector2(1.0f, 1.0f)),
+			new Vertex3PCT(new Vector3(-0.5f, -0.5f, 0.0f), new Color("Blue"), new Vector2(0.0f, 1.0f)),
+			new Vertex3PCT(new Vector3(-0.5f, 0.5f, 0.0f), new Color("Magenta"), new Vector2(0.0f, 0.0f))
 		};
 		private static Vertex3PCT[] arrayVertices = new Vertex3PCT[] {
-			new Vertex3PCT(new Vector3(0.0f, 0.8f, 0.0f), Color.Magenta, new Vector2(0.0f, 0.0f)),
-			new Vertex3PCT(new Vector3(0.5f, 0.6f, 0.0f), Color.Yellow, new Vector2(1.0f, 0.0f)),
-			new Vertex3PCT(new Vector3(-0.5f, 0.6f, 0.0f), Color.Yellow, new Vector2(0.5f, 1.0f))
+			new Vertex3PCT(new Vector3(0.0f, 0.8f, 0.0f), new Color("Magenta"), new Vector2(0.0f, 0.0f)),
+			new Vertex3PCT(new Vector3(0.5f, 0.6f, 0.0f), new Color("Yellow"), new Vector2(1.0f, 0.0f)),
+			new Vertex3PCT(new Vector3(-0.5f, 0.6f, 0.0f), new Color("Yellow"), new Vector2(0.5f, 1.0f))
 		};
 		// private static Vector3[] vertices = new Vector3[] {
 		// 	new Vector3(0.5f, 0.5f, 0.0f),
