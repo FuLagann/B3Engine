@@ -2,7 +2,6 @@
 using Xunit;
 
 namespace B3.Testing {
-	// TRACK: 197 tests
 	/// <summary>Tests the <see cref="B3.Color"/> structure to make sure it works correctly. Contains 58 tests</summary>
 	public class ColorTest {
 		#region Public Test Methods
@@ -68,11 +67,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Color(string)"/> functionality.
 		/// Creates a color using a hex code or name of a color and checks to see if the bytes are correct
 		/// </summary>
-		/// <param name="hex">The hex code to create the color from</param>
-		/// <param name="expectedRed">The expected red byte</param>
-		/// <param name="expectedGreen">The expected green byte</param>
-		/// <param name="expectedBlue">The expected blue byte</param>
-		/// <param name="expectedAlpha">The expected alpha byte</param>
 		[Theory]
 		[InlineData("#101820", 16, 24, 32, 255)]
 		[InlineData("#10182028", 16, 24, 32, 40)]
@@ -102,11 +96,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.ToHex"/> functionality.
 		/// Converts a color into a string hex and checks to see if its correct
 		/// </summary>
-		/// <param name="r">The red byte to set</param>
-		/// <param name="g">The green byte to set</param>
-		/// <param name="b">The blue byte to set</param>
-		/// <param name="a">The alpha byte to set</param>
-		/// <param name="expected">The expected hex string to check with</param>
 		[Theory]
 		[InlineData(1, 2, 3, 255, "#010203")]
 		[InlineData(16, 24, 32, 255, "#101820")]
@@ -124,9 +113,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Add(Color)"/> functionality.
 		/// Adds to colors together and checks to see if its correct
 		/// </summary>
-		/// <param name="colorA">The first color to add with</param>
-		/// <param name="colorB">The second color to add with</param>
-		/// <param name="expectedColorHex">The expected color to check with</param>
 		[Theory]
 		[InlineData("#000", "#fff", "#fff")]
 		[InlineData("#fff", "#000", "#fff")]
@@ -146,9 +132,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Subtract(Color)"/> functionality.
 		/// Subtracts a color from another and chekcs to see if its correct
 		/// </summary>
-		/// <param name="colorA">The first color to subtract from</param>
-		/// <param name="colorB">The second color to subtract with</param>
-		/// <param name="expectedColorHex">The expected color to check with</param>
 		[Theory]
 		[InlineData("#000", "#fff", "#000")]
 		[InlineData("#fff", "#000", "#fff")]
@@ -167,8 +150,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Invert"/> functionality.
 		/// Inverts the color and checks to see if its correct
 		/// </summary>
-		/// <param name="colorHex">The color to invert</param>
-		/// <param name="expectedHex">The expected color to check with</param>
 		[Theory]
 		[InlineData("#fff", "#000")]
 		[InlineData("#123", "#edc")]
@@ -186,8 +167,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Grayscale"/> functionality.
 		/// Converts the color to grayscale and checks to see if its correct
 		/// </summary>
-		/// <param name="colorHex">The color to grayscale</param>
-		/// <param name="expectedHex">The expected color to check with</param>
 		[Theory]
 		[InlineData("#777", "#777")]
 		[InlineData("#123456", "#343434")]
@@ -206,8 +185,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Brightness"/> functionality.
 		/// Checks the brightness percentage and checks to see if its correct
 		/// </summary>
-		/// <param name="hex">The color to check the brightness</param>
-		/// <param name="expected">The expected color to check with</param>
 		[Theory]
 		[InlineData("red", 0.2126f)]
 		[InlineData("#000", 0.0f)]
@@ -228,9 +205,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Contrast(Color)"/> functionality.
 		/// Gets the contrast ratio of the two colors and checks to see if its correct
 		/// </summary>
-		/// <param name="hexA">The first color to contrast with</param>
-		/// <param name="hexB">The second color to contrast with</param>
-		/// <param name="expected">The expected color to check with</param>
 		[Theory]
 		[InlineData("red", "green", 1.2848399f)]
 		[InlineData("orange", "darkslateblue", 4.591844f)]
@@ -250,9 +224,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Multiply(float)"/> functionality.
 		/// Multiplies the color with a scalar and checks to see if its correct
 		/// </summary>
-		/// <param name="scalar">The scalar used to multiply the color with</param>
-		/// <param name="hex">The color to multiply with</param>
-		/// <param name="expectedHex">The expected color to check with</param>
 		[Theory]
 		[InlineData(1.0f, "#508", "#508")]
 		[InlineData(2.0f, "#123", "#246")]
@@ -272,9 +243,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Color.Divide(float)"/> functionality.
 		/// Divides the color with a scalar and checks to see if its color
 		/// </summary>
-		/// <param name="hex">The color used to divide with</param>
-		/// <param name="scalar">The scalar used to divide the color with</param>
-		/// <param name="expectedHex">The expected color to check with</param>
 		[Theory]
 		[InlineData("#123", 1.0f, "#123")]
 		[InlineData("#123", 2.0f, "#081119")]

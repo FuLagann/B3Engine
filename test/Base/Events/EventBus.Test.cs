@@ -128,7 +128,6 @@ namespace B3.Events.Testing {
 		/// Uses a single subscriber class.
 		/// Should not alter any data and checks if its the same as the input string
 		/// </summary>
-		/// <param name="expected">The input string to check for and expect</param>
 		[Theory]
 		[InlineData("123")]
 		[InlineData("Hello World!")]
@@ -151,7 +150,6 @@ namespace B3.Events.Testing {
 		/// Uses two subscriber classes.
 		/// Should not alter any data and checks if its the same as the input string
 		/// </summary>
-		/// <param name="expected">The input string to check for and expect</param>
 		[Theory]
 		[InlineData("123")]
 		[InlineData("Hello World!")]
@@ -195,7 +193,6 @@ namespace B3.Events.Testing {
 		/// Uses a delegate.
 		/// Should not alter the data
 		/// </summary>
-		/// <param name="expected"></param>
 		[Theory]
 		[InlineData("123")]
 		[InlineData("Hello World!")]

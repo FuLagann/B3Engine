@@ -10,7 +10,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Points"/> construction.
 		/// Checks to see if the points gets constructed correctly
 		/// </summary>
-		/// <param name="points">The points to set in the curve's construction</param>
 		[Theory]
 		[InlineData(new float[] { 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1 })]
 		[InlineData(new float[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 })]
@@ -26,8 +25,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Duration"/> construction.
 		/// Checks to see if the duration gets constructed correctly
 		/// </summary>
-		/// <param name="duration">The duration to set in the curve's construction</param>
-		/// <param name="points">The points to set in the curve's construction</param>
 		[Theory]
 		[InlineData(10, new float[] { 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1 })]
 		[InlineData(3, new float[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 })]
@@ -42,11 +39,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Value"/> and <see cref="B3.BezierCurve.Time"/> functionality.
 		/// Checks the value after a specific time has passed
 		/// </summary>
-		/// <param name="time">The time set to be passed</param>
-		/// <param name="ex">The x coordinate of the expected vector</param>
-		/// <param name="ey">The y coordinate of the expected vector</param>
-		/// <param name="ez">The z coordinate of the expected vector</param>
-		/// <param name="points">The points to set in the curve's construction</param>
 		[Theory]
 		[InlineData(0, 0f, 0f, 0f, new float[] { 0f, 0f, 0f, 0f, 4f, 0f, 4f, 4f, 0f, 4f, 0f, 0f })]
 		[InlineData(0.08333334, 0.05324074f, 0.6365741f, 0f, new float[] { 0f, 0f, 0f, 0f, 4f, 0f, 4f, 4f, 0f, 4f, 0f, 0f })]
@@ -75,11 +67,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Value"/>, <see cref="B3.BezierCurve.Time"/>, and <see cref="B3.BezierCurve.LoopType"/> functionalty.
 		/// Checks the value after a specific time has passed and is set to be backwards
 		/// </summary>
-		/// <param name="time">The time set to be passed</param>
-		/// <param name="ex">The x coordinate of the expected vector</param>
-		/// <param name="ey">The y coordinate of the expected vector</param>
-		/// <param name="ez">The z coordinate of the expected vector</param>
-		/// <param name="points">The points to set in the curve's construction</param>
 		[Theory]
 		[InlineData(0, 0f, 0f, 12f, new float[] { 0f, 0f, 0f, 4f, 0f, 0f, 0f, 8f, 0f, 0f, 0f, 12f })]
 		[InlineData(0.08333334, 0.3310184f, 1.12037f, 9.243056f, new float[] { 0f, 0f, 0f, 4f, 0f, 0f, 0f, 8f, 0f, 0f, 0f, 12f })]
@@ -109,11 +96,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Add(Vector3)"/> functionality.
 		/// Adds a point to an already established curve and checks to see if it returns the correct array
 		/// </summary>
-		/// <param name="x">The x-coordinate of the new point</param>
-		/// <param name="y">The y-coordinate of the new point</param>
-		/// <param name="z">The z-coordinate of the new point</param>
-		/// <param name="points">The set of points to preplace into the curve</param>
-		/// <param name="expectedPoints">The expected set of points to check with</param>
 		[Theory]
 		[InlineData(0, 0, 1, new float[] { 0, 0, 0, 1, 0, 0 }, new float[] { 0, 0, 0, 1, 0, 0, 0, 0, 1 })]
 		[InlineData(0, 0, 1, new float[] { 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 1 })]
@@ -133,11 +115,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Remove(Vector3)"/> functionality.
 		/// Removes a point from the already established curve and checks to see if it retuns the correct array
 		/// </summary>
-		/// <param name="x">The x-coordinate of the point to find</param>
-		/// <param name="y">The y-coordinate of the point to find</param>
-		/// <param name="z">The z-coordinate of the point to find</param>
-		/// <param name="points">The set of points to preplace into the curve</param>
-		/// <param name="expectedPoints">The expexcted set of points to check with</param>
 		[Theory]
 		[InlineData(1, 0, 1, new float[] { 0, 0, 0, 1, 0, 1 }, new float[] { 0, 0, 0 })]
 		[InlineData(1, 0, 1, new float[] { 0, 0, 0 }, new float[] { 0, 0, 0 })]
@@ -158,9 +135,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.RemoveAt(int)"/> functionality.
 		/// Removes a point from a given index from the already established curve and checks to see if it returns the correct array
 		/// </summary>
-		/// <param name="index">The index to remove the point from </param>
-		/// <param name="points">The set of points to preplace into the curve</param>
-		/// <param name="expectedPoints">The expected set of points to check with</param>
 		[Theory]
 		[InlineData(1, new float[] { 0, 0, 0, 1, 0, 1 }, new float[] { 0, 0, 0 })]
 		[InlineData(-1, new float[] { 0, 0, 0 }, new float[] { 0, 0, 0 })]
@@ -181,12 +155,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Insert(int, Vector3)"/> functionality.
 		/// Inserts a points into a given index from an already established curve and checks to see if it returns the correct array
 		/// </summary>
-		/// <param name="index">The index to insert the point into</param>
-		/// <param name="x">The x-coordinate of the new point to insert into</param>
-		/// <param name="y">The y-coordinate of the new point to insert into</param>
-		/// <param name="z">The z-coordinate of the new point to insert into</param>
-		/// <param name="points">The set of points to preplace into the curve</param>
-		/// <param name="expectedPoints">The expected set of points to check with</param>
 		[Theory]
 		[InlineData(1, 0, 1, 1, new float[] { 0, 0, 0, 1, 0, 0 }, new float[] { 0, 0, 0, 0, 1, 1, 1, 0, 0 })]
 		[InlineData(0, 0, 1, 1, new float[] { 0, 0, 0 }, new float[] { 0, 1, 1, 0, 0, 0 })]
@@ -208,11 +176,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.IndexOf(Vector3)"/> functionality.
 		/// Finds the index of a point using an index and checks if its the correct index
 		/// </summary>
-		/// <param name="expected">The expected index to check with</param>
-		/// <param name="x">The x-coordinate of the point to find</param>
-		/// <param name="y">The y-coordinate of the point to find</param>
-		/// <param name="z">The z-coordinate of the point to find</param>
-		/// <param name="points">The set of points to preplace into the curve</param>
 		[Theory]
 		[InlineData(0, 0, 0, 0, new float[] { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 })]
 		[InlineData(2, 0, 1, 0, new float[] { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 })]
@@ -230,7 +193,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Clear"/> functionality.
 		/// Clears the entire curve and checks if the array is empty
 		/// </summary>
-		/// <param name="points">The set of points to preplace into the curve</param>
 		[Theory]
 		[InlineData(new float[] { 0, 0, 0, 1, 2, 3 })]
 		[InlineData(new float[] { 0, 0, 0, 1, 0, 0, 0, 0, 1 })]
@@ -251,11 +213,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.BezierCurve.Contains(Vector3)"/> functionality.
 		/// Finds if a point 
 		/// </summary>
-		/// <param name="expected">The expected boolean results</param>
-		/// <param name="x">The x-coordinate of the point to check with</param>
-		/// <param name="y">The y-coordinate of the point to check with</param>
-		/// <param name="z">The z-coordinate of the point to check with</param>
-		/// <param name="points">The set of points to preplace into the curve</param>
 		[Theory]
 		[InlineData(true, 0, 0, 0, new float[] { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 })]
 		[InlineData(true, 0, 1, 0, new float[] { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 })]

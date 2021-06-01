@@ -3,7 +3,7 @@ using Xunit;
 using Xunit.Abstractions;
 
 namespace B3.Testing {
-	// TRACK: 53 tests before this
+	/// <summary>Tests the <see cref="B3.Plane"/> structure to make sure it works correctly. Contains 12 tests</summary>
 	public class PlaneTest {
 		#region Public Test Method
 		
@@ -108,19 +108,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Plane.CreateFromThreePoints(ref Vector3, ref Vector3, ref Vector3)"/> functionality.
 		/// Checks to see if the method creates a plane accurately
 		/// </summary>
-		/// <param name="x0">The x-coordinate of the first point to check with</param>
-		/// <param name="y0">The y-coordinate of the first point to check with</param>
-		/// <param name="z0">The z-coordinate of the first point to check with</param>
-		/// <param name="x1">The x-coordinate of the second point to check with</param>
-		/// <param name="y1">The y-coordinate of the second point to check with</param>
-		/// <param name="z1">The z-coordinate of the second point to check with</param>
-		/// <param name="x2">The x-coordinate of the third point to check with</param>
-		/// <param name="y2">The y-coordinate of the third point to check with</param>
-		/// <param name="z2">The z-coordinate of the third point to check with</param>
-		/// <param name="ex">The x-coordinate of the expected normal of the plane</param>
-		/// <param name="ey">The y-coordinate of the expected normal of the plane</param>
-		/// <param name="ez">The z-coordinate of the expected normal of the plane</param>
-		/// <param name="ed">The expected distance of the plane</param>
 		[Theory]
 		[InlineData(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0)]
 		[InlineData(1, 0, 1, -1, 0, 0, 2, 0, 2, 0, 1, 0, 0)]

@@ -37,7 +37,6 @@ namespace B3.Events.Testing {
 		/// Uses a delegate method.
 		/// Checks to see the input float is the same inside the event arguments
 		/// </summary>
-		/// <param name="expected">The floating point number to expect from the event arguments</param>
 		[Theory]
 		[InlineData(1.0f)]
 		[InlineData(0.15f)]
@@ -56,7 +55,6 @@ namespace B3.Events.Testing {
 		/// Uses a lambda method.
 		/// Checks to see the input float is the same inside the event arguments
 		/// </summary>
-		/// <param name="expected">The floating point number to expect from the event arguments</param>
 		[Theory]
 		[InlineData(1.0f)]
 		[InlineData(0.15f)]

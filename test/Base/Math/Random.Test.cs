@@ -19,8 +19,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.GenerateNext(int[])"/> functionality.
 		/// Inputs a state and checks to see if the output is correct
 		/// </summary>
-		/// <param name="state">The state of the randomizer</param>
-		/// <param name="expected">The expected value to come out of the randomizer</param>
 		[Theory]
 		[InlineData(0, 3063190229)]
 		[InlineData(1, 2689250694)]
@@ -35,8 +33,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.GenerateNextInt32(out int, int[])"/> functionality.
 		/// Inputs a state and checks to see if the output is correct
 		/// </summary>
-		/// <param name="state">The state of the randomizer</param>
-		/// <param name="expected">The expected value to come out of the randomizer</param>
 		[Theory]
 		[InlineData(0, -1231777067)]
 		[InlineData(-1231777067, 1495252724)]
@@ -54,8 +50,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.GenerateNextFloat01(out int, int[])"/> functionality.
 		/// Inputs a state and checks to see if the output is correct
 		/// </summary>
-		/// <param name="state">The state of the randomizer</param>
-		/// <param name="expected">The expected value to come out of the randomizer</param>
 		[Theory]
 		[InlineData(0, 0.5735714f)]
 		[InlineData(-1231777067, 0.745922f)]
@@ -75,8 +69,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Noise(float[])"/> functionality using simple whole numbers.
 		/// Inputs a state that are just whole numbers and checks to see if the output is correct
 		/// </summary>
-		/// <param name="expected">The expected value to come out of the noise function</param>
-		/// <param name="x">The value to input</param>
 		[Theory]
 		[InlineData(0.5735714f, 0)]
 		[InlineData(0.7090868f, 1)]
@@ -91,8 +83,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Noise(float[])"/> functionality using fractional numbers.
 		/// Inputs a state that are fractional numbers and checks to see if the output is correct
 		/// </summary>
-		/// <param name="expected">The expected value to come out of the noise function</param>
-		/// <param name="x">The value to input</param>
 		[Theory]
 		[InlineData(0.5735714f, 0)]
 		[InlineData(0.07731746f, 0.1)]
@@ -107,10 +97,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Noise(float[])"/> functionality using a set of numbers.
 		/// Inputs a state that are a list of numbers and checks to see if the input is correct
 		/// </summary>
-		/// <param name="expected">The expected value to come out of the noise function</param>
-		/// <param name="x">The first value to pass</param>
-		/// <param name="y">The second value to pass</param>
-		/// <param name="z">The third value to pass</param>
 		[Theory]
 		[InlineData(0.6561532f, 1, 2, 3)]
 		[InlineData(0.3563897f, 1, 2, 4)]
@@ -125,9 +111,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Noise(ref Vector2)"/> functionality using a 2D vector.
 		/// Inputs a state that is a vector and checks to see if the input is correct
 		/// </summary>
-		/// <param name="expected">The expected value to come out of the noise function</param>
-		/// <param name="x">The first value to pass in</param>
-		/// <param name="y">The second value to pass in</param>
 		[Theory]
 		[InlineData(0.94288546f, 1, 1)]
 		[InlineData(0.30435646f, 1.1, 1)]
@@ -145,10 +128,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Noise(ref Vector3)"/> functionality using a 3D vector.
 		/// Inputs a state that is a vector and checks to see if the input is correct
 		/// </summary>
-		/// <param name="expected">The expected value to come out of the noise function</param>
-		/// <param name="x">The first value to pass in</param>
-		/// <param name="y">The second value to pass in</param>
-		/// <param name="z">The third value to pass in</param>
 		[Theory]
 		[InlineData(0.6561532f, 1, 2, 3)]
 		[InlineData(0.3563897f, 1, 2, 4)]
@@ -166,11 +145,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Noise(ref Vector4)"/> functionality using a 4D vector.
 		/// Inputs a state that is a vector and checks to see if the input is correct
 		/// </summary>
-		/// <param name="expected">The expected value to come out of the noise function</param>
-		/// <param name="x">The first value to pass in</param>
-		/// <param name="y">The second value to pass in</param>
-		/// <param name="z">The third value to pass in</param>
-		/// <param name="w">The forth value to pass in</param>
 		[Theory]
 		[InlineData(0.52636f, -1, 1, -1, 1)]
 		[InlineData(0.055344474f, -10, 10, -100, 100)]
@@ -192,9 +166,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Range(float, float)"/> functionality.
 		/// Gets a number within a specific range and checks to see if its within that range
 		/// </summary>
-		/// <param name="state">The state to set the randomizer to</param>
-		/// <param name="min">The minimum extent of the range</param>
-		/// <param name="max">The maximum extent of the range</param>
 		[Theory]
 		[InlineData(0, 0, 0.00001f)]
 		[InlineData(255, 0, 1)]
@@ -210,9 +181,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Range(float, float)"/> functionality.
 		/// Gets a number within a specific range at state 0 and checks to see if its the correct number
 		/// </summary>
-		/// <param name="expected">The expected number to check for</param>
-		/// <param name="min">The minimum extent of the range</param>
-		/// <param name="max">The maximum extent of the range</param>
 		[Theory]
 		[InlineData(0.05735714, 0, 0.1f)]
 		[InlineData(0.5735714, 0, 1)]
@@ -230,7 +198,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.Angle"/> functionality.
 		/// Gets a number within a radian angle [0, 2 pi] and checks to see if its correct
 		/// </summary>
-		/// <param name="state">The state of the randomizer to set</param>
 		[Theory]
 		[InlineData(0)]
 		[InlineData(1)]
@@ -246,7 +213,6 @@ namespace B3.Testing {
 		/// Tests the <see cref="B3.Random.AngleDeg"/> functionality.
 		/// Gets a number within a radian angle [0, 360] and checks to see if its correct
 		/// </summary>
-		/// <param name="state">The state of the randomizer to set</param>
 		[Theory]
 		[InlineData(0)]
 		[InlineData(1)]
