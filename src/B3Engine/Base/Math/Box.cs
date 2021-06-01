@@ -44,40 +44,42 @@ namespace B3 {
 		public float Near { get { return Mathx.Min(this.z, this.z + this.depth); } }
 		
 		/// <summary>Gets the far most part of the box</summary>
-		public float Far { get { return Mathx.Min(this.z, this.z + this.depth); } }
+		public float Far { get { return Mathx.Max(this.z, this.z + this.depth); } }
 		
 		/// <summary>Gets the farthest top left corner of the box</summary>
-		public Vector3 FarTopLeft { get { return new Vector3(Left, Top, Far); } }
+		public Vector3 FarTopLeft { get { return new Vector3(this.Left, this.Top, this.Far); } }
 		
 		/// <summary>Gets the nearthest top left corner of the box</summary>
-		public Vector3 NearTopLeft { get { return new Vector3(Left, Top, Near); } }
+		public Vector3 NearTopLeft { get { return new Vector3(this.Left, this.Top, this.Near); } }
 		
 		/// <summary>Gets the farthest top right corner of the box</summary>
-		public Vector3 FarTopRight { get { return new Vector3(Right, Top, Far); } }
+		public Vector3 FarTopRight { get { return new Vector3(this.Right, this.Top, this.Far); } }
 		
 		/// <summary>Gets the nearest top right corner of the box</summary>
-		public Vector3 NearTopRight { get { return new Vector3(Right, Top, Near); } }
+		public Vector3 NearTopRight { get { return new Vector3(this.Right, this.Top, this.Near); } }
 		
 		/// <summary>Gets the farthest bottom left corner of the box</summary>
-		public Vector3 FarBottomLeft { get { return new Vector3(Left, Bottom, Far); } }
+		public Vector3 FarBottomLeft { get { return new Vector3(this.Left, this.Bottom, this.Far); } }
 		
 		/// <summary>Gets the nearest bottom left corner of the box</summary>
-		public Vector3 NearBottomLeft { get { return new Vector3(Left, Bottom, Near); } }
+		public Vector3 NearBottomLeft { get { return new Vector3(this.Left, this.Bottom, this.Near); } }
 		
 		/// <summary>Gets the farthest bottom right corner of the box</summary>
-		public Vector3 FarBottomRight { get { return new Vector3(Right, Bottom, Far); } }
+		public Vector3 FarBottomRight { get { return new Vector3(this.Right, this.Bottom, this.Far); } }
 		
 		/// <summary>Gets the nearest bottom right corner of the box</summary>
-		public Vector3 NearBottomRight { get { return new Vector3(Right, Bottom, Near); } }
+		public Vector3 NearBottomRight { get { return new Vector3(this.Right, this.Bottom, this.Near); } }
 		
-		/// <summary>Gets and sets the position of the box</summary>
+		/// <summary>Gets and sets the original position of the box</summary>
+		/// <remarks>This isn't the corner with the smallest values; to get that use <see cref="B3.Box.NearTopLeft"/> property</remarks>
 		public Vector3 Position { get { return new Vector3(this.x, this.y, this.z); } set {
 			this.x = value.x;
 			this.y = value.y;
 			this.z = value.z;
 		} }
 		
-		/// <summary>Gets and sets the size of the box</summary>
+		/// <summary>Gets and sets the original size of the box</summary>
+		/// <remarks>Values could be negative</remarks>
 		public Vector3 Size { get { return new Vector3(this.width, this.height, this.depth); } set {
 			this.width = value.x;
 			this.height = value.y;
