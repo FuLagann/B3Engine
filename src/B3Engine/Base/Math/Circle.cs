@@ -118,7 +118,7 @@ namespace B3 {
 		/// <summary>Creates a circle that encompasses the array of circles given</summary>
 		/// <param name="result">Returns a circle that encompasses the array of circles</param>
 		/// <param name="circles">The array of circles to encompass</param>
-		public static void Encompass(out Circle result, params Circle[] circles) {
+		public static void EncompassRange(out Circle result, params Circle[] circles) {
 			if(circles.Length == 0) {
 				result = Circle.Empty;
 				return;
@@ -134,11 +134,11 @@ namespace B3 {
 		/// <summary>Creates a circle that encompasses the array of circles given</summary>
 		/// <param name="circles">The array of circles to encompass</param>
 		/// <returns>Returns a circle that encompasses the array of circles</returns>
-		public static Circle Encompass(params Circle[] circles) {
+		public static Circle EncompassRange(params Circle[] circles) {
 			// Variables
 			Circle result;
 			
-			Encompass(out result, circles);
+			EncompassRange(out result, circles);
 			
 			return result;
 		}

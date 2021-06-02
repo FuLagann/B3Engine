@@ -2,9 +2,51 @@
 using Xunit;
 
 namespace B3.Testing {
-	/// <summary>Tests the <see cref="B3.Box"/> structure to make sure it works correctly. Contains 45 tests</summary>
+	/// <summary>Tests the <see cref="B3.Box"/> structure to make sure it works correctly. Contains 47 tests</summary>
 	public class BoxTest {
 		#region Public Test Methods
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Box.Empty"/> functionality.
+		/// Creates an empty box and checks to see if its correct
+		/// </summary>
+		[Fact]
+		public void Empty_ReturnsBox() {
+			// Variables
+			Box box = Box.Empty;
+			(float, float, float, float, float, float) expected = (0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+			(float, float, float, float, float, float) actual = (
+				box.x,
+				box.y,
+				box.z,
+				box.width,
+				box.height,
+				box.depth
+			);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Box.One"/> functionality.
+		/// Creates an empty box and checks to see if its correct
+		/// </summary>
+		[Fact]
+		public void One_ReturnsBox() {
+			// Variables
+			Box box = Box.One;
+			(float, float, float, float, float, float) expected = (0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+			(float, float, float, float, float, float) actual = (
+				box.x,
+				box.y,
+				box.z,
+				box.width,
+				box.height,
+				box.depth
+			);
+			
+			Assert.Equal(expected, actual);
+		}
 		
 		/// <summary>
 		/// Tests the <see cref="B3.Box.Left"/> functionality.
