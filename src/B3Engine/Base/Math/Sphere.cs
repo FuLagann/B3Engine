@@ -122,7 +122,7 @@ namespace B3 {
 		/// <summary>Creates a sphere that encompasses the array of spheres given</summary>
 		/// <param name="result">Returns a sphere that encompasses the array of spheres</param>
 		/// <param name="spheres">The array of spheres to encompass</param>
-		public static void Encompass(out Sphere result, params Sphere[] spheres) {
+		public static void EncompassRange(out Sphere result, params Sphere[] spheres) {
 			if(spheres.Length == 0) {
 				result = Sphere.Empty;
 				return;
@@ -138,11 +138,11 @@ namespace B3 {
 		/// <summary>Creates a sphere that encompasses the array of spheres given</summary>
 		/// <param name="spheres">The array of spheres to encompass</param>
 		/// <returns>Returns a sphere that encompasses the array of spheres</returns>
-		public static Sphere Encompass(params Sphere[] spheres) {
+		public static Sphere EncompassRange(params Sphere[] spheres) {
 			// Variables
 			Sphere result;
 			
-			Encompass(out result, spheres);
+			EncompassRange(out result, spheres);
 			
 			return result;
 		}

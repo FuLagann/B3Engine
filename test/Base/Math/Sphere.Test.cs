@@ -1,126 +1,271 @@
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace B3.Testing {
+	/// <summary>Tests the <see cref="B3.Sphere"/> structure to make sure it works correctly. Contains 28 tests.</summary>
 	public class SphereTest {
-		// Variables
-		private ITestOutputHelper output;
+		#region Public Test Methods
 		
-		public SphereTest(ITestOutputHelper output) {
-			this.output = output;
+		/// <summary>
+		/// Tests the <see cref="B3.Sphere.Empty"/> functionality.
+		/// Checks to see if the empty sphere is formed correctly
+		/// </summary>
+		[Fact]
+		public void Empty_ReturnsSphere() {
+			// Variables
+			Sphere sphere = Sphere.Empty;
+			(float, float, float, float) expected = (0.0f, 0.0f, 0.0f, 0.0f);
+			(float, float, float, float) actual = (
+				sphere.X,
+				sphere.Y,
+				sphere.Z,
+				sphere.radius
+			);
+			
+			Assert.Equal(expected, actual);
 		}
 		
-		// [Fact]
-		// public void Constructors() {
-		// 	Assert.Equal(new Sphere(0, 0, 0, 0), Sphere.Empty);
-		// 	Assert.Equal(new Sphere(0, 0, 0, 1), Sphere.Unit);
-		// }
+		/// <summary>
+		/// Tests the <see cref="B3.Sphere.Unit"/> functionality.
+		/// Checks to see if the unit sphere is formed correctly
+		/// </summary>
+		[Fact]
+		public void Unit_ReturnsSphere() {
+			// Variables
+			Sphere sphere = Sphere.Unit;
+			(float, float, float, float) expected = (0.0f, 0.0f, 0.0f, 1.0f);
+			(float, float, float, float) actual = (
+				sphere.X,
+				sphere.Y,
+				sphere.Z,
+				sphere.radius
+			);
+			
+			Assert.Equal(expected, actual);
+		}
 		
-		// [Theory]
-		// [InlineData(4, 0, 1, 5, 5, 0, -1, 5, 4.5, 0, 0, 6.118034)]
-		// [InlineData(4, 0, 1, -10, 0, 0, 0, 5, 4, 0, 1, -10)]
-		// [InlineData(4, 0, 1, -4, 0, 6, 7, 5, 1.786799, 3.319801, 4.319801, 9.190415)]
-		// [InlineData(4, 0, 0, 10, 4, 6, 7, 5, 4, 1.373022, 1.601859, 12.10977)]
-		// public void Encompass(float ax, float ay, float az, float ar, float bx, float by, float bz, float br, float ex, float ey, float ez, float er) {
-		// 	// Variables
-		// 	Sphere a = new Sphere(ax, ay, az, ar);
-		// 	Sphere b = new Sphere(bx, by, bz, br);
-		// 	Sphere e = new Sphere(ex, ey, ez, er);
+		/// <summary>
+		/// Tests the <see cref="B3.Sphere.Encompass(Sphere)"/> functionality.
+		/// Creates a sphere that encompasses two spheres and checks if its correct
+		/// </summary>
+		[Theory]
+		#region Encompass_TwoSpheres_ReturnsSphere Test Data
+		[InlineData(
+			4, 0, 1, 5,
+			5, 0, -1, 5,
+			4.5, 0, 0, 6.118034
+		)]
+		[InlineData(
+			4, 0, 1, -10,
+			0, 0, 0, 5,
+			4, 0, 1, -10
+		)]
+		[InlineData(
+			4, 0, 1, -4,
+			0, 6, 7, 5,
+			1.7867992, 3.3198013, 4.3198013, 9.190416
+		)]
+		[InlineData(
+			4, 0, 0, 10,
+			4, 6, 7, 5,
+			4, 1.3730216, 1.6018586, 12.109773
+		)]
+		#endregion // Encompass_TwoSpheres_ReturnsSphere Test Data
+		public void Encompass_TwoSpheres_ReturnsSphere(
+			float ax, float ay, float az, float ar,
+			float bx, float by, float bz, float br,
+			float ex, float ey, float ez, float er
+		) {
+			// Variables
+			Sphere actual = new Sphere(ax, ay, az, ar);
+			Sphere other = new Sphere(bx, by, bz, br);
+			Sphere expected = new Sphere(ex, ey, ez, er);
 			
-		// 	a = Sphere.Encompass(ref a, ref b);
+			Sphere.Encompass(ref actual, ref other, out actual);
 			
-		// 	this.output.WriteLine("Expected:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(
-		// 		Mathx.Approx(ref e.center, ref a.center, 0.00001f) &&
-		// 		Mathx.Approx(e.radius, a.radius, 0.00001f)
-		// 	);
-		// }
+			Assert.Equal(expected, actual);
+		}
 		
-		// [Theory]
-		// [InlineData(4, 0, 0, 10, 4, 6, 7, 5, 1, 0, 0, 10, 3.362874, 1.081426, 1.261663, 12.88868)]
-		// [InlineData(1, 2, 3, 4, 0, 0, 0, 1, 1, 1, 1, 1, 0.9008919, 1.801784, 2.702676, 4.370829)]
-		// [InlineData(1, 2, 3, 5, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 3, 5)]
-		// [InlineData(1, -3, 3, -3, -2, 0, 0, 3, 1, 1, 1, 5, 0.09836006, -0.5027337, 1.300547, 6.778058)]
-		// public void EncompassRange(float ax, float ay, float az, float ar, float bx, float by, float bz, float br, float cx, float cy, float cz, float cr, float ex, float ey, float ez, float er) {
-		// 	// Variables
-		// 	Sphere a = new Sphere(ax, ay, az, ar);
-		// 	Sphere b = new Sphere(bx, by, bz, br);
-		// 	Sphere c = new Sphere(cx, cy, cz, cr);
-		// 	Sphere e = new Sphere(ex, ey, ez, er);
+		/// <summary>
+		/// Tests the <see cref="B3.Sphere.EncompassRange(Sphere[])"/> functionality.
+		/// Creates a sphere that encompasses multiple spheres and checks if its correct
+		/// </summary>
+		[Theory]
+		#region EncompassRange_MultipleSpheres_ReturnsSphere Test Data
+		[InlineData(
+			4, 0, 0, 10,
+			4, 6, 7, 5,
+			1, 0, 0, 10,
+			3.362874, 1.0814257, 1.2616634, 12.888676
+		)]
+		[InlineData(
+			1, 2, 3, 4,
+			0, 0, 0, 1,
+			1, 1, 1, 1,
+			0.9008919, 1.8017838, 2.7026756, 4.3708286
+		)]
+		[InlineData(
+			1, 2, 3, 5,
+			0, 0, 0, 1,
+			1, 1, 1, 1,
+			1, 2, 3, 5
+		)]
+		[InlineData(
+			1, -3, 3, -3,
+			-2, 0, 0, 3,
+			1, 1, 1, 5,
+			0.09836006, -0.5027337, 1.3005466, 6.7780576
+		)]
+		#endregion // EncompassRange_MultipleSpheres_ReturnsSphere Test Data
+		public void EncompassRange_MultipleSpheres_ReturnsSphere(
+			float ax, float ay, float az, float ar,
+			float bx, float by, float bz, float br,
+			float cx, float cy, float cz, float cr,
+			float ex, float ey, float ez, float er
+		) {
+			// Variables
+			Sphere actual = new Sphere(ax, ay, az, ar);
+			Sphere other = new Sphere(bx, by, bz, br);
+			Sphere another = new Sphere(cx, cy, cz, cr);
+			Sphere expected = new Sphere(ex, ey, ez, er);
 			
-		// 	a = Sphere.Encompass(a, b, c);
+			Sphere.EncompassRange(out actual, actual, other, another);
 			
-		// 	this.output.WriteLine("Expected:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(
-		// 		Mathx.Approx(ref e.center, ref a.center, 0.00001f) &&
-		// 		Mathx.Approx(e.radius, a.radius, 0.00001f)
-		// 	);
-		// }
+			Assert.Equal(expected, actual);
+		}
 		
-		// [Theory]
-		// [InlineData(true, 0, 0, 0, 3, 0, -3, 0, 1)]
-		// [InlineData(true, 0, 0, 0, 3, 0, -4, 0, -3)]
-		// [InlineData(false, 0, 0, 0, 3, 0, -5, 0, -1)]
-		// [InlineData(true, 0, 0, 0, 3, 0, 0, 0, 2)]
-		// [InlineData(true, 0, 0, 0, 2, 0, 0, 0, 3)]
-		// [InlineData(false, 1, 2, 3, 4, -1, -1, -1, -1)]
-		// [InlineData(true, 1, 2, 3, 4, -1, -2, -3, -4)]
-		// [InlineData(true, 1, 2, 3, 4, 3, 2, 1, 0.4)]
-		// [InlineData(true, 1, 2, 3, 4, 3, 2, 1, 4)]
-		// public void IsOverlapping(bool isTrue, float ax, float ay, float az, float ar, float bx, float by, float bz, float br) {
-		// 	// Variables
-		// 	Sphere a = new Sphere(ax, ay, az, ar);
-		// 	Sphere b = new Sphere(bx, by, bz, br);
+		/// <summary>
+		/// Tests the <see cref="B3.Sphere.IsOverlapping(Sphere)"/> functionality.
+		/// Checks to see if the two spheres are overlapping
+		/// </summary>
+		[Theory]
+		#region IsOverlapping_TwoSpheres_ReturnsBoolean Test Data
+		[InlineData(
+			0, 0, 0, 3,
+			0, -3, 0, 1, true
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, -4, 0, -3, true
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, -5, 0, -1, false
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, 0, 0, 2, true
+		)]
+		[InlineData(
+			0, 0, 0, 2,
+			0, 0, 0, 3, true
+		)]
+		[InlineData(
+			1, 2, 3, 4,
+			-1, -1, -1, -1, false
+		)]
+		#endregion // IsOverlapping_TwoSpheres_ReturnsBoolean Test Data
+		public void IsOverlapping_TwoSpheres_ReturnsBoolean(
+			float ax, float ay, float az, float ar,
+			float bx, float by, float bz, float br,
+			bool expected
+		) {
+			// Variables
+			Sphere a = new Sphere(ax, ay, az, ar);
+			Sphere b = new Sphere(bx, by, bz, br);
+			bool actual = a.IsOverlapping(b);
 			
-		// 	if(isTrue)	Assert.True(Sphere.IsOverlapping(ref a, ref b));
-		// 	else	Assert.False(Sphere.IsOverlapping(ref a, ref b));
-		// }
+			Assert.Equal(expected, actual);
+		}
 		
-		// [Theory]
-		// [InlineData(false, 0, 0, 0, 3, 0, -3, 0, 1)]
-		// [InlineData(false, 0, 0, 0, 3, 0, -4, 0, -3)]
-		// [InlineData(true, 0, 0, 0, 3, 0, -5, 0, -1)]
-		// [InlineData(false, 0, 0, 0, 3, 0, 0, 0, 2)]
-		// [InlineData(false, 0, 0, 0, 2, 0, 0, 0, 3)]
-		// [InlineData(true, 1, 2, 3, 4, -1, -1, -1, -1)]
-		// [InlineData(false, 1, 2, 3, 4, -1, -2, -3, -4)]
-		// [InlineData(false, 1, 2, 3, 4, 3, 2, 1, 0.4)]
-		// [InlineData(false, 1, 2, 3, 4, 3, 2, 1, 4)]
-		// public void IsDisjoint(bool isTrue, float ax, float ay, float az, float ar, float bx, float by, float bz, float br) {
-		// 	// Variables
-		// 	Sphere a = new Sphere(ax, ay, az, ar);
-		// 	Sphere b = new Sphere(bx, by, bz, br);
+		/// <summary>
+		/// Tests the <see cref="B3.Sphere.IsDisjoint(Sphere)"/> functionality.
+		/// Checks to see if the two spheres are disjoint
+		/// </summary>
+		[Theory]
+		#region IsDisjoint_TwoSpheres_ReturnsBoolean Test Data
+		[InlineData(
+			0, 0, 0, 3,
+			0, -3, 0, 1, false
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, -4, 0, -3, false
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, -5, 0, -1, true
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, 0, 0, 2, false
+		)]
+		[InlineData(
+			0, 0, 0, 2,
+			0, 0, 0, 3, false
+		)]
+		[InlineData(
+			1, 2, 3, 4,
+			-1, -1, -1, -1, true
+		)]
+		#endregion // IsDisjoint_TwoSpheres_ReturnsBoolean Test Data
+		public void IsDisjoint_TwoSpheres_ReturnsBoolean(
+			float ax, float ay, float az, float ar,
+			float bx, float by, float bz, float br,
+			bool expected
+		) {
+			// Variables
+			Sphere a = new Sphere(ax, ay, az, ar);
+			Sphere b = new Sphere(bx, by, bz, br);
+			bool actual = a.IsDisjoint(b);
 			
-		// 	if(isTrue)	Assert.True(Sphere.IsDisjoint(ref a, ref b));
-		// 	else	Assert.False(Sphere.IsDisjoint(ref a, ref b));
-		// }
+			Assert.Equal(expected, actual);
+		}
 		
-		// [Theory]
-		// [InlineData(false, 0, 0, 0, 3, 0, -3, 0, 1)]
-		// [InlineData(false, 0, 0, 0, 3, 0, -4, 0, -3)]
-		// [InlineData(false, 0, 0, 0, 3, 0, -5, 0, -1)]
-		// [InlineData(true, 0, 0, 0, 3, 0, 0, 0, 2)]
-		// [InlineData(false, 0, 0, 0, 2, 0, 0, 0, 3)]
-		// [InlineData(false, 1, 2, 3, 4, -1, -1, -1, -1)]
-		// [InlineData(false, 1, 2, 3, 4, -1, -2, -3, -4)]
-		// [InlineData(true, 1, 2, 3, 4, 3, 2, 1, 0.4)]
-		// [InlineData(false, 1, 2, 3, 4, 3, 2, 1, 4)]
-		// public void IsContained(bool isTrue, float ax, float ay, float az, float ar, float bx, float by, float bz, float br) {
-		// 	// Variables
-		// 	Sphere a = new Sphere(ax, ay, az, ar);
-		// 	Sphere b = new Sphere(bx, by, bz, br);
+		/// <summary>
+		/// Tests the <see cref="B3.Sphere.IsContained(Sphere)"/> functionality.
+		/// Checks to see if one sphere is contained within the other sphere
+		/// </summary>
+		[Theory]
+		#region IsContained_TwoSpheres_ReturnsBoolean Test Data
+		[InlineData(
+			0, 0, 0, 3,
+			0, -3, 0, 1, false
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, -4, 0, -3, false
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, -5, 0, -1, false
+		)]
+		[InlineData(
+			0, 0, 0, 3,
+			0, 0, 0, 2, true
+		)]
+		[InlineData(
+			0, 0, 0, 2,
+			0, 0, 0, 3, false
+		)]
+		[InlineData(
+			1, 2, 3, 4,
+			-1, -1, -1, -1, false
+		)]
+		#endregion // IsContained_TwoSpheres_ReturnsBoolean Test Data
+		public void IsContained_TwoSpheres_ReturnsBoolean(
+			float ax, float ay, float az, float ar,
+			float bx, float by, float bz, float br,
+			bool expected
+		) {
+			// Variables
+			Sphere a = new Sphere(ax, ay, az, ar);
+			Sphere b = new Sphere(bx, by, bz, br);
+			bool actual = a.IsContained(b);
 			
-		// 	if(isTrue)	Assert.True(Sphere.IsContained(ref a, ref b));
-		// 	else	Assert.False(Sphere.IsContained(ref a, ref b));
-		// }
+			Assert.Equal(expected, actual);
+		}
+		
+		#endregion // Public Test Methods
 	}
 }
