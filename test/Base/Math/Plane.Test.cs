@@ -1,6 +1,5 @@
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace B3.Testing {
 	/// <summary>Tests the <see cref="B3.Plane"/> structure to make sure it works correctly. Contains 12 tests</summary>

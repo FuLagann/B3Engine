@@ -1,6 +1,5 @@
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace B3.Testing {
 	/// <summary>Tests the <see cref="B3.Circle"/> structure to make sure it works correctly. Contains 28 tests</summary>

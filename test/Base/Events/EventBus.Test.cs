@@ -1,6 +1,5 @@
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace B3.Events.Testing {
 	/// <summary>Tests the <see cref="B3.Events.EventBus"/> class to make sure it works correctly. Contains 21 tests</summary>
