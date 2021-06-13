@@ -147,8 +147,8 @@ namespace B3.Testing {
 		/// </summary>
 		[Theory]
 		[InlineData(0.52636f, -1, 1, -1, 1)]
-		[InlineData(0.055344474f, -10, 10, -100, 100)]
-		[InlineData(0.8081483f, -10, -0.1, -100, -1)]
+		[InlineData(0.055344474, -10, 10, -100, 100)]
+		[InlineData(0.1364767f, -10, -0.1, -100, -1)]
 		[InlineData(0.44077212f, 0, 10, 0, 0.1)]
 		[InlineData(0.93966585f, -0, 10, -10, 30)]
 		public void Noise_Vector4_ReturnsFloat(float expected, float x, float y, float z, float w) {

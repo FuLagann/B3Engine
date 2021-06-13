@@ -195,41 +195,6 @@ namespace B3 {
 		
 		#endregion // Hyperbolic Trig Functions
 		
-		// TODO: Add testing for these functions
-		#region Hyperbolic Trig Functions in Degrees
-		
-		/// <summary>Gets the hyperbolic sine</summary>
-		/// <param name="theta">The angle used to get the hyperbolic sine (in degrees)</param>
-		/// <returns>Returns the hyperbolic sine of the given angle</returns>
-		public static float SinhDeg(float theta) { return Sinh(DegToRad * theta); }
-		
-		/// <summary>Gets the hyperbolic cosine</summary>
-		/// <param name="theta">The angle used to get the hyperbolic cosine (in degrees)</param>
-		/// <returns>Returns the hyperbolic cosine of the given angle</returns>
-		public static float CoshDeg(float theta) { return Cosh(DegToRad * theta); }
-		
-		/// <summary>Gets the hyperbolic tangent</summary>
-		/// <param name="theta">The angle used to get the hyperbolic tangent (in degrees)</param>
-		/// <returns>Returns the hyperbolic tangent of the given angle</returns>
-		public static float TanhDeg(float theta) { return Tanh(DegToRad * theta); }
-		
-		/// <summary>Gets the hyperbolic cosecant</summary>
-		/// <param name="theta">The angle used to get the hyperbolic cosecant (in degrees)</param>
-		/// <returns>Returns the hyperbolic cosecant of the given angle</returns>
-		public static float CschDeg(float theta) { return Csch(DegToRad * theta); }
-		
-		/// <summary>Gets the hyperbolic secant</summary>
-		/// <param name="theta">The angle used to get the hyperbolic secant (in degrees)</param>
-		/// <returns>Returns the hyperbolic secant of the given angle</returns>
-		public static float SechDeg(float theta) { return Sech(DegToRad * theta); }
-		
-		/// <summary>Gets the hyperbolic cotangent</summary>
-		/// <param name="theta">The angle used to get the hyperbolic cotangent (in degrees)</param>
-		/// <returns>Returns the hyperbolic cotangent of the given angle</returns>
-		public static float CothDeg(float theta) { return Coth(DegToRad * theta); }
-		
-		#endregion // Hyperbolic Trig Functions in Degrees
-		
 		#region Min Methods
 		
 		/// <summary>Gets the minimum value from the two given values</summary>
@@ -349,12 +314,26 @@ namespace B3 {
 		/// <summary>Gets the largest integer number that is less than or equal to the given number</summary>
 		/// <param name="val">The value to check with</param>
 		/// <returns>Returns the largest integer number that is less than or equal to the given number</returns>
-		public static int Floor(float val) { return (int)val - (val < 0.0f ? 1 : 0); }
+		public static int Floor(float val) {
+			// Variables
+			int results = (int)val;
+			
+			if(results == val) { return results; }
+			
+			return results - (val < 0.0f ? 1 : 0);
+		}
 		
 		/// <summary>Gets the smallest integer number that is greater than or equal to the given number</summary>
 		/// <param name="val">The value to check with</param>
 		/// <returns>Returns the smallest integer number that is greater than or equal to the given number</returns>
-		public static int Ceiling(float val) { return (int)val + (val < 0.0f ? 0 : 1); }
+		public static int Ceiling(float val) {
+			// Variables
+			int results = (int)val;
+			
+			if(results == val) { return results; }
+			
+			return results + (val < 0.0f ? 0 : 1);
+		}
 		
 		/// <summary>Gets the fractional part of the value, getting only a value between 0 and 1</summary>
 		/// <param name="val">The value to check with</param>
@@ -363,7 +342,7 @@ namespace B3 {
 			// Variables
 			float result = val - Floor(val);
 			
-			return (val < 0.0f ? 1.0f - result : result);
+			return result;
 		}
 		
 		#endregion // Floor, Ceiling, and Fractional Functions
@@ -446,16 +425,6 @@ namespace B3 {
 		
 		#region Logarithmic Functions
 		
-		/// <summary>Gets the logarithmic number of the given value in base 2</summary>
-		/// <param name="val">The value to perform the logarithmic function with</param>
-		/// <returns>Returns the logarithmic number of the given number in base 2</returns>
-		public static float Log(float val) { return (float)System.Math.Log(val); }
-		
-		/// <summary>Gets the logarithmic number of the given value in base 2</summary>
-		/// <param name="val">The value to perform the logarithmic function with</param>
-		/// <returns>Returns the logarithmic number of the given number in base 2</returns>
-		public static float Log(int val) { return (float)System.Math.Log(val); }
-		
 		/// <summary>Gets the logarithmic number of the given value in the given base</summary>
 		/// <param name="val">The value to perform the logarithmic function with</param>
 		/// <param name="newBase">The new base to do the logarithm with</param>
@@ -471,22 +440,22 @@ namespace B3 {
 		/// <summary>Gets the logarithmic number of the given value in base 10</summary>
 		/// <param name="val">The value to perform the logarithmic function with</param>
 		/// <returns>Returns the logarithmic number of the given number in base 10</returns>
-		public static float Log10(float val) { return (float)System.Math.Log10(val); }
+		public static float Log(float val) { return (float)System.Math.Log10(val); }
 		
 		/// <summary>Gets the logarithmic number of the given value in base 10</summary>
 		/// <param name="val">The value to perform the logarithmic function with</param>
 		/// <returns>Returns the logarithmic number of the given number in base 10</returns>
-		public static float Log10(int val) { return (float)System.Math.Log10(val); }
+		public static float Log(int val) { return (float)System.Math.Log10(val); }
 		
 		/// <summary>Gets the natural logarithmic number of the given value in base e</summary>
 		/// <param name="val">The value to perform the natural logarithmic function with</param>
 		/// <returns>Returns the natural logarithmic number of the given value in base e</returns>
-		public static float Ln(float val) { return (float)System.Math.Log(val, E); }
+		public static float Ln(float val) { return (float)System.Math.Log(val); }
 		
 		/// <summary>Gets the natural logarithmic number of the given value in base e</summary>
 		/// <param name="val">The value to perform the natural logarithmic function with</param>
 		/// <returns>Returns the natural logarithmic number of the given value in base e</returns>
-		public static float Ln(int val) { return (float)System.Math.Log(val, E); }
+		public static float Ln(int val) { return (float)System.Math.Log(val); }
 		
 		#endregion // Logarithmic Functions
 		
@@ -523,10 +492,9 @@ namespace B3 {
 			float frac = Fraction(val);
 			int trunc = Trunc(val);
 			
-			if(frac >= 0.49999f && frac <= 0.50001f) {
-				return (trunc % 2 == 0 ? trunc : trunc + Sign(val));
-			}
-			else if(frac > 0.5f) {
+			if(val < 0.0f) { frac = 1.0f - frac; }
+			
+			if(frac >= 0.5f) {
 				return trunc + Sign(val);
 			}
 			else {
@@ -544,17 +512,14 @@ namespace B3 {
 			}
 			// Variables
 			float pow10 = Pow(10, digits);
-			float frac = Fraction(val * pow10);
-			int trunc = Trunc(val * pow10);
+			float poweredVal = val * pow10;
+			float frac = Fraction(poweredVal);
+			int trunc = Trunc(poweredVal);
 			
-			if(frac == 0.0f) {
-				return val;
-			}
+			if(frac == 0.0f) { return val; }
+			if(val < 0.0f) { frac = 1.0f - frac; }
 			
-			if(frac >= 0.49999f && frac <= 0.50001f) {
-				return (trunc % 2 == 0 ? (float)trunc / pow10 : (trunc + Sign(val)) / pow10);
-			}
-			else if(frac > 0.5f) {
+			if(frac >= 0.5f) {
 				return (trunc + Sign(val)) / pow10;
 			}
 			else {
