@@ -58,53 +58,38 @@ namespace B3 {
 			this.d = d;
 		}
 		
-		/// <summary>A base constructor for creating a quaternion using euler angles (yaw, pitch, and roll)</summary>
-		/// <param name="yaw">Rotation in radians around the y axis (up and down). Yaw rotation is like a boat rotating around on a flat plane sea</param>
-		/// <param name="pitch">Rotation in radians around the x axis (left and right). Pitch rotation is like a pitcher of water motioning over to pour water</param>
-		/// <param name="roll">Rotation in radians around the z axis (forward and backward). Roll rotation is like a plane doing rolls (spinning around while staying in trajectory)</param>
-		public Quaternion(float yaw, float pitch, float roll) {
-			// Variables
-			float sinYaw = Mathx.Sin(0.5f * yaw), cosYaw = Mathx.Cos(0.5f * yaw);
-			float sinPitch = Mathx.Sin(0.5f * pitch), cosPitch = Mathx.Cos(0.5f * pitch);
-			float sinRoll = Mathx.Sin(0.5f * roll), cosRoll = Mathx.Cos(0.5f * roll);
-			
-			this.a = cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll;
-			this.b = sinYaw * cosPitch * cosRoll + cosYaw * sinPitch * sinRoll;
-			this.c = cosYaw * sinPitch * cosRoll - sinYaw * cosPitch * sinRoll;
-			this.d = cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll;
-		}
-		
 		#endregion // Public Constructors
 		
 		#region Public Static Methods
 		
 		#region FromEulerAngles Methods
 		
-		/// <summary>Creates a quaternion from the given euler angles</summary>
-		/// <param name="eulerAngles">
-		/// A vector representing the yaw, pitch, and roll of the euler angles.
-		/// Yaw is rotation around the y axis, pitch is rotation around the x axis,
-		/// and roll is rotation around the z axis
-		/// </param>
-		/// <param name="result">The resulting rotation quaternion</param>
-		public static void FromEulerAngles(ref Vector3 eulerAngles, out Quaternion result) { result = new Quaternion(eulerAngles.x, eulerAngles.y, eulerAngles.z); }
+		/// <summary>Converts the euler angles (in radians) into a rotation quaternion</summary>
+		/// <param name="eulerAngles">The angles rotating around the relative axis used to create the quaternion</param>
+		/// <param name="result">The resulting quaternion</param>
+		public static void FromEulerAngles(ref Vector3 eulerAngles, out Quaternion result) {
+			// Variables
+			float sinYaw = Mathx.Sin(0.5f * eulerAngles.x);
+			float cosYaw = Mathx.Cos(0.5f * eulerAngles.x);
+			float sinPitch = Mathx.Sin(0.5f * eulerAngles.y);
+			float cosPitch = Mathx.Cos(0.5f * eulerAngles.y);
+			float sinRoll = Mathx.Sin(0.5f * eulerAngles.z);
+			float cosRoll = Mathx.Cos(0.5f * eulerAngles.z);
+			
+			result.a = cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll;
+			result.b = sinYaw * cosPitch * cosRoll + cosYaw * sinPitch * sinRoll;
+			result.c = cosYaw * sinPitch * cosRoll - sinYaw * cosPitch * sinRoll;
+			result.d = cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll;
+		}
 		
-		/// <summary>Creates a quaternion from the given euler angles</summary>
-		/// <param name="eulerAngles">
-		/// A vector representing the yaw, pitch, and roll of the euler angles.
-		/// Yaw is rotation around the y axis, pitch is rotation around the x axis,
-		/// and roll is rotation around the z axis
-		/// </param>
-		/// <param name="result">The resulting rotation quaternion</param>
+		/// <summary>Converts the euler angles (in radians) into a rotation quaternion</summary>
+		/// <param name="eulerAngles">The angles rotating around the relative axis used to create the quaternion</param>
+		/// <param name="result">The resulting quaternion</param>
 		public static void FromEulerAngles(Vector3 eulerAngles, out Quaternion result) { FromEulerAngles(ref eulerAngles, out result); }
 		
-		/// <summary>Creates a quaternion from the given euler angles</summary>
-		/// <param name="eulerAngles">
-		/// A vector representing the yaw, pitch, and roll of the euler angles.
-		/// Yaw is rotation around the y axis, pitch is rotation around the x axis,
-		/// and roll is rotation around the z axis
-		/// </param>
-		/// <returns>The resulting rotation quaternion</returns>
+		/// <summary>Converts the euler angles (in radians) into a rotation quaternion</summary>
+		/// <param name="eulerAngles">The angles rotating around the relative axis used to create the quaternion</param>
+		/// <returns>Returns the resulting quaternion</returns>
 		public static Quaternion FromEulerAngles(ref Vector3 eulerAngles) {
 			// Variables
 			Quaternion result;
@@ -114,30 +99,66 @@ namespace B3 {
 			return result;
 		}
 		
-		/// <summary>Creates a quaternion from the given euler angles</summary>
-		/// <param name="eulerAngles">
-		/// A vector representing the yaw, pitch, and roll of the euler angles.
-		/// Yaw is rotation around the y axis, pitch is rotation around the x axis,
-		/// and roll is rotation around the z axis
-		/// </param>
-		/// <returns>The resulting rotation quaternion</returns>
+		/// <summary>Converts the euler angles (in radians) into a rotation quaternion</summary>
+		/// <param name="eulerAngles">The angles rotating around the relative axis used to create the quaternion</param>
+		/// <returns>Returns the resulting quaternion</returns>
 		public static Quaternion FromEulerAngles(Vector3 eulerAngles) { return FromEulerAngles(ref eulerAngles); }
 		
-		/// <summary>Creates a quaternion from the given euler angles</summary>
-		/// <param name="yaw">Rotation in radians around the y axis (up and down). Yaw rotation is like a boat rotating around on a flat plane sea</param>
-		/// <param name="pitch">Rotation in radians around the x axis (left and right). Pitch rotation is like a pitcher of water motioning over to pour water</param>
-		/// <param name="roll">Rotation in radians around the z axis (forward and backward). Roll rotation is like a plane doing rolls (spinning around while staying in trajectory)</param>
-		/// <param name="result">The resulting rotation quaternion</param>
-		public static void FromEulerAngles(float yaw, float pitch, float roll, out Quaternion result) { result = new Quaternion(yaw, pitch, roll); }
-		
-		/// <summary>Creates a quaternion from the given euler angles</summary>
-		/// <param name="yaw">Rotation in radians around the y axis (up and down). Yaw rotation is like a boat rotating around on a flat plane sea</param>
-		/// <param name="pitch">Rotation in radians around the x axis (left and right). Pitch rotation is like a pitcher of water motioning over to pour water</param>
-		/// <param name="roll">Rotation in radians around the z axis (forward and backward). Roll rotation is like a plane doing rolls (spinning around while staying in trajectory)</param>
-		/// <returns>Returns the resulting rotation quaternion</returns>
-		public static Quaternion FromEulerAngles(float yaw, float pitch, float roll) { return new Quaternion(yaw, pitch, roll); }
+		/// <summary>Converts the euler angles (in radians) into a rotation quaternion</summary>
+		/// <param name="x">The angle rotating around the x-axis</param>
+		/// <param name="y">The angle rotating around the y-axis</param>
+		/// <param name="z">The angle rotating around the z-axis</param>
+		/// <returns>Returns the resulting quaternion</returns>
+		public static Quaternion FromEulerAngles(float x, float y, float z) { return FromEulerAngles(new Vector3(x, y, z)); }
 		
 		#endregion // FromEulerAngles Methods
+		
+		#region FromEulerAnglesDeg Methods
+		
+		/// <summary>Converts the euler angles (in degrees) into a rotation quaternion</summary>
+		/// <param name="eulerAngles">The angles rotating around the relative axis used to create the quaternion</param>
+		/// <param name="result">The resulting quaternion</param>
+		public static void FromEulerAnglesDeg(ref Vector3 eulerAngles, out Quaternion result) {
+			// Variables
+			Vector3 eulerAnglesRadians;
+			
+			eulerAnglesRadians.x = Mathx.DegToRad * eulerAngles.x;
+			eulerAnglesRadians.y = Mathx.DegToRad * eulerAngles.y;
+			eulerAnglesRadians.z = Mathx.DegToRad * eulerAngles.z;
+			
+			FromEulerAngles(ref eulerAnglesRadians, out result);
+		}
+		
+		/// <summary>Converts the euler angles (in degrees) into a rotation quaternion</summary>
+		/// <param name="eulerAngles">The angles rotating around the relative axis used to create the quaternion</param>
+		/// <param name="result">The resulting quaternion</param>
+		public static void FromEulerAnglesDeg(Vector3 eulerAngles, out Quaternion result) { FromEulerAnglesDeg(ref eulerAngles, out result); }
+		
+		/// <summary>Converts the euler angles (in degrees) into a rotation quaternion</summary>
+		/// <param name="eulerAngles">The angles rotating around the relative axis used to create the quaternion</param>
+		/// <returns>Returns the resulting quaternion</returns>
+		public static Quaternion FromEulerAnglesDeg(ref Vector3 eulerAngles) {
+			// Variables
+			Quaternion result;
+			
+			FromEulerAnglesDeg(ref eulerAngles, out result);
+			
+			return result;
+		}
+		
+		/// <summary>Converts the euler angles (in degrees) into a rotation quaternion</summary>
+		/// <param name="eulerAngles">The angles rotating around the relative axis used to create the quaternion</param>
+		/// <returns>Returns the resulting quaternion</returns>
+		public static Quaternion FromEulerAnglesDeg(Vector3 eulerAngles) { return FromEulerAnglesDeg(ref eulerAngles); }
+		
+		/// <summary>Converts the euler angles (in degrees) into a rotation quaternion</summary>
+		/// <param name="x">The angle rotating around the x-axis</param>
+		/// <param name="y">The angle rotating around the y-axis</param>
+		/// <param name="z">The angle rotating around the z-axis</param>
+		/// <returns>Returns the resulting quaternion</returns>
+		public static Quaternion FromEulerAnglesDeg(float x, float y, float z) { return FromEulerAnglesDeg(new Vector3(x, y, z)); }
+		
+		#endregion // FromEulerAnglesDeg Methods
 		
 		#region FromAxisAngle Methods
 		

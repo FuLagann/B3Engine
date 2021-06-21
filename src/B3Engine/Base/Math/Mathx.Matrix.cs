@@ -233,42 +233,6 @@ namespace B3 {
 		
 		#endregion // Multiply Vectors Methods
 		
-		#region Lerp Methods
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first value towards the second value to get the interpolation</param>
-		/// <param name="result">The resulting interpolated matrix</param>
-		public static void Lerp(ref Matrix a, ref Matrix b, float t, out Matrix result) { Matrix.Lerp(ref a, ref b, t, out result); }
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first value towards the second value to get the interpolation</param>
-		/// <returns>Returns the resulting interpolated matrix</returns>
-		public static Matrix Lerp(ref Matrix a, ref Matrix b, float t) { return Matrix.Lerp(ref a, ref b, t); }
-		
-		#endregion // Lerp Methods
-		
-		#region LerpClamped Methods
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix given a value between 0 and 1</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation, must be between 0 and 1</param>
-		/// <param name="result">The resulting interpolated matrix</param>
-		public static void LerpClamped(ref Matrix a, ref Matrix b, float t, out Matrix result) { Matrix.LerpClamped(ref a, ref b, t, out result); }
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix given a value between 0 and 1</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation, must be between 0 and 1</param>
-		/// <returns>Returns the resulting interpolated matrix</returns>
-		public static Matrix LerpClamped(ref Matrix a, ref Matrix b, float t) { return Matrix.LerpClamped(ref a, ref b, t); }
-		
-		#endregion // LerpClamped Methods
-		
 		#endregion // Public Static Methods
 	}
 }

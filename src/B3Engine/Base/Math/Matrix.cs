@@ -315,6 +315,11 @@ namespace B3 {
 		/// <param name="theta">The angle used to rotate with</param>
 		/// <param name="result">The resulting rotation matrix</param>
 		public static void CreateRotationFromAxisAngle(ref Vector3 axis, float theta, out Matrix result) {
+			if(axis == Vector3.Zero) {
+				result = Matrix.Identity;
+				return;
+			}
+			
 			// Variables
 			float cos = Mathx.Cos(theta);
 			float sin = Mathx.Sin(theta);
@@ -363,6 +368,104 @@ namespace B3 {
 		public static Matrix CreateRotationFromAxisAngle(Vector3 axis, float theta) { return CreateRotationFromAxisAngle(ref axis, theta); }
 		
 		#endregion // CreateRotationFromAxisAngle Methods
+		
+		#region CreateRotationXDeg Methods
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the x axis with the given angle (theta)</summary>
+		/// <param name="theta">The angle of rotation</param>
+		/// <param name="result">The resulting rotation matrix</param>
+		public static void CreateRotationXDeg(float theta, out Matrix result) { CreateRotationX(Mathx.DegToRad * theta, out result); }
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the x axis with the given angle (theta)</summary>
+		/// <param name="theta">The angle of rotation</param>
+		/// <returns>Returns the resulting rotation matrix</returns>
+		public static Matrix CreateRotationXDeg(float theta) {
+			// Variables
+			Matrix result;
+			
+			CreateRotationXDeg(theta, out result);
+			
+			return result;
+		}
+		
+		#endregion // CreateRotationXDeg Methods
+		
+		#region CreateRotationYDeg Methods
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the y axis with the given angle (theta)</summary>
+		/// <param name="theta">The angle of rotation</param>
+		/// <param name="result">The resulting rotation matrix</param>
+		public static void CreateRotationYDeg(float theta, out Matrix result) { CreateRotationY(Mathx.DegToRad * theta, out result); }
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the y axis with the given angle (theta)</summary>
+		/// <param name="theta">The angle of rotation</param>
+		/// <returns>Returns the resulting rotation matrix</returns>
+		public static Matrix CreateRotationYDeg(float theta) {
+			// Variables
+			Matrix result;
+			
+			CreateRotationYDeg(theta, out result);
+			
+			return result;
+		}
+		
+		#endregion // CreateRotationYDeg Methods
+		
+		#region CreateRotationZDeg Methods
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the z axis with the given angle (theta)</summary>
+		/// <param name="theta">The angle of rotation</param>
+		/// <param name="result">The resulting rotation matrix</param>
+		public static void CreateRotationZDeg(float theta, out Matrix result) { CreateRotationZ(Mathx.DegToRad * theta, out result); }
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the z axis with the given angle (theta)</summary>
+		/// <param name="theta">The angle of rotation</param>
+		/// <returns>Returns the resulting rotation matrix</returns>
+		public static Matrix CreateRotationZDeg(float theta) {
+			// Variables
+			Matrix result;
+			
+			CreateRotationZDeg(theta, out result);
+			
+			return result;
+		}
+		
+		#endregion // CreateRotationZDeg Methods
+		
+		#region CreateRotationFromAxisAngleDeg Methods
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the given axis using the given angle (theta)</summary>
+		/// <param name="axis">The axis to rotate around</param>
+		/// <param name="theta">The angle used to rotate with</param>
+		/// <param name="result">The resulting rotation matrix</param>
+		public static void CreateRotationFromAxisAngleDeg(ref Vector3 axis, float theta, out Matrix result) { CreateRotationFromAxisAngle(ref axis, Mathx.DegToRad * theta, out result); }
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the given axis using the given angle (theta)</summary>
+		/// <param name="axis">The axis to rotate around</param>
+		/// <param name="theta">The angle used to rotate with</param>
+		/// <param name="result">The resulting rotation matrix</param>
+		public static void CreateRotationFromAxisAngleDeg(Vector3 axis, float theta, out Matrix result) { CreateRotationFromAxisAngleDeg(ref axis, theta, out result); }
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the given axis using the given angle (theta)</summary>
+		/// <param name="axis">The axis to rotate around</param>
+		/// <param name="theta">The angle used to rotate with</param>
+		/// <returns>Returns the resulting rotation matrix</returns>
+		public static Matrix CreateRotationFromAxisAngleDeg(ref Vector3 axis, float theta) {
+			// Variables
+			Matrix result;
+			
+			CreateRotationFromAxisAngleDeg(ref axis, theta, out result);
+			
+			return result;
+		}
+		
+		/// <summary>Creates a rotation matrix that rotates counterclockwise around the given axis using the given angle (theta)</summary>
+		/// <param name="axis">The axis to rotate around</param>
+		/// <param name="theta">The angle used to rotate with</param>
+		/// /// <returns>Returns the resulting rotation matrix</returns>
+		public static Matrix CreateRotationFromAxisAngleDeg(Vector3 axis, float theta) { return CreateRotationFromAxisAngleDeg(ref axis, theta); }
+		
+		#endregion // CreateRotationFromAxisAngleDeg Methods
 		
 		#region CreateScale Methods
 		
@@ -1522,94 +1625,6 @@ namespace B3 {
 		public static bool Approx(Matrix a, Matrix b) { return Approx(ref a, ref b); }
 		
 		#endregion // Approx Methods
-		
-		#region Lerp Methods
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation</param>
-		/// <param name="result">The resulting interpolated matrix</param>
-		public static void Lerp(ref Matrix a, ref Matrix b, float t, out Matrix result) {
-			Mathx.Lerp(ref a.row1, ref b.row1, t, out result.row1);
-			Mathx.Lerp(ref a.row2, ref b.row2, t, out result.row2);
-			Mathx.Lerp(ref a.row3, ref b.row3, t, out result.row3);
-			Mathx.Lerp(ref a.row4, ref b.row4, t, out result.row4);
-		}
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation</param>
-		/// <param name="result">The resulting interpolated matrix</param>
-		public static void Lerp(Matrix a, Matrix b, float t, out Matrix result) { Lerp(ref a, ref b, t, out result); }
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation</param>
-		/// <returns>Returns the resulting interpolated matrix</returns>
-		public static Matrix Lerp(ref Matrix a, ref Matrix b, float t) {
-			// Variables
-			Matrix result;
-			
-			Lerp(ref a, ref b, t, out result);
-			
-			return result;
-		}
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation</param>
-		/// <returns>Returns the resulting interpolated matrix</returns>
-		public static Matrix Lerp(Matrix a, Matrix b, float t) { return Lerp(ref a, ref b, t); }
-		
-		#endregion // Lerp Methods
-		
-		#region LerpClamped Methods
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix given a value between 0 and 1</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation, must be between 0 and 1</param>
-		/// <param name="result">The resulting interpolated matrix</param>
-		public static void LerpClamped(ref Matrix a, ref Matrix b, float t, out Matrix result) {
-			Mathx.LerpClamped(ref a.row1, ref b.row1, t, out result.row1);
-			Mathx.LerpClamped(ref a.row2, ref b.row2, t, out result.row2);
-			Mathx.LerpClamped(ref a.row3, ref b.row3, t, out result.row3);
-			Mathx.LerpClamped(ref a.row4, ref b.row4, t, out result.row4);
-		}
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix given a value between 0 and 1</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation, must be between 0 and 1</param>
-		/// <param name="result">The resulting interpolated matrix</param>
-		public static void LerpClamped(Matrix a, Matrix b, float t, out Matrix result) { LerpClamped(ref a, ref b, t, out result); }
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix given a value between 0 and 1</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation, must be between 0 and 1</param>
-		/// <returns>Returns the resulting interpolated matrix</returns>
-		public static Matrix LerpClamped(ref Matrix a, ref Matrix b, float t) {
-			// Variables
-			Matrix result;
-			
-			LerpClamped(ref a, ref b, t, out result);
-			
-			return result;
-		}
-		
-		/// <summary>Linearly interpolates the from the first matrix and second matrix given a value between 0 and 1</summary>
-		/// <param name="a">The first matrix to interpolate</param>
-		/// <param name="b">The second matrix to interpolate</param>
-		/// <param name="t">The time elapsed from the first matrix towards the second matrix to get the interpolation, must be between 0 and 1</param>
-		/// <returns>Returns the resulting interpolated matrix</returns>
-		public static Matrix LerpClamped(Matrix a, Matrix b, float t) { return LerpClamped(ref a, ref b, t); }
-		
-		#endregion // LerpClamped Methods
 		
 		#endregion // Public Static Methods
 		

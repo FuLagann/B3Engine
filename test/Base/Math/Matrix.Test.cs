@@ -1,12 +1,16 @@
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace B3.Testing {
 	// TRACK: 637 tests
+	/// <summary>Tests the <see cref="B3.Matrix"/> structure to make sure it works correctly. Contains 67 tests</summary>
 	public class MatrixTest {
 		#region Public Test Methods
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Identity"/> functionality.
+		/// Checks the identity matrix to see if its correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Identity_ReturnsMatrix() {
 			// Variables
@@ -37,6 +41,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Zero"/> functionality.
+		/// Checks the zero matrix to see if its correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Zero_ReturnsMatrix() {
 			// Variables
@@ -67,6 +75,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.row1"/> functionality.
+		/// Checks to see if the first row of the matrix is correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Row1_ReturnsVector() {
 			// Variables
@@ -83,6 +95,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.row2"/> functionality.
+		/// Checks to see if the second row of the matrix is correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Row2_ReturnsVector() {
 			// Variables
@@ -99,6 +115,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.row3"/> functionality.
+		/// Checks to see if the third row of the matrix is correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Row3_ReturnsVector() {
 			// Variables
@@ -115,6 +135,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.row4"/> functionality.
+		/// Checks to see if the fourth row of the matrix is correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Row4_ReturnsVector() {
 			// Variables
@@ -131,6 +155,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Column1"/> functionality.
+		/// Checks to see if the first column of the matrix is correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Column1_ReturnsVector() {
 			// Variables
@@ -147,6 +175,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Column2"/> functionality.
+		/// Checks to see if the second column of the matrix is correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Column2_ReturnsVector() {
 			// Variables
@@ -163,6 +195,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Column3"/> functionality.
+		/// Checks to see if the third column of the matrix is correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Column3_ReturnsVector() {
 			// Variables
@@ -179,6 +215,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Column4"/> functionality.
+		/// Checks to see if the fourth column of the matrix is correct
+		/// </summary>
 		[Fact]
 		public void Constructor_Column4_ReturnsVector() {
 			// Variables
@@ -195,6 +235,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Add(Matrix)"/> functionality.
+		/// Adds two matrices together and checks to see if the resulting matrix is correct
+		/// </summary>
 		[Fact]
 		public void Add_TwoMatrices_ReturnsMatrix() {
 			// Variables
@@ -212,6 +256,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Subtract(Matrix)"/> functionality.
+		/// Subtracts two matrices from each other and checks to see if the resulting matrix is correct
+		/// </summary>
 		[Fact]
 		public void Subtract_TwoMatrices_ReturnsMatrix() {
 			// Variables
@@ -229,6 +277,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Multiply(Matrix)"/> functionality.
+		/// Multiplies two matrices together and checks to see if the resulting matrix is correct
+		/// </summary>
 		[Fact]
 		public void Multiply_TwoMatrices_ReturnsMatrix() {
 			// Variables
@@ -246,6 +298,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Multiply(Vector4)"/> functionality.
+		/// Multiplies a matrix with a vector and checks to see if the resulting vector is correct
+		/// </summary>
 		[Fact]
 		public void Multiply_MatrixAndVector4_ReturnsVector4() {
 			// Variables
@@ -258,6 +314,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Multiply(Vector3)"/> functionality.
+		/// Multiplies a matrix with a vector and checks to see if the resulting vector is correct
+		/// </summary>
 		[Fact]
 		public void Multiply_MatrixAndVector3_ReturnsVector3() {
 			// Variables
@@ -270,6 +330,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Multiply(Vector2)"/> functionality.
+		/// Multiplies a matrix with a vector and checks to see if the resulting vector is correct
+		/// </summary>
 		[Fact]
 		public void Multiply_MatrixAndVector2_ReturnsVector2() {
 			// Variables
@@ -282,6 +346,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Multiply(float))"/> functionality.
+		/// Multiplies a matrix with a scalar and checks to see if the resulting matrix is correct
+		/// </summary>
 		[Fact]
 		public void Multiply_MatrixAndScalar_ReturnsMatrix() {
 			// Variables
@@ -299,6 +367,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Transpose"/> functionality.
+		/// Transposes the matrix and checks to see if its correct.
+		/// </summary>
 		[Fact]
 		public void Transpose_Matrix_ReturnsMatrix() {
 			// Variables
@@ -315,6 +387,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Transpose"/> functionality.
+		/// Transposes the identity matrix and checks to see if its still the identity matrix
+		/// </summary>
 		[Fact]
 		public void Transpose_IdentityMatrix_ReturnsMatrix() {
 			// Variables
@@ -326,6 +402,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Negate"/> functionality.
+		/// Negates the matrix and checks to see if its correct
+		/// </summary>
 		[Fact]
 		public void Negate_Matrix_ReturnsMatrix() {
 			// Variables
@@ -342,6 +422,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Divide(float)"/> functionality.
+		/// Divides the matrix with a scalar and checks to see if the resulting matrix is correct
+		/// </summary>
 		[Fact]
 		public void Divide_MatrixAndScalar_ReturnsMatrix() {
 			// Variables
@@ -571,6 +655,466 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		[Fact]
+		public void Approx_TwoMatrices_ReturnsNotEqual() {
+			// Variables
+			Matrix notExpected = this.CreateDefaultMatrixA();
+			Matrix actual = 1.0000001f * this.CreateDefaultMatrixA();
+			
+			Assert.NotEqual(notExpected, actual);
+		}
+		
+		[Fact]
+		public void Approx_TwoMatrices_ReturnTrue() {
+			// Variables
+			Matrix original = this.CreateDefaultMatrixA();
+			Matrix approx = 1.0000001f * this.CreateDefaultMatrixA();
+			bool actual = Matrix.Approx(original, approx, 0.00001f);
+			
+			Assert.True(actual);
+		}
+		
+		[Theory]
+		#region CreateOrthographic_Parameters_ReturnsMatrix Test Data
+		[InlineData(
+			10, 10, 0.1, 100,
+			0.2, 0, 0, 0,
+			0, 0.2, 0, 0,
+			0, 0, -0.02002002, -1.002002,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			20, 20, 0.3, 1000,
+			0.1, 0, 0, 0,
+			0, 0.1, 0, 0,
+			0, 0, -0.0020006, -1.0006001,
+			0, 0, 0, 1
+		)]
+		#endregion // CreateOrthographic_Parameters_ReturnsMatrix Test Data
+		public void CreateOrthographic_Parameters_ReturnsMatrix(
+			float width, float height, float near, float far,
+			float a11, float a12, float a13, float a14,
+			float a21, float a22, float a23, float a24,
+			float a31, float a32, float a33, float a34,
+			float a41, float a42, float a43, float a44
+		) {
+			// Variables
+			Matrix expected = new Matrix(
+				a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44
+			);
+			Matrix actual = Matrix.CreateOrthographic(width, height, near, far);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		#region CreateOrthographic_OffCenterParameters_ReturnsMatrix Test Data
+		[InlineData(
+			4, 8, 1, 100, 0.3, 1000,
+			0.5, 0, 0, -3,
+			0, 0.02020202, 0, -1.020202,
+			0, 0, -0.0020006, -1.0006001,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			-8, 10, -1, 1, 0.1, 100,
+			0.11111111, 0, 0, -0.11111111,
+			0, 1, 0, 0,
+			0, 0, -0.02002002, -1.002002,
+			0, 0, 0, 1
+		)]
+		#endregion // CreateOrthographic_OffCenterParameters_ReturnsMatrix Test Data
+		public void CreateOrthographic_OffCenterParameters_ReturnsMatrix(
+			float left, float right, float top, float bottom, float near, float far,
+			float a11, float a12, float a13, float a14,
+			float a21, float a22, float a23, float a24,
+			float a31, float a32, float a33, float a34,
+			float a41, float a42, float a43, float a44
+		) {
+			// Variables
+			Matrix expected = new Matrix(
+				a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44
+			);
+			Matrix actual = Matrix.CreateOrthographic(left, right, top, bottom, near, far);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		#region CreatePerspective_Parameters_ReturnsMatrix Test Data
+		[InlineData(
+			90, 0.75, 1, 10,
+			1.3333334, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, -1.2222222, -2.2222223,
+			0, 0, -1, 0
+		)]
+		[InlineData(
+			60, 1.777778, 0.1, 100,
+			0.97427845, 0, 0, 0,
+			0, 1.7320509, 0, 0,
+			0, 0, -1.002002, -0.2002002,
+			0, 0, -1, 0
+		)]
+		[InlineData(
+			120, 1.461530, 0.1, 100,
+			0.3950314, 0, 0, 0,
+			0, 0.57735026, 0, 0,
+			0, 0, -1.002002, -0.2002002,
+			0, 0, -1, 0
+		)]
+		#endregion // CreatePerspective_Parameters_ReturnsMatrix Test Data
+		public void CreatePerspective_Parameters_ReturnsMatrix(
+			float fov, float aspect, float near, float far,
+			float a11, float a12, float a13, float a14,
+			float a21, float a22, float a23, float a24,
+			float a31, float a32, float a33, float a34,
+			float a41, float a42, float a43, float a44
+		) {
+			// Variables
+			Matrix expected = new Matrix(
+				a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44
+			);
+			Matrix actual = Matrix.CreatePerspective(fov, aspect, near, far);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		#region CreatePerspective_OffCenterParameters_ReturnsMatrix Test Data
+		[InlineData(
+			-10, 10, -5, 5, 0.1, 100,
+			0.01, 0, 0, 0,
+			0, 0.02, 0, 0,
+			0, 0, -1.002002, -0.2002002,
+			0, 0, -1, 0
+		)]
+		[InlineData(
+			-0.1, 0.1, -0.1, 0.1, 0.1, 100,
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, -1.002002, -0.2002002,
+			0, 0, -1, 0
+		)]
+		[InlineData(
+			-0.2, 0.1, -0.1, 0.2, 0.1, 100,
+			0.6666666, 0, -0.3333333, 0,
+			0, 0.6666666, 0.3333333, 0,
+			0, 0, -1.002002, -0.2002002,
+			0, 0, -1, 0
+		)]
+		#endregion // CreatePerspective_OffCenterParameters_ReturnsMatrix Test Data
+		public void CreatePerspective_OffCenterParameters_ReturnsMatrix(
+			float left, float right, float top, float bottom, float near, float far,
+			float a11, float a12, float a13, float a14,
+			float a21, float a22, float a23, float a24,
+			float a31, float a32, float a33, float a34,
+			float a41, float a42, float a43, float a44
+		) {
+			// Variables
+			Matrix expected = new Matrix(
+				a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44
+			);
+			Matrix actual = Matrix.CreatePerspective(left, right, top, bottom, near, far);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		#region Adjugate_Matrix_ReturnsMatrix Test Data
+		[InlineData(
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 10, 11, 12,
+			13, 14, 15, 16,
+			
+			0, 0, 0, 0,
+			0, 0, 0, 0,
+			0, 0, 0, 0,
+			0, 0, 0, 0
+		)]
+		[InlineData(
+			1, 4, 10, 8,
+			1, 3, 9, 0,
+			0, 2, 4, 4,
+			8, 3, 8, 1,
+			
+			6, -20, -18, 24,
+			-260, 36, 513, 28,
+			86, 10, -169, -12,
+			44, -28, -43, -2
+		)]
+		[InlineData(
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1,
+			
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		)]
+		#endregion // Adjugate_Matrix_ReturnsMatrix Test Data
+		public void Adjugate_Matrix_ReturnsMatrix(
+			float a11, float a12, float a13, float a14,
+			float a21, float a22, float a23, float a24,
+			float a31, float a32, float a33, float a34,
+			float a41, float a42, float a43, float a44,
+			
+			float b11, float b12, float b13, float b14,
+			float b21, float b22, float b23, float b24,
+			float b31, float b32, float b33, float b34,
+			float b41, float b42, float b43, float b44
+		) {
+			// Variables
+			Matrix actual = new Matrix(
+				a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44
+			);
+			Matrix expected = new Matrix(
+				b11, b12, b13, b14,
+				b21, b22, b23, b24,
+				b31, b32, b33, b34,
+				b41, b42, b43, b44
+			);
+			
+			Matrix.Adjugate(ref actual, out actual);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		#region CreateFromQuaternion_Quaternion_ReturnsMatrix Test Data
+		[InlineData(
+			90, 0, 0,
+			1, 0, 0, 0,
+			0, 0, -1, 0,
+			0, 1, 0, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			0, 90, 0,
+			0, 0, 1, 0,
+			0, 1, 0, 0,
+			-1, 0, 0, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			0, 0, 90,
+			0, -1, 0, 0,
+			1, 0, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			45.0, 24.0, 10.0,
+			0.949609, 0.12460141, 0.28760624, 0,
+			0.12278779, 0.69636416, -0.7071068, 0,
+			-0.2883852, 0.7067895, 0.6459741, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			11.25, 0, 128,
+			-0.6156615, -0.7880108, 0, 0,
+			0.7728694, -0.6038318, -0.1950903, 0,
+			0.1537333, -0.1201096, 0.9807853, 0,
+			0, 0, 0, 1
+		)]
+		#endregion // CreateFromQuaternion_Quaternion_ReturnsMatrix Test Data
+		public void CreateFromQuaternion_Quaternion_ReturnsMatrix(
+			float x, float y, float z,
+			float a11, float a12, float a13, float a14,
+			float a21, float a22, float a23, float a24,
+			float a31, float a32, float a33, float a34,
+			float a41, float a42, float a43, float a44
+		) {
+			// Variables
+			Matrix expectedMatrix = new Matrix(
+				a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44
+			);
+			Quaternion quaternion = Quaternion.FromEulerAnglesDeg(x, y, z);
+			Matrix actualMatrix = Matrix.CreateFromQuaternion(quaternion);
+			bool expected = Matrix.Approx(expectedMatrix, actualMatrix);
+			
+			Assert.True(expected);
+		}
+		
+		[Fact]
+		public void CreateRotationX_45DegreeAngle_ReturnsMatrix() {
+			// Variables
+			Matrix expected = new Matrix(
+				1, 0, 0, 0,
+				0, 0.70710677f, -0.70710677f, 0,
+				0, 0.70710677f, 0.70710677f, 0,
+				0, 0, 0, 1
+			);
+			Matrix actual = Matrix.CreateRotationX(Mathx.Pi / 4.0f);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Fact]
+		public void CreateRotationY_45DegreeAngle_ReturnsMatrix() {
+			// Variables
+			Matrix expected = new Matrix(
+				0.70710677f, 0, 0.70710677f, 0,
+				0, 1, 0, 0,
+				-0.70710677f, 0, 0.70710677f, 0,
+				0, 0, 0, 1
+			);
+			Matrix actual = Matrix.CreateRotationY(Mathx.Pi / 4.0f);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Fact]
+		public void CreateRotationZ_45DegreesAngle_ReturnsMatrix() {
+			// Variables
+			Matrix expected = new Matrix(
+				0.70710677f, -0.70710677f, 0, 0,
+				0.70710677f, 0.70710677f, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1
+			);
+			Matrix actual = Matrix.CreateRotationZ(Mathx.Pi / 4.0f);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		#region CreateRotationFromAxisAngle_AxisAndAngle_ReturnsMatrix Test Data
+		[InlineData(
+			0, 0, 0, 0.21380283,
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			1, 0, 0, 0.21380283,
+			1, 0, 0, 0,
+			0, 0.9772311, -0.21217766, 0,
+			0, 0.21217766, 0.9772311, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			0, 1, 0, 0.21380283,
+			0.9772311, 0, 0.21217766, 0,
+			0, 1, 0, 0,
+			-0.21217766, 0, 0.9772311, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			0, 0, 1, 0.21380283,
+			0.9772311, -0.21217766, 0, 0,
+			0.21217766, 0.9772311, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			1, 1, 1, 0.21380283,
+			0.9848207, -0.11491119, 0.13009046, 0,
+			0.13009046, 0.9848207, -0.11491119, 0,
+			-0.11491119, 0.13009046, 0.9848207, 0,
+			0, 0, 0, 1
+		)]
+		#endregion // CreateRotationFromAxisAngle_AxisAndAngle_ReturnsMatrix Test Data
+		public void CreateRotationFromAxisAngle_AxisAndAngle_ReturnsMatrix(
+			float x, float y, float z, float theta,
+			float a11, float a12, float a13, float a14,
+			float a21, float a22, float a23, float a24,
+			float a31, float a32, float a33, float a34,
+			float a41, float a42, float a43, float a44
+		) {
+			// Variables
+			Matrix expected = new Matrix(
+				a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44
+			);
+			Vector3 axis = new Vector3(x, y, z);
+			Matrix actual = Matrix.CreateRotationFromAxisAngle(axis, theta);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		[Theory]
+		#region CreateRotationFromAxisAngle_AxisAndAngle_ReturnsMatrix Test Data
+		[InlineData(
+			0, 0, 0, 12.25,
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			1, 0, 0, 12.25,
+			1, 0, 0, 0,
+			0, 0.9772311, -0.21217766, 0,
+			0, 0.21217766, 0.9772311, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			0, 1, 0, 12.25,
+			0.9772311, 0, 0.21217766, 0,
+			0, 1, 0, 0,
+			-0.21217766, 0, 0.9772311, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			0, 0, 1, 12.25,
+			0.9772311, -0.21217766, 0, 0,
+			0.21217766, 0.9772311, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		)]
+		[InlineData(
+			1, 1, 1, 12.25,
+			0.9848207, -0.11491119, 0.13009046, 0,
+			0.13009046, 0.9848207, -0.11491119, 0,
+			-0.11491119, 0.13009046, 0.9848207, 0,
+			0, 0, 0, 1
+		)]
+		#endregion // CreateRotationFromAxisAngle_AxisAndAngle_ReturnsMatrix Test Data
+		public void CreateRotationFromAxisAngleDeg_AxisAndAngle_ReturnsMatrix(
+			float x, float y, float z, float theta,
+			float a11, float a12, float a13, float a14,
+			float a21, float a22, float a23, float a24,
+			float a31, float a32, float a33, float a34,
+			float a41, float a42, float a43, float a44
+		) {
+			// Variables
+			Matrix expected = new Matrix(
+				a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44
+			);
+			Vector3 axis = new Vector3(x, y, z);
+			Matrix actual = Matrix.CreateRotationFromAxisAngleDeg(axis, theta);
+			
+			Assert.Equal(expected, actual);
+		}
+		
 		#endregion // Public Test Methods
 		
 		#region Private Methods
@@ -603,273 +1147,5 @@ namespace B3.Testing {
 		}
 		
 		#endregion // Private Methods
-		
-		// [Theory]
-		// [InlineData(
-		// 	30 * Mathx.DegToRad, 0, 0,
-		// 	1, 0, 0, 0,
-		// 	0, 0.8660254037f, -0.5f, 0,
-		// 	0, 0.5f, 0.8660254037f, 0,
-		// 	0, 0, 0, 1
-		// )]
-		// [InlineData(
-		// 	0, 60 * Mathx.DegToRad, 0,
-		// 	0.5f, 0, 0.8660254037f, 0,
-		// 	0, 1, 0, 0,
-		// 	-0.8660254037f, 0, 0.5f, 0,
-		// 	0, 0, 0, 1
-		// )]
-		// [InlineData(
-		// 	0, 0, 129 * Mathx.DegToRad,
-		// 	-0.6293203910f, -0.7771459614f, 0, 0,
-		// 	0.7771459614f, -0.6293203910f, 0, 0,
-		// 	0, 0, 1, 0,
-		// 	0, 0, 0, 1
-		// )]
-		// [InlineData(
-		// 	30 * Mathx.DegToRad, 60 * Mathx.DegToRad, 129 * Mathx.DegToRad,
-		// 	-0.3146601955f, -0.9455318679f, -0.08341731255f, 0,
-		// 	0.3885729807f, -0.2084933732f, 0.8975196666f, 0,
-		// 	-0.8660254037f, 1/4f, 0.4330127018f, 0,
-		// 	0, 0, 0, 1
-		// )]
-		// public void Rotations(
-		// 	float xrot, float yrot, float zrot,
-		// 	float b11, float b12, float b13, float b14,
-		// 	float b21, float b22, float b23, float b24,
-		// 	float b31, float b32, float b33, float b34,
-		// 	float b41, float b42, float b43, float b44
-		// ) {
-		// 	// Variables
-		// 	Matrix e = new Matrix(
-		// 		b11, b12, b13, b14,
-		// 		b21, b22, b23, b24,
-		// 		b31, b32, b33, b34,
-		// 		b41, b42, b43, b44
-		// 	);
-		// 	Matrix a = (
-		// 		Matrix.CreateRotationZ(zrot) *
-		// 		Matrix.CreateRotationY(yrot) *
-		// 		Matrix.CreateRotationX(xrot)
-		// 	);
-			
-		// 	this.output.WriteLine("Expected:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a, 0.000001f));
-		// }
-		
-		// [Fact]
-		// public void CreateRotationFromAxisAngle() {
-		// 	// Variables
-		// 	Matrix a = Matrix.CreateRotationFromAxisAngle(Vector3.UnitX, 30 * Mathx.DegToRad);
-		// 	Matrix e = Matrix.CreateRotationX(30 * Mathx.DegToRad);
-			
-		// 	this.output.WriteLine("Expected X:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual X:");
-		// 	this.output.WriteLine(a.ToString());
-		// 	this.output.WriteLine("---------------");
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a));
-			
-		// 	a = Matrix.CreateRotationFromAxisAngle(Vector3.UnitY, 30 * Mathx.DegToRad);
-		// 	e = Matrix.CreateRotationY(30 * Mathx.DegToRad);
-			
-		// 	this.output.WriteLine("Expected Y:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual Y:");
-		// 	this.output.WriteLine(a.ToString());
-		// 	this.output.WriteLine("---------------");
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a));
-			
-		// 	a = Matrix.CreateRotationFromAxisAngle(Vector3.UnitZ, 30 * Mathx.DegToRad);
-		// 	e = Matrix.CreateRotationZ(30 * Mathx.DegToRad);
-			
-		// 	this.output.WriteLine("Expected Z:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual Z:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a));
-			
-		// 	a = Matrix.CreateRotationFromAxisAngle(new Vector3(1, 1, 1), 30 * Mathx.DegToRad);
-		// 	e = new Matrix(
-		// 		0.9106836025f, -0.244016935f, 1/3f, 0.0f,
-		// 		1/3f, 0.9106836025f, -0.244016935f, 0.0f,
-		// 		-0.244016935f, 1/3f, 0.9106836025f, 0.0f,
-		// 		0.0f, 0.0f, 0.0f, 1.0f
-		// 	);
-			
-		// 	this.output.WriteLine("Expected One:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual One:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a));
-			
-		// 	a = Matrix.CreateRotationFromAxisAngle(new Vector3(1, 2, 3), 30 * Mathx.DegToRad);
-		// 	e = new Matrix(
-		// 		0.8755950178f, -0.3817526348f, 0.2959700839f, 0,
-		// 		0.4200310909f, 0.9043038598f, -0.07621293686f, 0,
-		// 		-0.2385523998f, 0.1910483050f, 0.9521519299f, 0,
-		// 		0, 0, 0, 1
-		// 	);
-			
-		// 	this.output.WriteLine("Expected 1,2,3:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual 1,2,3:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a));
-		// }
-		
-		// [Theory]
-		// [InlineData(10, 10, 0.1, 100, 0.2, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, -0.02002002, -1.002002, 0, 0, 0, 1)]
-		// [InlineData(20, 20, 0.3, 1000, 0.1, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, -0.0020006, -1.0006, 0, 0, 0, 1)]
-		// public void CreateOrthographic(
-		// 	float width, float height, float near, float far,
-		// 	float a11, float a12, float a13, float a14,
-		// 	float a21, float a22, float a23, float a24,
-		// 	float a31, float a32, float a33, float a34,
-		// 	float a41, float a42, float a43, float a44
-		// ) {
-		// 	// Variables
-		// 	Matrix a = Matrix.CreateOrthographic(width, height, near, far);
-		// 	Matrix e = new Matrix(
-		// 		a11, a12, a13, a14,
-		// 		a21, a22, a23, a24,
-		// 		a31, a32, a33, a34,
-		// 		a41, a42, a43, a44
-		// 	);
-			
-		// 	this.output.WriteLine("Expected:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a));
-		// }
-		
-		// [Theory]
-		// [InlineData(4, 8, 1, 100, 0.3, 1000, 0.5, 0, 0, -3, 0, 0.02020202, 0, -1.020202, 0, 0, -0.0020006, -1.0006, 0, 0, 0, 1)]
-		// [InlineData(-8, 10, -1, 1, 0.1, 100, 0.1111111, 0, 0, -0.1111111, 0, 1, 0, 0, 0, 0, -0.02002002, -1.002002, 0, 0, 0, 1)]
-		// public void CreateOrthographicOffCenter(
-		// 	float left, float right, float top, float bottom, float near, float far,
-		// 	float a11, float a12, float a13, float a14,
-		// 	float a21, float a22, float a23, float a24,
-		// 	float a31, float a32, float a33, float a34,
-		// 	float a41, float a42, float a43, float a44
-		// ) {
-		// 	// Variables
-		// 	Matrix a = Matrix.CreateOrthographic(left, right, top, bottom, near, far);
-		// 	Matrix e = new Matrix(
-		// 		a11, a12, a13, a14,
-		// 		a21, a22, a23, a24,
-		// 		a31, a32, a33, a34,
-		// 		a41, a42, a43, a44
-		// 	);
-			
-		// 	this.output.WriteLine("Expected:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a));
-		// }
-		
-		// [Theory]
-		// [InlineData(90, 0.75, 1, 10, 1.333333, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1.222222, -2.222222, 0, 0, -1, 0)]
-		// [InlineData(60, 1.777778, 0.1, 100, 0.9742786, 0, 0, 0, 0, 1.732051, 0, 0, 0, 0, -1.002002, -0.2002002, 0, 0, -1, 0)]
-		// [InlineData(120, 1.461530, 0.1, 100, 0.3950291, 0, 0, 0, 0, 0.5773502, 0, 0, 0, 0, -1.002002, -0.2002002, 0, 0, -1, 0)]
-		// public void CreatePerspective(
-		// 	float fov, float aspect, float near, float far,
-		// 	float a11, float a12, float a13, float a14,
-		// 	float a21, float a22, float a23, float a24,
-		// 	float a31, float a32, float a33, float a34,
-		// 	float a41, float a42, float a43, float a44
-		// ) {
-		// 	// Variables
-		// 	Matrix a = Matrix.CreatePerspective(fov, aspect, near, far);
-		// 	Matrix e = new Matrix(
-		// 		a11, a12, a13, a14,
-		// 		a21, a22, a23, a24,
-		// 		a31, a32, a33, a34,
-		// 		a41, a42, a43, a44
-		// 	);
-			
-		// 	this.output.WriteLine("Expected:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a, 0.00001f));
-		// }
-		
-		// [Theory]
-		// [InlineData(-10, 10, -5, 5, 0.1, 100, 0.01, 0, 0, 0, 0, 0.02, 0, 0, 0, 0, -1.002002, -0.2002002, 0, 0, -1, 0)]
-		// [InlineData(-0.1, 0.1, -0.1, 0.1, 0.1, 100, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1.002002, -0.2002002, 0, 0, -1, 0)]
-		// [InlineData(-0.2, 0.1, -0.1, 0.2, 0.1, 100, 0.6666666, 0, -0.3333333, 0, 0, 0.6666666, 0.3333333, 0, 0, 0, -1.002002, -0.2002002, 0, 0, -1, 0)]
-		// public void CreatePerspectiveOffCenter(
-		// 	float left, float right, float top, float bottom, float near, float far,
-		// 	float a11, float a12, float a13, float a14,
-		// 	float a21, float a22, float a23, float a24,
-		// 	float a31, float a32, float a33, float a34,
-		// 	float a41, float a42, float a43, float a44
-		// ) {
-		// 	// Variables
-		// 	Matrix a = Matrix.CreatePerspective(left, right, top, bottom, near, far);
-		// 	Matrix e = new Matrix(
-		// 		a11, a12, a13, a14,
-		// 		a21, a22, a23, a24,
-		// 		a31, a32, a33, a34,
-		// 		a41, a42, a43, a44
-		// 	);
-			
-		// 	this.output.WriteLine("Expected:");
-		// 	this.output.WriteLine(e.ToString());
-		// 	this.output.WriteLine("Actual:");
-		// 	this.output.WriteLine(a.ToString());
-			
-		// 	Assert.True(Mathx.Approx(ref e, ref a, 0.00001f));
-		// }
-		
-		// [Fact]
-		// public void Lerp() {
-		// 	for(int i = 0; i < 25; i++) {
-		// 		// Variables
-		// 		float t = Random.Value;
-		// 		Matrix a = new Matrix(
-		// 			Random.Range(-10*Vector4.One, 10*Vector4.One),
-		// 			Random.Range(-10*Vector4.One, 10*Vector4.One),
-		// 			Random.Range(-10*Vector4.One, 10*Vector4.One),
-		// 			Random.Range(-10*Vector4.One, 10*Vector4.One)
-		// 		);
-		// 		Matrix b = new Matrix(
-		// 			Random.Range(-10*Vector4.One, 10*Vector4.One),
-		// 			Random.Range(-10*Vector4.One, 10*Vector4.One),
-		// 			Random.Range(-10*Vector4.One, 10*Vector4.One),
-		// 			Random.Range(-10*Vector4.One, 10*Vector4.One)
-		// 		);
-		// 		Matrix e = new Matrix(
-		// 			Mathx.Lerp(ref a.row1, ref b.row1, t),
-		// 			Mathx.Lerp(ref a.row2, ref b.row2, t),
-		// 			Mathx.Lerp(ref a.row3, ref b.row3, t),
-		// 			Mathx.Lerp(ref a.row4, ref b.row4, t)
-		// 		);
-				
-		// 		Mathx.Lerp(ref a, ref b, t, out a);
-				
-		// 		this.output.WriteLine("Expected:");
-		// 		this.output.WriteLine(e.ToString());
-		// 		this.output.WriteLine("Actual:");
-		// 		this.output.WriteLine(a.ToString());
-				
-		// 		Assert.True(Mathx.Approx(ref e, ref a));
-		// 	}
-		// }
 	}
 }

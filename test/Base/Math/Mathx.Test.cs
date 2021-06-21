@@ -920,10 +920,10 @@ namespace B3.Testing {
 		[Fact]
 		public void Approx_CausingFloatingPointErrorBeforeApprox_ReturnsNotEqual() {
 			// Variables
-			float expected = 1.0000001f;
-			float actual = 654.321f + expected - 654.321f;
+			float notExpected = 1.0f;
+			float actual = 1.0000001f;
 			
-			Assert.NotEqual(expected, actual);
+			Assert.NotEqual(notExpected, actual);
 		}
 		
 		/// <summary>
@@ -933,10 +933,11 @@ namespace B3.Testing {
 		[Fact]
 		public void Approx_WithFloatingPointError_ReturnsTrue() {
 			// Variables
-			float expected = 1.0000001f;
-			float actual = 654.321f + expected - 654.321f;
+			float original = 1.0f;
+			float approx = 1.0000001f;
+			bool actual = Mathx.Approx(original, approx);
 			
-			Assert.True(Mathx.Approx(expected, actual));
+			Assert.True(actual);
 		}
 		
 		/// <summary>
