@@ -630,7 +630,7 @@ namespace B3 {
 		/// <param name="near">The near most part of the orthographic projection</param>
 		/// <param name="far">The far most part of the orthographic projection</param>
 		/// <param name="result">The resulting projection matrix</param>
-		public static void CreateOrthographic(float left, float right, float top, float bottom, float near, float far, out Matrix result) {
+		public static void CreateOrthographicOffCenter(float left, float right, float top, float bottom, float near, float far, out Matrix result) {
 			// Variables
 			float rl = right - left;
 			float tb = bottom - top;
@@ -657,11 +657,11 @@ namespace B3 {
 		/// <param name="near">The near most part of the orthographic projection</param>
 		/// <param name="far">The far most part of the orthographic projection</param>
 		/// <returns>Returns the resulting projection matrix</returns>
-		public static Matrix CreateOrthographic(float left, float right, float top, float bottom, float near, float far) {
+		public static Matrix CreateOrthographicOffCenter(float left, float right, float top, float bottom, float near, float far) {
 			// Variables
 			Matrix result;
 			
-			CreateOrthographic(left, right, top, bottom, near, far, out result);
+			CreateOrthographicOffCenter(left, right, top, bottom, near, far, out result);
 			
 			return result;
 		}
@@ -672,7 +672,7 @@ namespace B3 {
 		/// <param name="near">The near z plane</param>
 		/// <param name="far">The far z plane</param>
 		/// <param name="result">The resulting orthographic projection matrix</param>
-		public static void CreateOrthographic(float width, float height, float near, float far, out Matrix result) { CreateOrthographic(-width / 2.0f, width / 2.0f, -height / 2.0f, height / 2.0f, near, far, out result); }
+		public static void CreateOrthographic(float width, float height, float near, float far, out Matrix result) { CreateOrthographicOffCenter(-width / 2.0f, width / 2.0f, -height / 2.0f, height / 2.0f, near, far, out result); }
 		
 		/// <summary>Creates an orthographic projection (flat projection, lines are straight)</summary>
 		/// <param name="width">The width of the box of projection</param>
@@ -680,7 +680,7 @@ namespace B3 {
 		/// <param name="near">The near z plane</param>
 		/// <param name="far">The far z plane</param>
 		/// <returns>Returns the resulting orthographic projection matrix</returns>
-		public static Matrix CreateOrthographic(float width, float height, float near, float far) { return CreateOrthographic(-width / 2.0f, width / 2.0f, -height / 2.0f, height / 2.0f, near, far); }
+		public static Matrix CreateOrthographic(float width, float height, float near, float far) { return CreateOrthographicOffCenter(-width / 2.0f, width / 2.0f, -height / 2.0f, height / 2.0f, near, far); }
 		
 		#endregion // CreateOrthographic Methods
 		
@@ -694,7 +694,7 @@ namespace B3 {
 		/// <param name="near">The near most part of the perspective projection</param>
 		/// <param name="far">The far most part of the perspective projection</param>
 		/// <param name="result">The resulting perspective projection matrix</param>
-		public static void CreatePerspective(float left, float right, float top, float bottom, float near, float far, out Matrix result) {
+		public static void CreatePerspectiveOffCenter(float left, float right, float top, float bottom, float near, float far, out Matrix result) {
 			// Variables
 			float rl = right - left;
 			float tb = bottom - top;
@@ -722,11 +722,11 @@ namespace B3 {
 		/// <param name="near">The near most part of the perspective projection</param>
 		/// <param name="far">The far most part of the perspective projection</param>
 		/// <returns>Returns the resulting perspective projection matrix</returns>
-		public static Matrix  CreatePerspective(float left, float right, float top, float bottom, float near, float far) {
+		public static Matrix  CreatePerspectiveOffCenter(float left, float right, float top, float bottom, float near, float far) {
 			// Variables
 			Matrix result;
 			
-			CreatePerspective(left, right, top, bottom, near, far, out result);
+			CreatePerspectiveOffCenter(left, right, top, bottom, near, far, out result);
 			
 			return result;
 		}
@@ -742,7 +742,7 @@ namespace B3 {
 			float top = Mathx.Tan(0.5f * fov * Mathx.DegToRad) * near;
 			float right = top * aspect;
 			
-			CreatePerspective(-right, right, -top, top, near, far, out result);
+			CreatePerspectiveOffCenter(-right, right, -top, top, near, far, out result);
 		}
 		
 		/// <summary>Creates a perspective projection (projection that closely mimics human perspective)</summary>
@@ -1725,6 +1725,11 @@ namespace B3 {
 		/// <param name="vector">The vector to multiply with</param>
 		/// <returns>Returns the resulting multipied vector</returns>
 		public Vector2 Multiply(Vector2 vector) { return Multiply(ref this, ref vector); }
+		
+		/// <summary>Gets the determinant of the matrix</summary>
+		/// <returns>Returns the resulting determinant</returns>
+		/// <remarks>If the determinant is 0, then the matrix is non-inversible</remarks>
+		public float GetDeterminant() { return GetDeterminant(ref this); }
 		
 		/// <summary>Finds if the two matrices are equal to each other</summary>
 		/// <param name="other">The other matrix to find if its equal to</param>

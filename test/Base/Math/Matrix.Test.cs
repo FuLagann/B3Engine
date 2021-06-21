@@ -2,8 +2,7 @@
 using Xunit;
 
 namespace B3.Testing {
-	// TRACK: 637 tests
-	/// <summary>Tests the <see cref="B3.Matrix"/> structure to make sure it works correctly. Contains 67 tests</summary>
+	/// <summary>Tests the <see cref="B3.Matrix"/> structure to make sure it works correctly. Contains 70 tests</summary>
 	public class MatrixTest {
 		#region Public Test Methods
 		
@@ -443,6 +442,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.GetDeterminant"/> functionality.
+		/// Gets the determinant from a non-inversible matrix and checks to see if its zero
+		/// </summary>
 		[Fact]
 		public void GetDeterminant_MatrixA_Returns0() {
 			// Variables
@@ -455,6 +458,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.GetDeterminant"/> functionality.
+		/// Gets the determinant from the identity matrix and checks to see if its one
+		/// </summary>
 		[Fact]
 		public void GetDeterminant_IdentityMatrix_Returns1() {
 			// Variables
@@ -467,6 +474,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.GetDeterminant"/> functionality.
+		/// Gets the determinant from an inversible matrix and checks to see if its not zero
+		/// </summary>
 		[Fact]
 		public void GetDeterminant_MatrixC_ReturnsNonZeroFloat() {
 			// Variables
@@ -479,6 +490,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Invert"/> functionality.
+		/// Inverts the matrix and checks to see if its correct
+		/// </summary>
 		[Theory]
 		#region Invert_Matrix_ReturnMatrix Test Data
 		[InlineData(
@@ -534,14 +549,22 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Invert"/> functionality.
+		/// Inverts a non-invertible matrix and checks to see if it throws an exception
+		/// </summary>
 		[Fact]
-		public void Invert_MatrixAUninvertable_ThrowsException() {
+		public void Invert_MatrixANoninvertible_ThrowsException() {
 			// Variables
 			Matrix actual = this.CreateDefaultMatrixA();
 			
 			Assert.Throws<System.Exception>(() => { Matrix.Invert(ref actual, out actual); });
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.ToArray"/> functionality.
+		/// Converts the matrix into an array of size 16 and checks to see if it's correct
+		/// </summary>
 		[Fact]
 		public void ToArray_Matrix_ReturnsArray() {
 			// Variables
@@ -557,6 +580,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateScale(Vector3)"/> functionality.
+		/// Creates a scalable matrix using the vector and checks to see if it's correct
+		/// </summary>
 		[Fact]
 		public void CreateScale_Vector_ReturnsMatrix() {
 			// Variables
@@ -572,6 +599,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateLookAt(Vector3, Vector3, Vector3)"/> functionality.
+		/// Creates a look at matrix and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region CreateLookAt_Vectors_ReturnsMatrix Test Data
 		[InlineData(
@@ -640,6 +671,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateTranslation(Vector3)"/> functionality.
+		/// Creates a translation matrix and checks to see if it's correct
+		/// </summary>
 		[Fact]
 		public void CreateTranslation_Vector3_ReturnsMatrix() {
 			// Variables
@@ -655,6 +690,11 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Approx(Matrix, Matrix)"/> functionality.
+		/// Checks to see if the two matrices that are approximately close to each other
+		/// are not equal to each other to set up the test for <see cref="B3.Testing.MatrixTest.Approx_TwoMatrices_ReturnTrue"/>
+		/// </summary>
 		[Fact]
 		public void Approx_TwoMatrices_ReturnsNotEqual() {
 			// Variables
@@ -664,6 +704,10 @@ namespace B3.Testing {
 			Assert.NotEqual(notExpected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Approx(Matrix, Matrix)"/> functionality.
+		/// Checks to see if the two matrices are approximately close to each other
+		/// </summary>
 		[Fact]
 		public void Approx_TwoMatrices_ReturnTrue() {
 			// Variables
@@ -674,6 +718,10 @@ namespace B3.Testing {
 			Assert.True(actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateOrthographic(float, float, float, float)"/> functionality.
+		/// Creates an orthographic projection matrix and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region CreateOrthographic_Parameters_ReturnsMatrix Test Data
 		[InlineData(
@@ -710,6 +758,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateOrthographicOffCenter(float, float, float, float, float, float)"/> functionality.
+		/// Creates an off center orthographic projection matrix and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region CreateOrthographic_OffCenterParameters_ReturnsMatrix Test Data
 		[InlineData(
@@ -727,7 +779,7 @@ namespace B3.Testing {
 			0, 0, 0, 1
 		)]
 		#endregion // CreateOrthographic_OffCenterParameters_ReturnsMatrix Test Data
-		public void CreateOrthographic_OffCenterParameters_ReturnsMatrix(
+		public void CreateOrthographicOffCenter_Parameters_ReturnsMatrix(
 			float left, float right, float top, float bottom, float near, float far,
 			float a11, float a12, float a13, float a14,
 			float a21, float a22, float a23, float a24,
@@ -741,11 +793,15 @@ namespace B3.Testing {
 				a31, a32, a33, a34,
 				a41, a42, a43, a44
 			);
-			Matrix actual = Matrix.CreateOrthographic(left, right, top, bottom, near, far);
+			Matrix actual = Matrix.CreateOrthographicOffCenter(left, right, top, bottom, near, far);
 			
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreatePerspective(float, float, float, float)"/> functionality.
+		/// Creates a perspective projection matrix and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region CreatePerspective_Parameters_ReturnsMatrix Test Data
 		[InlineData(
@@ -789,6 +845,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreatePerspectiveOffCenter(float, float, float, float, float, float)"/> functionality.
+		/// Creates an off center perspective projection matrix and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region CreatePerspective_OffCenterParameters_ReturnsMatrix Test Data
 		[InlineData(
@@ -827,11 +887,15 @@ namespace B3.Testing {
 				a31, a32, a33, a34,
 				a41, a42, a43, a44
 			);
-			Matrix actual = Matrix.CreatePerspective(left, right, top, bottom, near, far);
+			Matrix actual = Matrix.CreatePerspectiveOffCenter(left, right, top, bottom, near, far);
 			
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.Adjugate"/> functionality.
+		/// Adjugates the matrix and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region Adjugate_Matrix_ReturnsMatrix Test Data
 		[InlineData(
@@ -898,6 +962,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateFromQuaternion(Quaternion)"/> functionality.
+		/// Creates a matrix from the quaternion provided and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region CreateFromQuaternion_Quaternion_ReturnsMatrix Test Data
 		[InlineData(
@@ -957,8 +1025,12 @@ namespace B3.Testing {
 			Assert.True(expected);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateRotationX(float)"/> functionality.
+		/// Creates a rotation matrix around the x-axis by pi over 2
+		/// </summary>
 		[Fact]
-		public void CreateRotationX_45DegreeAngle_ReturnsMatrix() {
+		public void CreateRotationX_PiOver2Angle_ReturnsMatrix() {
 			// Variables
 			Matrix expected = new Matrix(
 				1, 0, 0, 0,
@@ -971,8 +1043,12 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateRotationY(float)"/> functionality.
+		/// Creates a rotation matrix around the y-axis by pi over 2
+		/// </summary>
 		[Fact]
-		public void CreateRotationY_45DegreeAngle_ReturnsMatrix() {
+		public void CreateRotationY_PiOver2Angle_ReturnsMatrix() {
 			// Variables
 			Matrix expected = new Matrix(
 				0.70710677f, 0, 0.70710677f, 0,
@@ -985,8 +1061,12 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateRotationZ(float)"/> functionality.
+		/// Creates a rotation matrix around the z-axis by pi over 2
+		/// </summary>
 		[Fact]
-		public void CreateRotationZ_45DegreesAngle_ReturnsMatrix() {
+		public void CreateRotationZ_PiOver2Angle_ReturnsMatrix() {
 			// Variables
 			Matrix expected = new Matrix(
 				0.70710677f, -0.70710677f, 0, 0,
@@ -999,6 +1079,64 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateRotationXDeg(float)"/> functionality.
+		/// Creates a rotation matrix around the x-axis by 45 degrees
+		/// </summary>
+		[Fact]
+		public void CreateRotationXDeg_45DegreeAngle_ReturnsMatrix() {
+			// Variables
+			Matrix expected = new Matrix(
+				1, 0, 0, 0,
+				0, 0.70710677f, -0.70710677f, 0,
+				0, 0.70710677f, 0.70710677f, 0,
+				0, 0, 0, 1
+			);
+			Matrix actual = Matrix.CreateRotationXDeg(45.0f);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateRotationYDeg(float)"/> functionality.
+		/// Creates a rotation matrix around the y-axis by 45 degrees
+		/// </summary>
+		[Fact]
+		public void CreateRotationYDeg_45DegreeAngle_ReturnsMatrix() {
+			// Variables
+			Matrix expected = new Matrix(
+				0.70710677f, 0, 0.70710677f, 0,
+				0, 1, 0, 0,
+				-0.70710677f, 0, 0.70710677f, 0,
+				0, 0, 0, 1
+			);
+			Matrix actual = Matrix.CreateRotationYDeg(45.0f);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateRotationZDeg(float)"/> functionality.
+		/// Creates a rotation matrix around the z-axis by 45 degrees
+		/// </summary>
+		[Fact]
+		public void CreateRotationZDeg_45DegreeAngle_ReturnsMatrix() {
+			// Variables
+			Matrix expected = new Matrix(
+				0.70710677f, -0.70710677f, 0, 0,
+				0.70710677f, 0.70710677f, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1
+			);
+			Matrix actual = Matrix.CreateRotationZDeg(45.0f);
+			
+			Assert.Equal(expected, actual);
+		}
+		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateRotationFromAxisAngle(Vector3, float)"/> functionality.
+		/// Creates a rotation matrix around an arbitrary axis and a given angle (in radians) and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region CreateRotationFromAxisAngle_AxisAndAngle_ReturnsMatrix Test Data
 		[InlineData(
@@ -1057,6 +1195,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Matrix.CreateRotationFromAxisAngleDeg(Vector3, float)"/> functionality.
+		/// Creates a rotation matrix around an arbitrary axis and a given angle (in degrees) and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region CreateRotationFromAxisAngle_AxisAndAngle_ReturnsMatrix Test Data
 		[InlineData(
