@@ -126,11 +126,12 @@ namespace B3 {
 			this.UpdateMatrix(false);
 		} }
 		
-		/// <summary>Gets and sets the euler angles used for rotation by the transform</summary>
-		public Vector3 EulerAngles { get { return Quaternion.ToEulerAngles(ref this.rotation); } set {
-			Quaternion.FromEulerAngles(ref value, out this.rotation);
-			this.UpdateMatrix(false);
-		} }
+		// TODO: Fix the euler angles method for the quaternion
+		// /// <summary>Gets and sets the euler angles used for rotation by the transform</summary>
+		// public Vector3 EulerAngles { get { return Quaternion.ToEulerAngles(ref this.rotation); } set {
+		// 	Quaternion.FromEulerAngles(ref value, out this.rotation);
+		// 	this.UpdateMatrix(false);
+		// } }
 		
 		// TODO: public Vector3 AbsolutePosition { get; set; }
 		// TODO: public Vector3 AbsoluteScale { get; set; }

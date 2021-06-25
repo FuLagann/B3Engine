@@ -198,13 +198,48 @@ namespace B3 {
 			return result;
 		}
 		
-		/// <summary>Creates a rotation quaternion over the given axis and angle</summary>
+		/// <summary>Creates a rotation quaternion over the given axis and angle (in radians)</summary>
 		/// <param name="axis">The arbitrary axis that the quaternion will rotate around</param>
-		/// <param name="theta">The angle that the quaternion will rotate around</param>
+		/// <param name="theta">The angle (in radians) that the quaternion will rotate around</param>
 		/// <returns>Returns the resulting rotation quaternion</returns>
 		public static Quaternion FromAxisAngle(Vector3 axis, float theta) { return FromAxisAngle(ref axis, theta); }
 		
 		#endregion // FromAxisAngle Methods
+		
+		#region FromAxisAngleDeg Methods
+		
+		/// <summary>Creates a rotation quaternion over the given axis and angle (in degrees)</summary>
+		/// <param name="axis">The arbitrary axis that the quaternion will rotate around</param>
+		/// <param name="theta">The angle (in degrees) that the quaternion will rotate around</param>
+		/// <param name="result">The resulting rotation quaternion</param>
+		public static void FromAxisAngleDeg(ref Vector3 axis, float theta, out Quaternion result) { FromAxisAngle(ref axis, Mathx.DegToRad * theta, out result); }
+		
+		/// <summary>Creates a rotation quaternion over the given axis and angle (in degrees)</summary>
+		/// <param name="axis">The arbitrary axis that the quaternion will rotate around</param>
+		/// <param name="theta">The angle (in degrees) that the quaternion will rotate around</param>
+		/// <param name="result">The resulting rotation quaternion</param>
+		public static void FromAxisAngleDeg(Vector3 axis, float theta, out Quaternion result) { FromAxisAngleDeg(ref axis, theta, out result); }
+		
+		/// <summary>Creates a rotation quaternion over the given axis and angle (in degrees)</summary>
+		/// <param name="axis">The arbitrary axis that the quaternion will rotate around</param>
+		/// <param name="theta">The angle (in degrees) that the quaternion will rotate around</param>
+		/// <returns>Returns the resulting rotation quaternion</returns>
+		public static Quaternion FromAxisAngleDeg(ref Vector3 axis, float theta) {
+			// Variables
+			Quaternion result;
+			
+			FromAxisAngleDeg(ref axis, theta, out result);
+			
+			return result;
+		}
+		
+		/// <summary>Creates a rotation quaternion over the given axis and angle (in degrees)</summary>
+		/// <param name="axis">The arbitrary axis that the quaternion will rotate around</param>
+		/// <param name="theta">The angle (in degrees) that the quaternion will rotate around</param>
+		/// <returns>Returns the resulting rotation quaternion</returns>
+		public static Quaternion FromAxisAngleDeg(Vector3 axis, float theta) { return FromAxisAngleDeg(ref axis, theta); }
+		
+		#endregion // FromAxisAngleDeg Methods
 		
 		#region FromMatrix Methods
 		
@@ -242,48 +277,50 @@ namespace B3 {
 		
 		#endregion // FromMatrix Methods
 		
-		#region ToEulerAngles Methods
+		// Testing for this does not work, checking all the sources the code should be correct but since it's not and it's faulty, it'll be commented out until it can be figured out
+		// TODO: Find a way to correct this
+		// #region ToEulerAngles Methods
 		
-		/// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
-		/// <param name="quaternion">The quaternion to convert</param>
-		/// <param name="result">The resulting vector holding the euler angles (yaw, pitch, roll)</param>
-		public static void ToEulerAngles(ref Quaternion quaternion, out Vector3 result) {
-			result.x = Mathx.Arcsin(
-				2.0f * (quaternion.a * quaternion.b - quaternion.d * quaternion.c)
-			);
-			result.y = Mathx.Arctan(
-				2.0f * (quaternion.a * quaternion.c + quaternion.b * quaternion.d),
-				1.0f - 2.0f * (quaternion.c * quaternion.c + quaternion.b * quaternion.b)
-			);
-			result.z = Mathx.Arctan(
-				2.0f * (quaternion.a * quaternion.d + quaternion.b * quaternion.c),
-				1.0f - 2.0f * (quaternion.b * quaternion.b + quaternion.d * quaternion.d)
-			);
-		}
+		// /// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
+		// /// <param name="quaternion">The quaternion to convert</param>
+		// /// <param name="result">The resulting vector holding the euler angles (yaw, pitch, roll)</param>
+		// public static void ToEulerAngles(ref Quaternion quaternion, out Vector3 result) {
+		// 	result.x = Mathx.Arctan(
+		// 		2.0f * (quaternion.a * quaternion.b + quaternion.c * quaternion.d),
+		// 		1.0f - 2.0f * (quaternion.b * quaternion.b + quaternion.c * quaternion.c)
+		// 	);
+		// 	result.y = Mathx.Arcsin(
+		// 		2.0f * (quaternion.a * quaternion.c - quaternion.d * quaternion.b)
+		// 	);
+		// 	result.z = Mathx.Arctan(
+		// 		2.0f * (quaternion.a * quaternion.d + quaternion.b * quaternion.c),
+		// 		1.0f - 2.0f * (quaternion.c * quaternion.c + quaternion.d * quaternion.d)
+		// 	);
+		// }
 		
-		/// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
-		/// <param name="quaternion">The quaternion to convert</param>
-		/// <param name="result">The resulting vector holding the euler angles (yaw, pitch, roll)</param>
-		public static void ToEulerAngles(Quaternion quaternion, out Vector3 result) { ToEulerAngles(ref quaternion, out result); }
+		// /// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
+		// /// <param name="quaternion">The quaternion to convert</param>
+		// /// <param name="result">The resulting vector holding the euler angles (yaw, pitch, roll)</param>
+		// public static void ToEulerAngles(Quaternion quaternion, out Vector3 result) { ToEulerAngles(ref quaternion, out result); }
 		
-		/// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
-		/// <param name="quaternion">The quaternion to convert</param>
-		/// <returns>Return the resulting vector holding the euler angles (yaw, pitch, roll)</returns>
-		public static Vector3 ToEulerAngles(ref Quaternion quaternion) {
-			// Variables
-			Vector3 result;
+		// /// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
+		// /// <param name="quaternion">The quaternion to convert</param>
+		// /// <returns>Return the resulting vector holding the euler angles (yaw, pitch, roll)</returns>
+		// public static Vector3 ToEulerAngles(ref Quaternion quaternion) {
+		// 	// Variables
+		// 	Vector3 result;
 			
-			ToEulerAngles(ref quaternion, out result);
+		// 	ToEulerAngles(ref quaternion, out result);
 			
-			return result;
-		}
+		// 	return result;
+		// }
 		
-		/// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
-		/// <param name="quaternion">The quaternion to convert</param>
-		/// <returns>Return the resulting vector holding the euler angles (yaw, pitch, roll)</returns>
-		public static Vector3 ToEulerAngles(Quaternion quaternion) { return ToEulerAngles(ref quaternion); }
+		// /// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
+		// /// <param name="quaternion">The quaternion to convert</param>
+		// /// <returns>Return the resulting vector holding the euler angles (yaw, pitch, roll)</returns>
+		// public static Vector3 ToEulerAngles(Quaternion quaternion) { return ToEulerAngles(ref quaternion); }
 		
-		#endregion // ToEulerAngles
+		// #endregion // ToEulerAngles
 		
 		#region ToMatrix Methods
 		
@@ -1066,9 +1103,9 @@ namespace B3 {
 		
 		#region Public Methods
 		
-		/// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
-		 /// <returns>Return the resulting vector holding the euler angles (yaw, pitch, roll)</returns>
-		public Vector3 ToEulerAngles() { return ToEulerAngles(ref this); }
+		// /// <summary>Converts the quaternion into a vector holding the euler angles (yaw, pitch, roll)</summary>
+		//  /// <returns>Return the resulting vector holding the euler angles (yaw, pitch, roll)</returns>
+		// public Vector3 ToEulerAngles() { return ToEulerAngles(ref this); }
 		
 		/// <summary>Creates a rotation matrix from the quaternion</summary>
 		/// <returns>Returns the resulting rotation matrix</returns>
