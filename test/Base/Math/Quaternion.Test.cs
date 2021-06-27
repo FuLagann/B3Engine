@@ -2,7 +2,6 @@
 using Xunit;
 
 namespace B3.Testing {
-	// TRACK: 707 tests
 	/// <summary>Tests the <see cref="B3.Quaternion"/> structure to make sure it's correct. Contains 98 tests</summary>
 	public class QuaternionTest {
 		#region Public Test Methods
@@ -45,6 +44,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Magnitude"/> functionality.
+		/// Creates a quaternion and checks to see if the magnitude is correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 0, 0, 0, 1)]
 		[InlineData(0, 0, 0, 0, 0)]
@@ -57,6 +60,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.MagnitudeSquared"/> functionality.
+		/// Creates a quaternion and checks to see if the squared magnitude is correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 0, 0, 0, 1)]
 		[InlineData(0, 0, 0, 0, 0)]
@@ -69,6 +76,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.FromEulerAngles(float, float, float)"/> functionality.
+		/// Creates a quaternion from the euler angles and checks if it's correct
+		/// </summary>
 		[Theory]
 		#region FromEulerAngles_RadianAngles_ReturnsQuaternion Test Data
 		[InlineData(
@@ -108,6 +119,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.FromEulerAnglesDeg(float, float, float)"/> functionality.
+		/// Creates a quaternion from the euler angles and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region FromEulerAnglesDeg_DegreeAngles_ReturnsQuaternion Test Data
 		[InlineData(
@@ -147,6 +162,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.FromAxisAngle(Vector3, float)"/> functionality.
+		/// Creates a quaternion from an axis and an angle and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 0, 0, 0.70710678f, 0.70710678f, 0.0f, 0.0f)]
 		[InlineData(0, 1, 0, 0.70710678f, 0.0f, 0.70710678f, 0.0f)]
@@ -162,6 +181,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.FromAxisAngleDeg(Vector3, float)"/> functionality.
+		/// Creates a quaternion from an axis and an angle and checks to see if it's correct.
+		/// </summary>
 		[Theory]
 		[InlineData(1, 0, 0, 0.70710678f, 0.70710678f, 0.0f, 0.0f)]
 		[InlineData(0, 1, 0, 0.70710678f, 0.0f, 0.70710678f, 0.0f)]
@@ -177,6 +200,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Conjugate"/> functionality.
+		/// Conjugates the quaternion and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 2, 3, 4, 1, -2, -3, -4)]
 		[InlineData(1, -2, 3, -4, 1, 2, -3, 4)]
@@ -191,6 +218,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Add(Quaternion)"/> functionality.
+		/// Adds two quaternions together and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 2, 3, 4, 1, -2, -3, -4, 2, 0, 0, 0)]
 		[InlineData(1, 2, 3, 4, 5, 6, 7, 8, 6, 8, 10, 12)]
@@ -205,6 +236,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Subtract(Quaternion)"/> functionality.
+		/// Subtracts one quaternion from another and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 2, 3, 4, 1, -2, -3, -4, 0, 4, 6, 8)]
 		[InlineData(1, 2, 3, 4, 5, 6, 7, 8, -4, -4, -4, -4)]
@@ -220,6 +255,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Negate"/> functionality.
+		/// Negates the quaternion and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, -2, -3, -4, -1, 2, 3, 4)]
 		[InlineData(5, 6, 7, 8, -5, -6, -7, -8)]
@@ -234,6 +273,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Multiply(float)"/> functionality.
+		/// Multiplies the quaternion with a scalar and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(3, 1, -2, -3, -4, 3, -6, -9, -12)]
 		[InlineData(2, 5, 6, 7, 8, 10, 12, 14, 16)]
@@ -248,6 +291,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Divide(float)"/> functionality.
+		/// Divides the quaternion with a scalar and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(3, 1, -2, -3, -4, 1/3f, -2/3f, -1, -4/3f)]
 		[InlineData(2, 5, 6, 7, 8, 5/2f, 3, 7/2f, 4)]
@@ -262,6 +309,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Multiply(Quaternion)"/> functionality.
+		/// Multiplies the quaternion with another quaternion and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 2, 3, 4, 5, 6, 7, 8, -60, 12, 30, 24)]
 		[InlineData(5, 6, 7, 8, 1, 2, 3, 4, -60, 20, 14, 32)]
@@ -277,6 +328,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Divide(Quaternion)"/> functionality.
+		/// Divides the quaternion with another quaternion and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 2, 3, 4, 5, 6, 7, 8, 0.4022988505747126f, 0.0459770114942529f, 0f, 0.0919540229885057f)]
 		[InlineData(5, 6, 7, 8, 1, 2, 3, 4, 2.333333333333333f, -0.2666666666666667f, 0f, -0.5333333333333333f)]
@@ -292,6 +347,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.ToMatrix"/> functionality.
+		/// Transforms the quaternion into a matrix and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region ToMatrix_EulerAngleInDegrees_ReturnsMatrix Test Data
 		[InlineData(
@@ -343,6 +402,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Invert"/> functionality.
+		/// Inverts the quaternion and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 0, 0, 0, 1, 0, 0, 0)]
 		[InlineData(0, 0, 1, 0, 0, 0, -1, 0)]
@@ -358,6 +421,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Normalize"/> functionality.
+		/// Normalizes the quaternion and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 0, 0, 0, 1, 0, 0, 0)]
 		[InlineData(0, 0, 1, 0, 0, 0, 1, 0)]
@@ -373,6 +440,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Slerp(Quaternion, float)"/> functionality.
+		/// Spherically interpolates the quaternion and checks if it's correct
+		/// </summary>
 		[Theory]
 		#region Slerp_TwoQuaternions_ReturnsQuaternion Test Data
 		[InlineData(
@@ -416,6 +487,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.ToMatrix"/> functionality.
+		/// Transforms a quaternion to a matrix and checks to see if the matrix is similar to one created by a seperate matrix creation method
+		/// </summary>
 		[Theory]
 		[InlineData(1, 0, 0, 30.0f)]
 		[InlineData(0, 1, 0, 60.0f)]
@@ -431,6 +506,10 @@ namespace B3.Testing {
 			Assert.True(Matrix.Approx(expected, actual));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.FromMatrix(Matrix)"/> functionality.
+		/// Converts a matrix into a quaternion and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		[InlineData(1, 0, 0, 30.0f)]
 		[InlineData(0, 1, 0, 60.0f)]
@@ -446,6 +525,10 @@ namespace B3.Testing {
 			Assert.True(Quaternion.Approx(expected, actual));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Approx(Quaternion, Quaternion)"/> functionality.
+		/// Creates two quaternions that are approximately close to each other and tests to see if they are not equal
+		/// </summary>
 		[Fact]
 		public void Approx_TwoQuaternions_ReturnsNotEqual() {
 			// Variables
@@ -455,6 +538,10 @@ namespace B3.Testing {
 			Assert.NotEqual(notExpected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Approx(Quaternion, Quaternion)"/> functionality.
+		/// Creates two quaternions that are approximately close to each other and checks to see if it returns true
+		/// </summary>
 		[Fact]
 		public void Approx_TwoQuaternions_ReturnsTrue() {
 			// Variables
@@ -464,6 +551,10 @@ namespace B3.Testing {
 			Assert.True(Quaternion.Approx(a, b));
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Multiply(Quaternion, Vector4)"/> functionality.
+		/// Multiplies the quaternion with a vector and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region Multiply_Vector4AxisAngleDeg_ReturnsVector4 Test Data
 		[InlineData(
@@ -507,6 +598,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Multiply(Quaternion, Vector3)"/> functionality.
+		/// Multiplies the quaternion with a vector and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region Multiply_Vector3AxisAngleDeg_ReturnsVector3 Test Data
 		[InlineData(
@@ -550,6 +645,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Multiply(Quaternion, Vector2)"/> functionality.
+		/// Multiplies the quaternion with a vector and checks to see if it's correct
+		/// </summary>
 		[Theory]
 		#region Multiply_Vector2AxisAngleDeg_ReturnsVector2 Test Data
 		[InlineData(
@@ -593,6 +692,10 @@ namespace B3.Testing {
 			Assert.Equal(expected, actual);
 		}
 		
+		/// <summary>
+		/// Tests the <see cref="B3.Quaternion.Dot(Quaternion)"/> functionality.
+		/// Dot products two quaternions and checks to see if it's corrcet
+		/// </summary>
 		[Theory]
 		#region Dot_TwoQuaternions_ReturnsFloat Test Data
 		[InlineData(
