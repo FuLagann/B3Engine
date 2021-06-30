@@ -70,7 +70,7 @@ namespace B3 {
 		/// <param name="end">The ending value that the tween uses when t = 1</param>
 		/// <param name="duration">The duration in seconds</param>
 		/// <param name="callback">The tweening function for getting the value, setting it to null will default to a linear tween</param>
-		public Tween(float start, float end, float duration, TweenCallback callback) {
+		public Tween(float start, float end, float duration, TweenCallback callback = null) {
 			this.start = start;
 			this.end = end;
 			this.t = 0.0f;
