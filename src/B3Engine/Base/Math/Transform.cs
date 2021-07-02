@@ -165,6 +165,7 @@ namespace B3 {
 		#region Private Methods
 		
 		/// <summary>Updates the matrix discreetly</summary>
+		/// <param name="updatingPosition">Set to true to only update the position in the matrix, otherwise multiply the translation, rotation, and scaling</param>
 		private void UpdateMatrix(bool updatingPosition) {
 			if(!updatingPosition) {
 				// Variables
