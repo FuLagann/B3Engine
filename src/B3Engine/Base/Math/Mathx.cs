@@ -492,7 +492,7 @@ namespace B3 {
 			float frac = Fraction(val);
 			int trunc = Trunc(val);
 			
-			if(val < 0.0f) { frac = 1.0f - frac; }
+			if(val < 0.0f && frac > 0.0f) { frac = 1.0f - frac; }
 			
 			if(frac >= 0.5f) {
 				return trunc + Sign(val);

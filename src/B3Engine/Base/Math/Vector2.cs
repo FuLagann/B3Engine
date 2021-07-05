@@ -481,8 +481,11 @@ namespace B3 {
 		/// <param name="vec">A vector to create a perpendicular from</param>
 		/// <param name="result">The resulting vector that is perpendicluar to the given vector</param>
 		public static void CreatePerpendicular(ref Vector2 vec, out Vector2 result) {
+			// Variables
+			float temp = vec.x;
+			
 			result.x = vec.y;
-			result.y = -vec.x;
+			result.y = -temp;
 		}
 		
 		/// <summary>Creates a perpendicular vector to the given vector</summary>
@@ -509,7 +512,7 @@ namespace B3 {
 		
 		#endregion // CreatePerpendicular Methods
 		
-		/// <summary>Creates a new vector from an angle</summary>
+		/// <summary>Creates a new vector from an angle (in radians)</summary>
 		/// <param name="theta">The angle that creates the vector</param>
 		/// <param name="result">The resulting vector that is made from the angle</param>
 		public static void FromAngle(float theta, out Vector2 result) {
@@ -517,7 +520,7 @@ namespace B3 {
 			result.y = Mathx.Sin(theta);
 		}
 		
-		/// <summary>Creates a new vector from an angle</summary>
+		/// <summary>Creates a new vector from an angle (in radians)</summary>
 		/// <param name="theta">The angle that creates the vector</param>
 		/// <returns>Returns the vector that is made from the angle</returns>
 		public static Vector2 FromAngle(float theta) {
@@ -525,6 +528,25 @@ namespace B3 {
 			Vector2 result;
 			
 			FromAngle(theta, out result);
+			
+			return result;
+		}
+		
+		/// <summary>Creates a new vector from an angle (in degrees)</summary>
+		/// <param name="theta">The angle that creates the vector</param>
+		/// <param name="result">The resulting vector that is made from the angle</param>
+		public static void FromAngleDeg(float theta, out Vector2 result) {
+			FromAngle(Mathx.DegToRad * theta, out result);
+		}
+		
+		/// <summary>Creates a new vector from an angle (in degrees)</summary>
+		/// <param name="theta">The angle that creates the vector</param>
+		/// <returns>Returns the vector that is made from the angle</returns>
+		public static Vector2 FromAngleDeg(float theta) {
+			// Variables
+			Vector2 result;
+			
+			FromAngleDeg(theta, out result);
 			
 			return result;
 		}
