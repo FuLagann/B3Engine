@@ -325,7 +325,7 @@ namespace B3 {
 		/// <param name="outMin">The second range's minimum number</param>
 		/// <param name="outMax">The second range's maximum number</param>
 		/// <returns>Returns the vector that gets mapped from the first range to the second range</returns>
-		public static Vector4 MapRange(Vector4 vec, Vector4 inMin, Vector4 inMax, Vector4 outMin, ref Vector4 outMax) { return MapRange(ref vec, ref inMin, ref inMax, ref outMin, ref outMax); }
+		public static Vector4 MapRange(Vector4 vec, Vector4 inMin, Vector4 inMax, Vector4 outMin, Vector4 outMax) { return MapRange(ref vec, ref inMin, ref inMax, ref outMin, ref outMax); }
 		
 		#endregion // MapRange Methods
 		
