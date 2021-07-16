@@ -452,8 +452,11 @@ namespace B3 {
 		/// <param name="b">The second vector that will be rejected on</param>
 		/// <param name="result">The resulting vector that has been rejected towards the first vector</param>
 		public static void Reject(ref Vector3 a, ref Vector3 b, out Vector3 result) {
-			Project(ref a, ref b, out result);
-			Subtract(ref a, ref result, out result);
+			// Variables
+			Vector3 temp;
+			
+			Project(ref a, ref b, out temp);
+			Subtract(ref a, ref temp, out result);
 		}
 		
 		/// <summary>Gets the vector that points from the head of the projection vector towards the head of the first vector</summary>
@@ -490,9 +493,14 @@ namespace B3 {
 		/// <param name="b">The second vector to cross product</param>
 		/// <param name="result">The resulting vector that is orthogonal to the vectors provided</param>
 		public static void CrossProduct(ref Vector3 a, ref Vector3 b, out Vector3 result) {
-			result.x = a.y * b.z - a.z * b.y;
-			result.y = a.z * b.x - a.x * b.z;
-			result.z = a.x * b.y - a.y * b.x;
+			// Variables
+			Vector3 temp;
+			
+			temp.x = a.y * b.z - a.z * b.y;
+			temp.y = a.z * b.x - a.x * b.z;
+			temp.z = a.x * b.y - a.y * b.x;
+			
+			result = temp;
 		}
 		
 		/// <summary>Performs a cross product and creates a vector that is orthogonal to both vectors provided</summary>
@@ -528,7 +536,7 @@ namespace B3 {
 		/// <param name="result">The resulting vector that is made from the angles</param>
 		public static void FromAngles(float theta, float phi, out Vector3 result) {
 			// Variables
-			float cosPhi = (float)System.Math.Cos(phi);
+			float cosPhi = Mathx.Cos(phi);
 			
 			result.x = cosPhi * Mathx.Cos(theta);
 			result.y = cosPhi * Mathx.Sin(theta);
@@ -544,6 +552,32 @@ namespace B3 {
 			Vector3 result;
 			
 			FromAngles(theta, phi, out result);
+			
+			return result;
+		}
+		
+		/// <summary>Creates a vector from two different angles</summary>
+		/// <param name="theta">The first angle that helps create the vector</param>
+		/// <param name="phi">The second angle that helps create the vector</param>
+		/// <param name="result">The resulting vector that is made from the angles</param>
+		public static void FromAnglesDeg(float theta, float phi, out Vector3 result) {
+			// Variables
+			float cosPhi = Mathx.CosDeg(phi);
+			
+			result.x = cosPhi * Mathx.CosDeg(theta);
+			result.y = cosPhi * Mathx.SinDeg(theta);
+			result.z = Mathx.SinDeg(phi);
+		}
+		
+		/// <summary>Creates a vector from two different angles</summary>
+		/// <param name="theta">The first angle that helps create the vector</param>
+		/// <param name="phi">The second angle that helps create the vector</param>
+		/// <returns>Returns the vector that is made from the angles</returns>
+		public static Vector3 FromAnglesDeg(float theta, float phi) {
+			// Variables
+			Vector3 result;
+			
+			FromAnglesDeg(theta, phi, out result);
 			
 			return result;
 		}

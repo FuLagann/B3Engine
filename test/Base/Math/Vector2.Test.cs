@@ -222,11 +222,10 @@ namespace B3.Testing {
 		) {
 			// Variables
 			Vector2 expected = new Vector2(ex, ey);
-			Vector2 first = new Vector2(ax, ay);
-			Vector2 second = new Vector2(bx, by);
-			Vector2 actual;
+			Vector2 actual = new Vector2(ax, ay);
+			Vector2 other = new Vector2(bx, by);
 			
-			Vector2.Add(ref first, ref second, out actual);
+			Vector2.Add(ref actual, ref other, out actual);
 			
 			Assert.Equal(expected, actual);
 		}
@@ -246,11 +245,10 @@ namespace B3.Testing {
 		) {
 			// Variables
 			Vector2 expected = new Vector2(ex, ey);
-			Vector2 first = new Vector2(ax, ay);
-			Vector2 second = new Vector2(bx, by);
-			Vector2 actual;
+			Vector2 actual = new Vector2(ax, ay);
+			Vector2 other = new Vector2(bx, by);
 			
-			Vector2.Subtract(ref first, ref second, out actual);
+			Vector2.Subtract(ref actual, ref other, out actual);
 			
 			Assert.Equal(expected, actual);
 		}
@@ -412,10 +410,10 @@ namespace B3.Testing {
 		) {
 			// Variables
 			Vector2 expected = new Vector2(ex, ey);
-			Vector2 actual = new Vector2(ax, ay);
-			Vector2 other = new Vector2(bx, by);
+			Vector2 other = new Vector2(ax, ay);
+			Vector2 actual = new Vector2(bx, by);
 			
-			Vector2.Reject(ref other, ref actual, out actual);
+			Vector2.Reject(ref actual, ref other, out actual);
 			
 			Assert.Equal(expected, actual);
 		}

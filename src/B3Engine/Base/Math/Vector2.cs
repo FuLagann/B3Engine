@@ -444,8 +444,11 @@ namespace B3 {
 		/// <param name="b">The second vector that will be rejected on</param>
 		/// <param name="result">The resulting vector that has been rejected towards the first vector</param>
 		public static void Reject(ref Vector2 a, ref Vector2 b, out Vector2 result) {
-			Project(ref a, ref b, out result);
-			Subtract(ref a, ref result, out result);
+			// Variables
+			Vector2 temp;
+			
+			Project(ref a, ref b, out temp);
+			Subtract(ref a, ref temp, out result);
 		}
 		
 		/// <summary>Gets the vector that points from the head of the projection vector towards the head of the first vector</summary>
