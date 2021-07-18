@@ -31,6 +31,17 @@ namespace B3 {
 		/// <summary>Initializes the game</summary>
 		public override void Initialize() {}
 		
+		/// <summary>Clears the screen for the next draw</summary>
+		public override void ClearScreen() {
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.ClearColor(
+				this.ClearColor.Redf,
+				this.ClearColor.Greenf,
+				this.ClearColor.Bluef,
+				this.ClearColor.Alphaf
+			);
+		}
+		
 		#endregion // Public Methods
 		
 		#region Protected Methods

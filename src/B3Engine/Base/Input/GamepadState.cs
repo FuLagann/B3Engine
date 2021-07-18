@@ -27,28 +27,26 @@ namespace B3 {
 		public int NumButtons { get { return this.buttons.Length; } }
 		
 		/// <summary>Gets the number of axes the gamepad supports</summary>
-		public int NumAxes { get { return this.axes.Length; } }
+		public int NumAxes { get { return (int)GamepadAxis.TriggerRight; } }
 		
 		/// <summary>Gets and sets the gamepad buttons that are pressed</summary>
 		/// <param name="button">The gamepad button to get or set the input type from/to</param>
 		public InputState this[GamepadButton button] { get { return this.buttons[(int)button]; } internal set {
 			// Variables
 			bool isPreviouslyUp = (this.buttons[(int)button] == InputState.Released);
+			bool isBeingPressed = (value == InputState.Pressed);
 			InputState setType = InputState.Released;
 			
-			if(this.buttons[(int)button] == InputState.Pressed && value == InputState.Pressed) {
-				setType = InputState.Held;
+			if(isBeingPressed) {
+				setType = isPreviouslyUp ? InputState.Pressed : InputState.Held;
 			}
 			else {
-				setType = value;
-			}
-			
-			if(setType == InputState.Released) {
 				this.timestamps[(int)button] = 0;
 			}
+			
 			this.buttons[(int)button] = setType;
 			
-			if(isPreviouslyUp && value == InputState.Pressed) {
+			if(isPreviouslyUp && isBeingPressed) {
 				this.timestamps[(int)button] = System.DateTime.Now.Ticks;
 				this.prevButtons.Enqueue(button);
 				if(this.prevButtons.Count > this.trackingAmount) {
@@ -60,13 +58,13 @@ namespace B3 {
 		/// <summary>Gets and sets the value from the given axis</summary>
 		/// <param name="axis">The axis to check the value of</param>
 		public float this[GamepadAxis axis] { get {
-			return (Mathx.Abs(this.axes[(int)axis]) >= this.deadZone ?
+			return (this.axes[(int)axis] >= this.deadZone ?
 				this.axes[(int)axis] :
 				0.0f
 			);
 		} internal set {
 			// Variables
-			bool isPreviouslyUp = (Mathx.Abs(this.axes[(int)axis]) < this.deadZone);
+			bool isPreviouslyUp = (this.axes[(int)axis] < this.deadZone);
 			int offset = this.buttons.Length;
 			
 			if(Mathx.Abs(value) < this.deadZone) {
@@ -75,14 +73,24 @@ namespace B3 {
 			else if(isPreviouslyUp && Mathx.Abs(value) >= this.deadZone) {
 				this.timestamps[(int)axis + offset] = System.DateTime.Now.Ticks;
 			}
-			this.axes[(int)axis] = value;
+			this.axes[(int)axis] = Mathx.Abs(value);
 		} }
 		
 		/// <summary>Gets and sets the left stick axis movement in vector form</summary>
-		public Vector2 LeftStick { get { return new Vector2(this[GamepadAxis.LeftX], this[GamepadAxis.LeftY]); } }
+		public Vector2 LeftStick { get {
+			return new Vector2(
+				this[GamepadAxis.LeftXPositive] - this[GamepadAxis.LeftXNegative],
+				this[GamepadAxis.LeftYPositive] - this[GamepadAxis.LeftYNegative]
+			);
+		} }
 		
 		/// <summary>Gets and sets the right stick axis movement in vector form</summary>
-		public Vector2 RightStick { get { return new Vector2(this[GamepadAxis.RightX], this[GamepadAxis.RightY]); } }
+		public Vector2 RightStick { get {
+			return new Vector2(
+				this[GamepadAxis.RightXPositive] - this[GamepadAxis.RightXNegative],
+				this[GamepadAxis.RightYPositive] - this[GamepadAxis.RightYNegative]
+			);
+		} }
 		
 		/// <summary>Gets and sets the triggers movements in vector form</summary>
 		public Vector2 Triggers { get { return new Vector2(this[GamepadAxis.TriggerLeft], this[GamepadAxis.TriggerRight]); } }

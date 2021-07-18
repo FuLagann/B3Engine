@@ -47,9 +47,11 @@
 		<Compile Include="$(MSBuildThisFileDirectory)Input\GamepadButton.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\GamepadState.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\Input.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\InputMapping.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\InputType.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardState.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\Keys.cs"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Input\MouseAxis.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\MouseButton.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\MouseState.cs"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Input\SystemCursorType.cs"/>
