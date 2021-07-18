@@ -95,7 +95,6 @@ namespace B3 {
 		
 		#endregion // Trig Functions
 		
-		// TODO: Add testing for these functions
 		#region Trig Functions in Degrees
 		
 		/// <summary>Gets the sine of the given angle (theta)</summary>
