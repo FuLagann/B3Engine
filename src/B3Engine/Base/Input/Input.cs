@@ -228,49 +228,49 @@ namespace B3 {
 		
 		#endregion // IsUp Methods
 		
-		#region IsHeldDown Methods
+		#region IsHeld Methods
 		
 		/// <summary>Finds if the key is held down</summary>
 		/// <param name="key">The key to query if it's held down</param>
 		/// <returns>Returns true if the given key is held down</returns>
-		public static bool IsHeldDown(Keys key) { return keyboard.IsHeldDown(key); }
+		public static bool IsHeld(Keys key) { return keyboard.IsHeld(key); }
 		
 		/// <summary>Finds if the button is held down</summary>
 		/// <param name="button">The button to query if it's held down</param>
 		/// <returns>Returns true if the given button is held down</returns>
-		public static bool IsHeldDown(MouseButton button) { return mouse.IsHeldDown(button); }
+		public static bool IsHeld(MouseButton button) { return mouse.IsHeld(button); }
 		
 		/// <summary>Finds if the axis is being moved</summary>
 		/// <param name="axis">The axis to query</param>
 		/// <returns>Returns true if the axis is being moved</returns>
-		public static bool IsHeldDown(MouseAxis axis) { return mouse.IsHeldDown(axis); }
+		public static bool IsHeld(MouseAxis axis) { return mouse.IsHeld(axis); }
 		
 		/// <summary>Finds if the button from the primary gamepad is held down</summary>
 		/// <param name="button">The button to query if it's held down</param>
 		/// <returns>Returns true if the given button is held down</returns>
-		public static bool IsHeldDown(GamepadButton button) { return gamepad.IsHeldDown(button); }
+		public static bool IsHeld(GamepadButton button) { return gamepad.IsHeld(button); }
 		
 		/// <summary>Finds if the button is held down</summary>
 		/// <param name="playerId">The index of the gamepad to check with</param>
 		/// <param name="button">The button to query if it's held down</param>
 		/// <returns>Returns true if the given button is held down</returns>
-		public static bool IsHeldDown(int playerId, GamepadButton button) { return gamepads[playerId].IsHeldDown(button); }
+		public static bool IsHeld(int playerId, GamepadButton button) { return gamepads[playerId].IsHeld(button); }
 		
 		/// <summary>Finds if the axis is held down</summary>
 		/// <param name="axis">The axis to query if it's held down</param>
 		/// <returns>Returns true if the axis is held down</returns>
-		public static bool IsHeldDown(GamepadAxis axis) { return gamepad.IsHeldDown(axis); }
+		public static bool IsHeld(GamepadAxis axis) { return gamepad.IsHeld(axis); }
 		
 		/// <summary>Finds if the axis is held down</summary>
 		/// <param name="playerId">The index of the gamepad to check with</param>
 		/// <param name="axis">The axis to query if it's held down</param>
 		/// <returns>Returns true if the axis is held down</returns>
-		public static bool IsHeldDown(int playerId, GamepadAxis axis) { return gamepads[playerId].IsHeldDown(axis); }
+		public static bool IsHeld(int playerId, GamepadAxis axis) { return gamepads[playerId].IsHeld(axis); }
 		
 		/// <summary>Finds if the action is held down</summary>
 		/// <param name="action">The name of the action to query</param>
 		/// <returns>Returns true if the action is being held down</returns>
-		public static bool IsHeldDown(string action) {
+		public static bool IsHeld(string action) {
 			if(!InputMapping.namedActions.ContainsKey(action)) {
 				throw new System.Exception($"Action does not exist: {action}. Please add in an action through B3.InputMapping.");
 			}
@@ -279,26 +279,26 @@ namespace B3 {
 			List<object> keys = InputMapping.namedActions[action];
 			
 			foreach(object key in keys) {
-				if(key is Keys && IsHeldDown((Keys)key)) {
+				if(key is Keys && IsHeld((Keys)key)) {
 					return true;
 				}
-				if(key is MouseButton && IsHeldDown((MouseButton)key)) {
+				if(key is MouseButton && IsHeld((MouseButton)key)) {
 					return true;
 				}
-				if(key is MouseAxis && IsHeldDown((MouseAxis)key)) {
+				if(key is MouseAxis && IsHeld((MouseAxis)key)) {
 					return true;
 				}
-				if(key is GamepadButton && IsHeldDown((GamepadButton)key)) {
+				if(key is GamepadButton && IsHeld((GamepadButton)key)) {
 					return true;
 				}
-				if(key is GamepadAxis && IsHeldDown((GamepadAxis)key)) {
+				if(key is GamepadAxis && IsHeld((GamepadAxis)key)) {
 					return true;
 				}
 				if(key is System.ValueTuple<int, GamepadButton>) {
 					// Variables
 					(int, GamepadButton) indexButton = (System.ValueTuple<int, GamepadButton>)key;
 					
-					if(IsHeldDown(indexButton.Item1, indexButton.Item2)) {
+					if(IsHeld(indexButton.Item1, indexButton.Item2)) {
 						return true;
 					}
 				}
@@ -306,7 +306,7 @@ namespace B3 {
 					// Variables
 					(int, GamepadAxis) indexAxis = (System.ValueTuple<int,GamepadAxis>)key;
 					
-					if(IsHeldDown(indexAxis.Item1, indexAxis.Item2)) {
+					if(IsHeld(indexAxis.Item1, indexAxis.Item2)) {
 						return true;
 					}
 				}
@@ -315,7 +315,96 @@ namespace B3 {
 			return false;
 		}
 		
-		#endregion // IsHeldDown Methods
+		#endregion // IsHeld Methods
+		
+		#region IsPressed Methods
+		
+		/// <summary>Finds if the key is pressed on (only on the first frame where it gets pressed)</summary>
+		/// <param name="key">The key to query if it's pressed</param>
+		/// <returns>Returns true if the key is pressed on (on the first frame)</returns>
+		public static bool IsPressed(Keys key) { return keyboard.IsPressed(key); }
+		
+		/// <summary>Finds if the mouse button is pressed on (only on the first frame where it gets pressed)</summary>
+		/// <param name="button">The mouse button to query if it's pressed</param>
+		/// <returns>Returns true if the mouse button is pressed on (on the first frame)</returns>
+		public static bool IsPressed(MouseButton button) { return mouse.IsPressed(button); }
+		
+		/// <summary>Finds if the mouse axis is pressed on</summary>
+		/// <param name="axis">The mouse axis to query if it's pressed</param>
+		/// <returns>Returns true if the mouse axis is pressed on</returns>
+		public static bool IsPressed(MouseAxis axis) { return mouse.IsPressed(axis); }
+		
+		/// <summary>Finds if the gamepad button is pressed on (only on the first frame where it gets pressed)</summary>
+		/// <param name="button">The gamepad button to query if it's pressed</param>
+		/// <returns>Returns true if the gamepad button is pressed on (on the first frame)</returns>
+		public static bool IsPressed(GamepadButton button) { return gamepad.IsPressed(button); }
+		
+		/// <summary>Finds if the gamepad axis is pressed on</summary>
+		/// <param name="axis">The gamepad axis to query if it's pressed</param>
+		/// <returns>Returns true if the gamepad axis is pressed on</returns>
+		public static bool IsPressed(GamepadAxis axis) { return gamepad.IsPressed(axis); }
+		
+		/// <summary>Finds if the gamepad button is pressed on (only on the first frame where it gets pressed)</summary>
+		/// <param name="playerId">The index of the gamepad</param>
+		/// <param name="button">The gamepad button to query if it's pressed</param>
+		/// <returns>Returns true if the gamepad button is pressed on (on the first frame)</returns>
+		public static bool IsPressed(int playerId, GamepadButton button) { return gamepads[playerId].IsPressed(button); }
+		
+		/// <summary>Finds if the gamepad axis is pressed on</summary>
+		/// <param name="playerId">The index of the gamepad</param>
+		/// <param name="axis">The gamepad axis to query if it's pressed</param>
+		/// <returns>Returns true if the gamepad axis is pressed on</returns>
+		public static bool IsPressed(int playerId, GamepadAxis axis) { return gamepads[playerId].IsPressed(axis); }
+		
+		/// <summary>Finds if the action is pressed on (only on the first frame where it gets pressed)</summary>
+		/// <param name="action">The action to query</param>
+		/// <returns>Returns true if the action is pressed on (on the first frame)</returns>
+		public static bool IsPressed(string action) {
+			if(!InputMapping.namedActions.ContainsKey(action)) {
+				throw new System.Exception($"Action does not exist: {action}. Please add in an action through B3.InputMapping.");
+			}
+			
+			// Variables
+			List<object> keys = InputMapping.namedActions[action];
+			
+			foreach(object key in keys) {
+				if(key is Keys && IsPressed((Keys)key)) {
+					return true;
+				}
+				if(key is MouseButton && IsPressed((MouseButton)key)) {
+					return true;
+				}
+				if(key is MouseAxis && IsPressed((MouseAxis)key)) {
+					return true;
+				}
+				if(key is GamepadButton && IsPressed((GamepadButton)key)) {
+					return true;
+				}
+				if(key is GamepadAxis && IsPressed((GamepadAxis)key)) {
+					return true;
+				}
+				if(key is System.ValueTuple<int, GamepadButton>) {
+					// Variables
+					(int, GamepadButton) indexButton = (System.ValueTuple<int, GamepadButton>)key;
+					
+					if(IsPressed(indexButton.Item1, indexButton.Item2)) {
+						return true;
+					}
+				}
+				if(key is System.ValueTuple<int, GamepadAxis>) {
+					// Variables
+					(int, GamepadAxis) indexAxis = (System.ValueTuple<int,GamepadAxis>)key;
+					
+					if(IsPressed(indexAxis.Item1, indexAxis.Item2)) {
+						return true;
+					}
+				}
+			}
+			
+			return false;
+		}
+		
+		#endregion // IsPressed Methods
 		
 		#region GetHeldDuration Methods
 		

@@ -54,19 +54,16 @@ namespace B3.Testing {
 		}
 		
 		public override void Update(float delta) {
-			// TODO: Add IsPressed
-			// TODO: Rename IsHeldDown to IsHeld
-			if(Input.IsDown(Keys.T) && !Input.IsHeldDown(Keys.T)) { Logger.Log("HELLO"); }
-			if(Input.IsDown(Keys.One) && !Input.IsHeldDown(Keys.One)) { Logger.Log("HEllo"); this.SetState(1); }
-			else if(Input.IsDown(Keys.Two)) { this.SetState(2); }
-			else if(Input.IsDown(Keys.Three)) { this.SetState(3); }
-			else if(Input.IsDown(Keys.Four)) { this.SetState(4); }
-			else if(Input.IsDown(Keys.Five)) { this.SetState(5); }
-			// else if(Input.IsDown(Keys.Six)) { this.SetState(6); }
-			// else if(Input.IsDown(Keys.Seven)) { this.SetState(7); }
-			// else if(Input.IsDown(Keys.Eight)) { this.SetState(8); }
-			// else if(Input.IsDown(Keys.Nine)) { this.SetState(9); }
-			else if(Input.IsDown(Keys.Zero)) { this.SetState(0); }
+			if(Input.IsPressed(Keys.One)) { this.SetState(0); }
+			else if(Input.IsPressed(Keys.Two)) { this.SetState(1); }
+			else if(Input.IsPressed(Keys.Three)) { this.SetState(2); }
+			else if(Input.IsPressed(Keys.Four)) { this.SetState(3); }
+			else if(Input.IsPressed(Keys.Five)) { this.SetState(4); }
+			else if(Input.IsPressed(Keys.Six)) { this.SetState(5); }
+			// else if(Input.IsPressed(Keys.Seven)) { this.SetState(7); }
+			// else if(Input.IsPressed(Keys.Eight)) { this.SetState(8); }
+			// else if(Input.IsPressed(Keys.Nine)) { this.SetState(9); }
+			// else if(Input.IsPressed(Keys.Zero)) { this.SetState(0); }
 			
 			if(state == 0) {
 				this.Window.Title = $"Gamepad Left Stick; x: {Input.GetAxis("horizontal")}, y: {Input.GetAxis("vertical")}";
@@ -93,7 +90,7 @@ namespace B3.Testing {
 				}
 			}
 			else if(state == 3) {
-				this.Window.Title = $"Mouse Movement; x: {Input.Mouse.Movement.x}, y: {Input.Mouse.Movement.y}; px: {Input.Mouse.Position.x}, py: {Input.Mouse.Position.y}";
+				this.Window.Title = $"Mouse Movement; s: {Input.Mouse.Scroll}; x: {Input.Mouse.Movement.x}, y: {Input.Mouse.Movement.y}; px: {Input.Mouse.Position.x}, py: {Input.Mouse.Position.y}";
 				this.ClearColor = new Color(
 					Mathx.Clamp(Input.Mouse.Position.x / this.Window.Size.x, 0.0f, 1.0f),
 					Mathx.Clamp(Input.Mouse.Position.y / this.Window.Size.y, 0.0f, 1.0f),
@@ -149,12 +146,12 @@ namespace B3.Testing {
 		}
 		
 		private void OpenHelpMenu() {
-			Logger.Log("Press (0) to track gamepad left stick");
-			Logger.Log("Press (1) to track gamepad right stick");
-			Logger.Log("Press (2) to track any gamepad input");
-			Logger.Log("Press (3) to track mouse movement");
-			Logger.Log("Press (4) to track any mouse input");
-			Logger.Log("Press (5) to track any keyboard input");
+			Logger.Log("Press (1) to track gamepad left stick");
+			Logger.Log("Press (2) to track gamepad right stick");
+			Logger.Log("Press (3) to track any gamepad input");
+			Logger.Log("Press (4) to track mouse movement");
+			Logger.Log("Press (5) to track any mouse input");
+			Logger.Log("Press (6) to track any keyboard input");
 		}
 	}
 }

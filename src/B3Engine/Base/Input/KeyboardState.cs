@@ -154,7 +154,12 @@ namespace B3 {
 		/// <summary>Finds if the key is held down</summary>
 		/// <param name="key">The key to query if it's held down</param>
 		/// <returns>Returns true if the key is held down</returns>
-		public bool IsHeldDown(Keys key) { return (this.keys[(int)key] == InputState.Held); }
+		public bool IsHeld(Keys key) { return (this.keys[(int)key] == InputState.Held); }
+		
+		/// <summary>Finds if the key gets pressed (only on the first frame where it gets pressed)</summary>
+		/// <param name="key">The key to query if it's being pressed</param>
+		/// <returns>Returns true if the key is being pressed</returns>
+		public bool IsPressed(Keys key) { return (this.keys[(int)key] == InputState.Pressed); }
 		
 		/// <summary>Clears all the previous keys</summary>
 		public void ClearPreviousKeys() { this.prevKeys.Clear(); }

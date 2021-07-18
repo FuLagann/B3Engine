@@ -208,12 +208,22 @@ namespace B3 {
 		/// <summary>Finds if the button is held down</summary>
 		/// <param name="button">The button to query if it's held down</param>
 		/// <returns>Returns true if the button is held down</returns>
-		public bool IsHeldDown(MouseButton button) { return (this.buttons[(int)button] == InputState.Held); }
+		public bool IsHeld(MouseButton button) { return (this.buttons[(int)button] == InputState.Held); }
 		
 		/// <summary>Finds if the axis is being moved</summary>
 		/// <param name="axis">The axis to query if it's being moved</param>
 		/// <returns>Returns true if the axis is being moved</returns>
-		public bool IsHeldDown(MouseAxis axis) { return !Mathx.Approx(this[axis], 0.0f); }
+		public bool IsHeld(MouseAxis axis) { return !Mathx.Approx(this[axis], 0.0f); }
+		
+		/// <summary>Finds if the button is being pressed on (only on the first frame where it gets pressed)</summary>
+		/// <param name="button">The button to query if it's being pressed on</param>
+		/// <returns>Returns true if the button is being pressed on</returns>
+		public bool IsPressed(MouseButton button) { return (this.buttons[(int)button] == InputState.Pressed); }
+		
+		/// <summary>Finds if the axis is being pressed on</summary>
+		/// <param name="axis">The axis to query if it's being moved</param>
+		/// <returns>Returns true if the axis is being pressed on</returns>
+		public bool IsPressed(MouseAxis axis) { return !Mathx.Approx(this[axis], 0.0f); }
 		
 		/// <summary>Clears all the previous buttons</summary>
 		public void ClearPreviousButtons() { this.prevButtons.Clear(); }

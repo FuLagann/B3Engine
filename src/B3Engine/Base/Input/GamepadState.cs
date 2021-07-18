@@ -203,7 +203,12 @@ namespace B3 {
 		/// <summary>Finds if the button is held down</summary>
 		/// <param name="button">The button to query if it's held down</param>
 		/// <returns>Returns true if the button is held down</returns>
-		public bool IsHeldDown(GamepadButton button) { return (this.buttons[(int)button] == InputState.Held); }
+		public bool IsHeld(GamepadButton button) { return (this.buttons[(int)button] == InputState.Held); }
+		
+		/// <summary>Finds if the button is being pressed (only on the first frame where it gets pressed)</summary>
+		/// <param name="button">The button to query if it's held down</param>
+		/// <returns>Returns true if the button is pressed</returns>
+		public bool IsPressed(GamepadButton button) { return (this.buttons[(int)button] == InputState.Pressed); }
 		
 		/// <summary>Finds if the given axis is pressed or held down</summary>
 		/// <param name="axis">The axis to query if it's down</param>
@@ -218,7 +223,12 @@ namespace B3 {
 		/// <summary>Finds if the axis is held down</summary>
 		/// <param name="axis">The axis to query if it's held down</param>
 		/// <returns>Returns true if the axis is held down</returns>
-		public bool IsHeldDown(GamepadAxis axis) { return (Mathx.Abs(this.axes[(int)axis]) >= this.deadZone); }
+		public bool IsHeld(GamepadAxis axis) { return this.IsDown(axis); }
+		
+		/// <summary>Gets if the axis is pressed on</summary>
+		/// <param name="axis">The axis to query if it's pressed on</param>
+		/// <returns>Returns true if the axis is being pressed on</returns>
+		public bool IsPressed(GamepadAxis axis) { return this.IsDown(axis); }
 		
 		/// <summary>Clears all the previous buttons</summary>
 		public void ClearPreviousButtons() { this.prevButtons.Clear(); }
