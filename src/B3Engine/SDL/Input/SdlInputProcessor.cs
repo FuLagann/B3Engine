@@ -41,19 +41,24 @@ namespace B3.Utilities {
 		/// <param name="gamepads">The reference to an array of gamepad's input structure</param>
 		public void ProcessInput(ref KeyboardState keyboard, ref MouseState mouse, ref GamepadState generalGamepad, ref GamepadState[] gamepads) {
 			// Variables
-			Keys key;
 			InputState[] state = SDL.GetKeyboardState();
 			bool pressed = false;
 			short axis = 0;
 			float normedAxis = 0.0f;
+			// Keys key;
 			
-			while(this.keyUp.Count > 0) {
-				key = this.keyUp.Dequeue();
-				keyboard[key] = InputState.Released;
-			}
-			while(this.keyDown.Count > 0) {
-				key = this.keyDown.Dequeue();
-				keyboard[key] = InputState.Pressed;
+			// TODO: Remove this if no bugs come out of using keyboard state
+			// while(this.keyUp.Count > 0) {
+			// 	key = this.keyUp.Dequeue();
+			// 	keyboard[key] = InputState.Released;
+			// }
+			// while(this.keyDown.Count > 0) {
+			// 	key = this.keyDown.Dequeue();
+			// 	keyboard[key] = InputState.Pressed;
+			// }
+			
+			for(int i = 0; i < state.Length; i++) {
+				keyboard[(Keys)i] = state[i];
 			}
 			keyboard.CheckForClearing();
 			
@@ -91,9 +96,29 @@ namespace B3.Utilities {
 							normedAxis = Mathx.MapRange(normedAxis, -1.0f, 1.0f, 0.0f, 1.0f);
 						}
 					}
-					gamepads[a][(GamepadAxis)b] = normedAxis;
-					if(a == 0 || (Mathx.Abs(normedAxis) >= generalGamepad.DeadZone && Mathx.Abs(generalGamepad[(GamepadAxis)b]) < Mathx.Abs(normedAxis))) {
-						generalGamepad[(GamepadAxis)b] = normedAxis;
+					// Since there are positive and negative versions, this one splits the axis into two different parts
+					if(b >= (int)GamepadAxis.LeftXPositive && b <= (int)GamepadAxis.RightYPositive) {
+						// Inverts the y axis
+						if(b == (int)GamepadAxis.LeftYPositive || b == (int)GamepadAxis.RightYPositive) {
+							normedAxis *= -1;
+						}
+						gamepads[a][(GamepadAxis)b] = Mathx.Max(normedAxis, 0.0f); // Positive axis
+						gamepads[a][(GamepadAxis)(b + 6)] = Mathx.Min(normedAxis, 0.0f); // Negative axis
+						
+						// Positive axis
+						if(a == 0 || (Mathx.Abs(normedAxis) >= generalGamepad.DeadZone && Mathx.Abs(generalGamepad[(GamepadAxis)b]) < Mathx.Abs(Mathx.Max(normedAxis, 0.0f)))) {
+							generalGamepad[(GamepadAxis)b] = Mathx.Max(normedAxis, 0.0f);
+						}
+						// Negative axis
+						if(a == 0 || (Mathx.Abs(normedAxis) >= generalGamepad.DeadZone && Mathx.Abs(generalGamepad[(GamepadAxis)(b + 6)]) < Mathx.Abs(Mathx.Min(normedAxis, 0.0f)))) {
+							generalGamepad[(GamepadAxis)(b + 6)] = Mathx.Min(normedAxis, 0.0f);
+						}
+					}
+					else {
+						gamepads[a][(GamepadAxis)b] = normedAxis;
+						if(a == 0 || (Mathx.Abs(normedAxis) >= generalGamepad.DeadZone && Mathx.Abs(generalGamepad[(GamepadAxis)b]) < Mathx.Abs(normedAxis))) {
+							generalGamepad[(GamepadAxis)b] = normedAxis;
+						}
 					}
 				}
 				gamepads[a].CheckForClearing();

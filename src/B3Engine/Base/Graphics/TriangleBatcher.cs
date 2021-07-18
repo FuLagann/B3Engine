@@ -90,6 +90,40 @@ namespace B3.Graphics {
 			this.mesh.IndexBuffer = ibuffer;
 		}
 		
+		/// <summary>Sends the batcher an array of vertices along with an array of indices</summary>
+		/// <param name="newVertices">The list of vertices to add</param>
+		/// <param name="newIndices">The list of indices to add</param>
+		public void Batch(T[] newVertices, uint[] newIndices) {
+			// Variables
+			Dictionary<uint, uint> map = new Dictionary<uint, uint>();
+			List<T> nvertices = new List<T>(newVertices);
+			IVertexBuffer<T> vbuffer = this.mesh.VertexBuffer;
+			IIndexBuffer ibuffer = this.mesh.IndexBuffer;
+			List<T> vertices = new List<T>(vbuffer.Vertices);
+			List<uint> indices = new List<uint>(ibuffer.Indices);
+			int index = -1;
+			
+			for(int i = 0; i < nvertices.Count; i++) {
+				index = vertices.FindIndex((T vert) => vert.Equals(newVertices[i]));
+				
+				if(index == -1) { map.Add((uint)i, (uint)(vertices.Count + i)); }
+				else {
+					map.Add((uint)i, (uint)index);
+					nvertices.RemoveAt(i);
+					i--;
+				}
+			}
+			
+			vertices.AddRange(nvertices);
+			foreach(uint i in newIndices) {
+				indices.Add(map[i]);
+			}
+			vbuffer.Vertices = vertices.ToArray();
+			ibuffer.Indices = indices.ToArray();
+			this.mesh.VertexBuffer = vbuffer;
+			this.mesh.IndexBuffer = ibuffer;
+		}
+		
 		/// <summary>Renders the object</summary>
 		public void Render() {
 			this.mesh.Render();

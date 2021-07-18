@@ -63,6 +63,11 @@ namespace B3.Graphics {
 		/// <param name="triC">The third point that makes a triangle</param>
 		public void Batch(ref T triA, ref T triB, ref T triC) { throw new System.NotImplementedException(); }
 		
+		/// <summary>Sends the batcher an array of vertices along with an array of indices</summary>
+		/// <param name="newVertices">The list of vertices to add</param>
+		/// <param name="newIndices">The list of indices to add</param>
+		public void Batch(T[] newVertices, uint[] newIndices) { throw new System.NotImplementedException(); }
+		
 		/// <summary>Renders the object</summary>
 		public void Render() { this.array.Render(); }
 		

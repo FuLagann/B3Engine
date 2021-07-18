@@ -31,7 +31,6 @@ namespace B3 {
 		
 		#region Internal Static Methods
 		
-		// TODO: Set this to internal
 		/// <summary>Sets the delta time, this is used internally; should not be used externally or timing gets messed up</summary>
 		/// <param name="elapsedTime">The time elapsed between frames</param>
 #if DEBUG

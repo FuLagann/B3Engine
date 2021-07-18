@@ -28,20 +28,19 @@ namespace B3 {
 		public InputState this[Keys key] { get { return this.keys[(int)key]; } internal set {
 			// Variables
 			bool isPreviouslyUp = (this.keys[(int)key] == InputState.Released);
+			bool isBeingPressed = (value == InputState.Pressed);
 			InputState setType = InputState.Released;
 			
-			if(this.keys[(int)key] == InputState.Pressed && value == InputState.Pressed) {
-				setType = InputState.Held;
+			if(isBeingPressed) {
+				setType = isPreviouslyUp ? InputState.Pressed : InputState.Held;
 			}
 			else {
-				setType = value;
-			}
-			if(setType == InputState.Released) {
 				this.timestamps[(int)key] = 0;
 			}
+			
 			this.keys[(int)key] = setType;
 			
-			if(isPreviouslyUp && value == InputState.Pressed) {
+			if(isPreviouslyUp && isBeingPressed) {
 				this.timestamps[(int)key] = System.DateTime.Now.Ticks;
 				this.prevKeys.Enqueue(key);
 				if(this.prevKeys.Count > this.trackingAmount) {

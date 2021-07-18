@@ -1,150 +1,160 @@
 
-using B3.Events;
-using B3G = B3.Graphics;
-using B3.Graphics.VertexStructures;
-using B3.Utilities;
-
-using OpenTK.Graphics.OpenGL;
-
-using System.Runtime.InteropServices;
-using System.IO;
-using Drawing = System.Drawing;
+using B3;
 
 namespace B3.Testing {
-	public static class Program {
+	public class Program : Game {
 		// Variables
-		private static B3G.ShaderProgram program;
-		private static B3G.Mesh<Vertex3PCT> mesh;
-		private static B3G.VertexArray<Vertex3PCT> array;
-		private static B3G.FrameBuffer frameBuffer;
-		private static B3G.Texture2D texture;
-		private static B3G.Texture2D texture2;
-		private static B3G.Texture2D texture3;
-		private static Vertex3PCT[] vertices = new Vertex3PCT[] {
-			new Vertex3PCT(new Vector3(0.5f, 0.5f, 0.0f), new Color("Red"), new Vector2(1.0f, 0.0f)),
-			new Vertex3PCT(new Vector3(0.5f, -0.5f, 0.0f), new Color("Green"), new Vector2(1.0f, 1.0f)),
-			new Vertex3PCT(new Vector3(-0.5f, -0.5f, 0.0f), new Color("Blue"), new Vector2(0.0f, 1.0f)),
-			new Vertex3PCT(new Vector3(-0.5f, 0.5f, 0.0f), new Color("Magenta"), new Vector2(0.0f, 0.0f))
-		};
-		private static Vertex3PCT[] arrayVertices = new Vertex3PCT[] {
-			new Vertex3PCT(new Vector3(0.0f, 0.8f, 0.0f), new Color("Magenta"), new Vector2(0.0f, 0.0f)),
-			new Vertex3PCT(new Vector3(0.5f, 0.6f, 0.0f), new Color("Yellow"), new Vector2(1.0f, 0.0f)),
-			new Vertex3PCT(new Vector3(-0.5f, 0.6f, 0.0f), new Color("Yellow"), new Vector2(0.5f, 1.0f))
-		};
-		// private static Vector3[] vertices = new Vector3[] {
-		// 	new Vector3(0.5f, 0.5f, 0.0f),
-		// 	new Vector3(0.5f, -0.5f, 0.0f),
-		// 	new Vector3(-0.5f, -0.5f, 0.0f),
-		// 	new Vector3(-0.5f, 0.5f, 0.0f)
-		// };
-		private static uint[] indices = new uint[] {
-			0, 1, 3,
-			1, 2, 3
-		};
-		private static string vertexFile = FS.BasePath + @"basic.vert";
-		private static string fragmentFile = FS.BasePath + @"basic.frag";
-		private static Game game;
+		private int state;
 		
 		public static void Main(string[] args) {
-			game = new Game();
+			// Variables
+			Program program = new Program();
 			
-			game.Window.Title = "Hello";
-			game.OnLoad += Load;
-			game.OnRender += Render;
-			game.Run();
+			program.Window.Title = "SDL Testing";
+			
+			program.Run();
 		}
 		
-		
-		public static void Load() {
-			program = new B3G.ShaderProgram(
-				null,
-				new B3G.Shader(null, B3G.ShaderType.Vertex, FS.Read(vertexFile)),
-				new B3G.Shader(null, B3G.ShaderType.Fragment, FS.Read(fragmentFile))
-			);
-			array = new B3G.VertexArray<Vertex3PCT>(null, new B3G.VertexBuffer<Vertex3PCT>(null, arrayVertices, B3G.BufferUsage.StaticDraw));
-			array.Bind();
-			array.Buffer();
-			mesh = new B3G.Mesh<Vertex3PCT>(
-				null,
-				new B3G.VertexBuffer<Vertex3PCT>(null, vertices, B3G.BufferUsage.StaticDraw),
-				new B3G.IndexBuffer(null, indices, B3G.BufferUsage.StaticDraw)
-			);
-			mesh.Bind();
-			mesh.Buffer();
-			
-			texture = new B3G.Texture2D(null, @"https://media.discordapp.net/attachments/692488800823410710/828774678121545738/image0.jpg?width=507&height=676");
-			texture2 = new B3G.Texture2D(null, @"https://serebii.net/Banner.jpg");
-			texture3 = new B3G.Texture2D(null, "600;800");
-			
-			program.OnUse += delegate(EventArgs args) {
-				// Variables
-				B3G.ShaderProgram prog = args.Sender as B3G.ShaderProgram;
-				
-				prog.SendUniform("uTime", Time.TotalTime);
-				prog.SendUniform("uCursor", Input.Mouse.Position);
-				prog.SendUniform("tex", texture, 0);
-				prog.SendUniform("tex2", texture2, 1);
-			};
-			
-			frameBuffer = new B3G.FrameBuffer(game, 0);
-			frameBuffer.OnRender += delegate(EventArgs args) {
-				program.Use();
-				array.Render();
-				mesh.Render();
-			};
-		}
-		
-		public static void Render(UpdateEventArgs args) {
-			game.Renderer.MeshShaderProgram = program;
-			game.Renderer.Batch(
-				new Vertex2P(new Vector2(0.5f, 0.5f)),
-				new Vertex2P(new Vector2(-0.5f, 0.5f)),
-				new Vertex2P(new Vector2(-0.5f, -0.5f))
-			);
-			B3G.Renderer.Instance.Batch(
-				new Vector2(-0.5f, -0.5f),
-				new Vector2(0.5f, -0.5f),
-				new Vector2(0.5f, 0.5f)
-			);
-			
-			B3G.Renderer renderer = B3G.Renderer.Instance;
-			
-			renderer.Batch(
-				new Vector2(-1.0f, 0.7f),
-				new Vector2(1.0f, 0.7f),
-				new Vector3(0.0f, 0.6f, -0.1f)
-			);
-			renderer.Batch(
-				new Vector3(-0.4f, -0.6f, 0.0f),
-				new Vector3(0.4f, -0.6f, 0.0f)
-			);
-			
-			game.Renderer.Render();
-		}
-	}
-	
-	public class SdlBindingContext : OpenTK.IBindingsContext {
-		public System.IntPtr GetProcAddress(string procName) {
-			return SDL.GL_GetProcAddress(procName);
-		}
-	}
-	
-	public class Game : BaseGame {
-		public Game() : base(new SdlGameWindow()) {
-			this.renderer = new B3G.OpenGLRenderer(this);
-		}
-		
-		/// <summary>The callback for setting global uniform variables for shaders</summary>
-		/// <param name="program">The program to set uniforms to</param>
-		public override void GlobalSetUniforms(B3G.IShaderProgram program) {}
-		
-		/// <summary>Initializes the game</summary>
 		public override void Initialize() {
-			GL.ClearColor(this.ClearColor.Redf, this.ClearColor.Greenf, this.ClearColor.Bluef, this.ClearColor.Alphaf);
+			InputMapping.AddNewAxis("horizontal", "move-right", "move-left");
+			InputMapping.AddNewAxis("vertical", "move-up", "move-down");
+			InputMapping.AddNewAxis("camera-horizontal", "camera-right", "camera-left");
+			InputMapping.AddNewAxis("camera-vertical", "camera-up", "camera-down");
+			
+			InputMapping.AddNewAction("move-left");
+			InputMapping.AddNewAction("move-right");
+			InputMapping.AddNewAction("move-up");
+			InputMapping.AddNewAction("move-down");
+			InputMapping.AddNewAction("camera-left");
+			InputMapping.AddNewAction("camera-right");
+			InputMapping.AddNewAction("camera-up");
+			InputMapping.AddNewAction("camera-down");
+			
+			InputMapping.AddInputToAction("move-left", Keys.A);
+			InputMapping.AddInputToAction("move-left", GamepadAxis.LeftXNegative);
+			InputMapping.AddInputToAction("move-right", Keys.D);
+			InputMapping.AddInputToAction("move-right", GamepadAxis.LeftXPositive);
+			
+			InputMapping.AddInputToAction("move-up", Keys.W);
+			InputMapping.AddInputToAction("move-up", GamepadAxis.LeftYPositive);
+			InputMapping.AddInputToAction("move-down", Keys.S);
+			InputMapping.AddInputToAction("move-down", GamepadAxis.LeftYNegative);
+			
+			InputMapping.AddInputToAction("camera-left", Keys.J);
+			InputMapping.AddInputToAction("camera-left", GamepadAxis.RightXNegative);
+			InputMapping.AddInputToAction("camera-right", Keys.L);
+			InputMapping.AddInputToAction("camera-right", GamepadAxis.RightXPositive);
+			
+			InputMapping.AddInputToAction("camera-up", Keys.I);
+			InputMapping.AddInputToAction("camera-up", GamepadAxis.RightYPositive);
+			InputMapping.AddInputToAction("camera-down", Keys.K);
+			InputMapping.AddInputToAction("camera-down", GamepadAxis.RightYNegative);
+			
+			this.SetState(0);
 		}
 		
-		protected override void LoadBindings() {
-			GL.LoadBindings(new SdlBindingContext());
+		public override void Update(float delta) {
+			// TODO: Add IsPressed
+			// TODO: Rename IsHeldDown to IsHeld
+			if(Input.IsDown(Keys.T) && !Input.IsHeldDown(Keys.T)) { Logger.Log("HELLO"); }
+			if(Input.IsDown(Keys.One) && !Input.IsHeldDown(Keys.One)) { Logger.Log("HEllo"); this.SetState(1); }
+			else if(Input.IsDown(Keys.Two)) { this.SetState(2); }
+			else if(Input.IsDown(Keys.Three)) { this.SetState(3); }
+			else if(Input.IsDown(Keys.Four)) { this.SetState(4); }
+			else if(Input.IsDown(Keys.Five)) { this.SetState(5); }
+			// else if(Input.IsDown(Keys.Six)) { this.SetState(6); }
+			// else if(Input.IsDown(Keys.Seven)) { this.SetState(7); }
+			// else if(Input.IsDown(Keys.Eight)) { this.SetState(8); }
+			// else if(Input.IsDown(Keys.Nine)) { this.SetState(9); }
+			else if(Input.IsDown(Keys.Zero)) { this.SetState(0); }
+			
+			if(state == 0) {
+				this.Window.Title = $"Gamepad Left Stick; x: {Input.GetAxis("horizontal")}, y: {Input.GetAxis("vertical")}";
+				this.ClearColor = new Color(
+					(Input.GetAxis("horizontal") + 1.0f) / 2.0f,
+					(Input.GetAxis("vertical") + 1.0f) / 2.0f,
+					0.0f
+				);
+			}
+			else if(state == 1) {
+				this.Window.Title = $"Gamepad Right Stick; x: {Input.GetAxis("camera-horizontal")}, y: {Input.GetAxis("camera-vertical")}";
+				this.ClearColor = new Color(
+					(Input.GetAxis("camera-horizontal") + 1.0f) / 2.0f,
+					(Input.GetAxis("camera-vertical") + 1.0f) / 2.0f,
+					0.0f
+				);
+			}
+			else if(state == 2) {
+				if(Input.Gamepad.PreviousButtons.Length > 0) {
+					this.Window.Title = $"Gamepad Button; Button: {Input.Gamepad.PreviousButtons[Input.Gamepad.PreviousButtons.Length - 1]}";
+				}
+				else {
+					this.Window.Title = "Gamepad Button...";
+				}
+			}
+			else if(state == 3) {
+				this.Window.Title = $"Mouse Movement; x: {Input.Mouse.Movement.x}, y: {Input.Mouse.Movement.y}; px: {Input.Mouse.Position.x}, py: {Input.Mouse.Position.y}";
+				this.ClearColor = new Color(
+					Mathx.Clamp(Input.Mouse.Position.x / this.Window.Size.x, 0.0f, 1.0f),
+					Mathx.Clamp(Input.Mouse.Position.y / this.Window.Size.y, 0.0f, 1.0f),
+					0.0f
+				);
+			}
+			else if(state == 4) {
+				if(Input.Mouse.PreviousButtons.Length > 0) {
+					this.Window.Title = $"Mouse Button; Butotn: {Input.Mouse.PreviousButtons[Input.Mouse.PreviousButtons.Length - 1]}";
+				}
+				else {
+					this.Window.Title = "Mouse Button...";
+				}
+			}
+			else if(state == 5) {
+				if(Input.Keyboard.PreviousKeys.Length > 0) {
+					this.Window.Title = $"Keyboard Key; Key: {Input.Keyboard.PreviousKeys[Input.Keyboard.PreviousKeys.Length - 1]}";
+				}
+				else {
+					this.Window.Title = "Keyboard Key...";
+				}
+			}
+		}
+		
+		private void SetState(int state) {
+			this.state = state;
+			switch(this.state) {
+				case 0: {
+					Logger.Log("Tracking left stick movement.");
+					this.OpenHelpMenu();
+				} break;
+				case 1: {
+					Logger.Log("Tracking right stick movement.");
+					this.OpenHelpMenu();
+				} break;
+				case 2: {
+					Logger.Log("Tracking gamepad input.");
+					this.OpenHelpMenu();
+				} break;
+				case 3: {
+					Logger.Log("Tracking mouse movement.");
+					this.OpenHelpMenu();
+				} break;
+				case 4: {
+					Logger.Log("Tracking mouse input.");
+					this.OpenHelpMenu();
+				} break;
+				case 5: {
+					Logger.Log("Tracking keyboard input.");
+					this.OpenHelpMenu();
+				} break;
+			}
+		}
+		
+		private void OpenHelpMenu() {
+			Logger.Log("Press (0) to track gamepad left stick");
+			Logger.Log("Press (1) to track gamepad right stick");
+			Logger.Log("Press (2) to track any gamepad input");
+			Logger.Log("Press (3) to track mouse movement");
+			Logger.Log("Press (4) to track any mouse input");
+			Logger.Log("Press (5) to track any keyboard input");
 		}
 	}
 }

@@ -92,6 +92,9 @@ namespace B3 {
 		/// <summary>Initializes the game</summary>
 		public abstract void Initialize();
 		
+		/// <summary>Clears the screen for the next draw</summary>
+		public abstract void ClearScreen();
+		
 		/// <summary>The callback for setting global uniform variables for shaders</summary>
 		/// <param name="program">The program to set uniforms to</param>
 		public virtual void GlobalSetUniforms(IShaderProgram program) {
@@ -105,7 +108,9 @@ namespace B3 {
 		public virtual void Update(float delta) {}
 		
 		/// <summary>Renders the object</summary>
-		public virtual void Render() {}
+		public virtual void Render() {
+			this.ClearScreen();
+		}
 		
 		/// <summary>Renders the object when debugging mode is on using a specific shader program</summary>
 		/// <param name="game">The reference to the game, used to get to the RenderingContext</param>

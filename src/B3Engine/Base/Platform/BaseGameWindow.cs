@@ -187,7 +187,6 @@ namespace B3 {
 			
 			while(this.Exists && !this.IsExiting) {
 				this.PollEvents();
-				Input.ProcessInput();
 				this.PostUpdate();
 				if(!this.IsMultiThreaded) {
 					this.PostRender();
@@ -272,6 +271,7 @@ namespace B3 {
 			
 			while(delta > 0.0f && delta + this.updateEpsilon >= updatePeriod) {
 				this.updateWatch.Restart();
+				Input.ProcessInput();
 				this.CallOnUpdate(delta);
 				this.updateEpsilon += delta - updatePeriod;
 				if(this.updateFrequency <= Mathx.Epsilon) {
