@@ -37,6 +37,11 @@ namespace B3.Graphics {
 		/// <param name="triC">The third point that makes a triangle</param>
 		void Batch(ref T triA, ref T triB, ref T triC);
 		
+		/// <summary>Sends the batcher an array of vertices along with an array of indices</summary>
+		/// <param name="newVertices">The list of vertices to add</param>
+		/// <param name="newIndices">The list of indices to add</param>
+		void Batch(T[] newVertices, uint[] newIndices);
+		
 		/// <summary>Immediately renders what's on the batcher to render a new batch</summary>
 		void Flush();
 		
