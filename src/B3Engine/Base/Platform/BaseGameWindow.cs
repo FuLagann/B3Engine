@@ -193,6 +193,7 @@ namespace B3 {
 					this.SwapBuffers();
 				}
 			}
+			this.Close();
 			this.DestroyWindow();
 		}
 		

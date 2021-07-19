@@ -1,5 +1,5 @@
 
-using B3;
+using B3.Events;
 
 namespace B3.Testing {
 	public class Program : Game {
@@ -16,7 +16,9 @@ namespace B3.Testing {
 		}
 		
 		public override void Initialize() {
+			base.Initialize();
 			InputMapping.LoadMappingFromXml("res://InputMapping.xml");
+			Logger.Log($"{Keys.A}");
 			this.SetState(0);
 		}
 		
@@ -80,6 +82,11 @@ namespace B3.Testing {
 					this.Window.Title = "Keyboard Key...";
 				}
 			}
+		}
+		
+		protected override void OnClosing(EventArgs args) {
+			Logger.Log("Saved to xml!");
+			InputMapping.SaveMapingToXml("res://InputMapping.xml");
 		}
 		
 		private void SetState(int state) {

@@ -83,6 +83,8 @@ namespace B3 {
 			this.isInitialized = false;
 			this.bus = new EventBus(this);
 			//this.managers = new Dictionary<ManagerType, IManager>();
+			
+			this.window.OnClose += this.OnClosing;
 		}
 		
 		#endregion // Protected Constructors
@@ -137,6 +139,10 @@ namespace B3 {
 		#endregion // Public Methods
 		
 		#region Protected Methods
+		
+		/// <summary>Called when the window is closing</summary>
+		/// <param name="args">The event args for when the game is closing</param>
+		protected virtual void OnClosing(EventArgs args) {}
 		
 		/// <summary>Loads any bindings needed before actual initiations need to happen</summary>
 		protected abstract void LoadBindings();

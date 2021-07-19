@@ -377,6 +377,9 @@ namespace B3 {
 					case "file": {
 						WriteToFile(typeLocation[1], content);
 					} return;
+					case "res": {
+						WriteToFile(BasePath + typeLocation[1], content);
+					} return;
 				}
 			}
 			

@@ -183,11 +183,96 @@ namespace B3 {
 			LoadAxesFromList(node["Axes"].GetElementsByTagName("Axis"));
 		}
 		
-		// TODO: Add a SaveMappingToXml(string path); method
+		/// <summary>Saves the current input mapping into a file in xml format</summary>
+		/// <param name="path">The file location to save it to</param>
+		public static void SaveMapingToXml(string path) {
+			// Variables
+			string results = "\n<InputMapping>\n";
+			
+			results += "\t<NamedActions>\n";
+			results += GetNamedActionsInXmlString();
+			results += "\t</NamedActions>\n";
+			results += "\t<Axes>\n";
+			results += GetAxesInXmlString();
+			results += "\t</Axes>\n";
+			results += "</InputMapping>\n";
+			
+			FS.Write(path, results);
+		}
 		
 		#endregion // Public Static Methods
 		
 		#region Private Static Methods
+		
+		/// <summary>Transforms all the named actions and their inputs into an xml string</summary>
+		/// <returns>Returns all the named actions in xml string form</returns>
+		private static string GetNamedActionsInXmlString() {
+			// Variables
+			string results = "";
+			
+			foreach(KeyValuePair<string, List<object>> actionKV in namedActions) {
+				results += $"\t\t<Action Name=\"{actionKV.Key}\">\n";
+				results += GetActionInputsInXmlString(actionKV.Value);
+				results += $"\t\t</Action>\n";
+			}
+			
+			return results;
+		}
+		
+		/// <summary>Transforms all the action inputs into an xml string</summary>
+		/// <param name="keys">The list of inputs in general form</param>
+		/// <returns>Returns all the action inputs in xml string form</returns>
+		private static string GetActionInputsInXmlString(List<object> keys) {
+			// Variables
+			string results = "";
+			
+			foreach(object key in keys) {
+				results += "\t\t\t<Input ";
+				if(key is Keys) {
+					results += $"Type=\"Keyboard\" Key=\"{(Keys)key}\"";
+				}
+				else if(key is MouseButton) {
+					results += $"Type=\"Mouse\" Button=\"{(MouseButton)key}\"";
+				}
+				else if(key is MouseAxis) {
+					results += $"Type=\"Mouse\" Axis=\"{(MouseAxis)key}\"";
+				}
+				else if(key is GamepadButton) {
+					results += $"Type=\"Gamepad\" Button=\"{(GamepadButton)key}\"";
+				}
+				else if(key is GamepadAxis) {
+					results += $"Type=\"Gamepad\" Axis=\"{(GamepadAxis)key}\"";
+				}
+				else if(key is System.ValueTuple<int, GamepadButton>) {
+					// Variables
+					(int, GamepadButton) indexButton = (System.ValueTuple<int, GamepadButton>)key;
+					
+					results += $"Type=\"Gamepad\" Index=\"{indexButton.Item1}\" Button=\"{indexButton.Item2}\"";
+				}
+				else if(key is System.ValueTuple<int, GamepadAxis>) {
+					// Variables
+					(int, GamepadAxis) indexAxis = (System.ValueTuple<int, GamepadAxis>)key;
+					
+					results += $"Type=\"Gamepad\" Index=\"{indexAxis.Item1}\" Axis=\"{indexAxis.Item2}\"";
+				}
+				results += "/>\n";
+			}
+			
+			return results;
+		}
+		
+		/// <summary>Transforms the <see cref="B3.InputMapping.axes"/> dictionary into a xml string for saving into a file</summary>
+		/// <returns>Returns the <see cref="B3.InputMapping.axes"/> dictionary in xml string form</returns>
+		private static string GetAxesInXmlString() {
+			// Variables
+			string results = "";
+			
+			foreach(KeyValuePair<string, (string, string)> axisKV in axes) {
+				results += $"\t\t<Axis Name=\"{axisKV.Key}\" Positive=\"{axisKV.Value.Item1}\" Negative=\"{axisKV.Value.Item2}\"/>\n";
+			}
+			
+			return results;
+		}
 		
 		/// <summary>Loads all the axes from the given list</summary>
 		/// <param name="list">The list of Axis xml elements to load the data with</param>
