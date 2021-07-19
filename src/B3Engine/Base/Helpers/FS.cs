@@ -448,6 +448,9 @@ namespace B3 {
 					default:
 					case FileLocationType.Default:
 					case FileLocationType.Embedded:
+						if(typeLocation[0] == "res") {
+							return BasePath + typeLocation[1];
+						}
 						return typeLocation[1];
 					case FileLocationType.Http:
 					case FileLocationType.Https:
@@ -468,7 +471,7 @@ namespace B3 {
 				
 				switch(typeLocation[0]) {
 					default:
-					case "file": return FileLocationType.Default;
+					case "res": case "file": return FileLocationType.Default;
 					case "http": return FileLocationType.Http;
 					case "https": return FileLocationType.Https;
 					case "embedded": return FileLocationType.Embedded;

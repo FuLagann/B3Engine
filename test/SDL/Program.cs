@@ -16,40 +16,7 @@ namespace B3.Testing {
 		}
 		
 		public override void Initialize() {
-			InputMapping.AddNewAxis("horizontal", "move-right", "move-left");
-			InputMapping.AddNewAxis("vertical", "move-up", "move-down");
-			InputMapping.AddNewAxis("camera-horizontal", "camera-right", "camera-left");
-			InputMapping.AddNewAxis("camera-vertical", "camera-up", "camera-down");
-			
-			InputMapping.AddNewAction("move-left");
-			InputMapping.AddNewAction("move-right");
-			InputMapping.AddNewAction("move-up");
-			InputMapping.AddNewAction("move-down");
-			InputMapping.AddNewAction("camera-left");
-			InputMapping.AddNewAction("camera-right");
-			InputMapping.AddNewAction("camera-up");
-			InputMapping.AddNewAction("camera-down");
-			
-			InputMapping.AddInputToAction("move-left", Keys.A);
-			InputMapping.AddInputToAction("move-left", GamepadAxis.LeftXNegative);
-			InputMapping.AddInputToAction("move-right", Keys.D);
-			InputMapping.AddInputToAction("move-right", GamepadAxis.LeftXPositive);
-			
-			InputMapping.AddInputToAction("move-up", Keys.W);
-			InputMapping.AddInputToAction("move-up", GamepadAxis.LeftYPositive);
-			InputMapping.AddInputToAction("move-down", Keys.S);
-			InputMapping.AddInputToAction("move-down", GamepadAxis.LeftYNegative);
-			
-			InputMapping.AddInputToAction("camera-left", Keys.J);
-			InputMapping.AddInputToAction("camera-left", GamepadAxis.RightXNegative);
-			InputMapping.AddInputToAction("camera-right", Keys.L);
-			InputMapping.AddInputToAction("camera-right", GamepadAxis.RightXPositive);
-			
-			InputMapping.AddInputToAction("camera-up", Keys.I);
-			InputMapping.AddInputToAction("camera-up", GamepadAxis.RightYPositive);
-			InputMapping.AddInputToAction("camera-down", Keys.K);
-			InputMapping.AddInputToAction("camera-down", GamepadAxis.RightYNegative);
-			
+			InputMapping.LoadMappingFromXml("res://InputMapping.xml");
 			this.SetState(0);
 		}
 		

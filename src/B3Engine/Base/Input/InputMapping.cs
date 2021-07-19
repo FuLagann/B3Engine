@@ -1,13 +1,15 @@
 
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 
 namespace B3 {
 	/// <summary>A static class that helps with remapping input and quick input uses</summary>
 	public static class InputMapping {
 		#region Field Variables
 		// Variables
-		internal static Dictionary<string, List<object>> namedActions;
-		internal static Dictionary<string, (string, string)> axes;
+		internal static readonly Dictionary<string, List<object>> namedActions;
+		internal static readonly Dictionary<string, (string, string)> axes;
 		
 		#endregion // Field Variables
 		
@@ -25,6 +27,9 @@ namespace B3 {
 		/// <summary>Adds a new empty action into the mapping</summary>
 		/// <param name="action">The name of the action to add in</param>
 		public static void AddNewAction(string action) {
+			if(namedActions.ContainsKey(action)) {
+				namedActions.Remove(action);
+			}
 			namedActions.Add(action, new List<object>());
 		}
 		
@@ -40,6 +45,9 @@ namespace B3 {
 		/// <param name="positiveAction">The name of the action used for a positive movement</param>
 		/// <param name="negativeAction">The name of the action used for a negtive movement</param>
 		public static void AddNewAxis(string axis, string positiveAction, string negativeAction) {
+			if(axes.ContainsKey(axis)) {
+				axes.Remove(axis);
+			}
 			axes.Add(axis, (positiveAction, negativeAction));
 		}
 		
@@ -158,9 +166,150 @@ namespace B3 {
 		
 		#endregion // RemoveInputFromAction Methods
 		
-		// TODO: Add a LoadMappingFromXml(string path); method
+		/// <summary>Loads the current input mapping from an external xml file</summary>
+		/// <param name="path">The path to the xml file</param>
+		public static void LoadMappingFromXml(string path) {
+			// Variables
+			XmlDocument document = new XmlDocument();
+			XmlNode node;
+			
+			using(Stream stream = FS.ReadStream(path)) {
+				document.Load(stream);
+			}
+			
+			node = document["InputMapping"];
+			
+			LoadNamedActionsFromList(node["NamedActions"].GetElementsByTagName("Action"));
+			LoadAxesFromList(node["Axes"].GetElementsByTagName("Axis"));
+		}
+		
 		// TODO: Add a SaveMappingToXml(string path); method
 		
 		#endregion // Public Static Methods
+		
+		#region Private Static Methods
+		
+		/// <summary>Loads all the axes from the given list</summary>
+		/// <param name="list">The list of Axis xml elements to load the data with</param>
+		private static void LoadAxesFromList(XmlNodeList list) {
+			foreach(XmlElement node in list) {
+				// Variables
+				string axis = node.Attributes["Name"].Value;
+				string positive = node.Attributes["Positive"].Value;
+				string negative = node.Attributes["Negative"].Value;
+				
+				AddNewAxis(axis, positive, negative);
+			}
+		}
+		
+		/// <summary>Loads all the named actions from the given list</summary>
+		/// <param name="list">The list of Action xml elements to load the data with</param>
+		private static void LoadNamedActionsFromList(XmlNodeList list) {
+			foreach(XmlElement node in list) {
+				// Variables
+				string action = node.Attributes["Name"].Value;
+				
+				AddNewAction(action);
+				LoadActionInputsFromList(action, node.GetElementsByTagName("Input"));
+			}
+		}
+		
+		/// <summary>Loads in all the inputs from an action given the list</summary>
+		/// <param name="action">The name of the action to load the inputs into</param>
+		/// <param name="list">The list of Input xml elements to load the data with</param>
+		private static void LoadActionInputsFromList(string action, XmlNodeList list) {
+			foreach(XmlElement node in list) {
+				switch(node.Attributes["Type"].Value.ToLower()) {
+					case "keyboard": {
+						AddInputToAction(
+							action,
+							(Keys)(System.Enum.Parse(
+								typeof(Keys),
+								node.Attributes["Key"].Value.Replace("-", ""),
+								true
+							))
+						);
+					} break;
+					case "mouse": {
+						if(node.Attributes["Button"] != null) {
+							AddInputToAction(
+								action,
+								(MouseButton)(System.Enum.Parse(
+									typeof(MouseButton),
+									node.Attributes["Button"].Value.Replace("-", ""),
+									true
+								))
+							);
+						}
+						else {
+							AddInputToAction(
+								action,
+								(MouseAxis)(System.Enum.Parse(
+									typeof(MouseAxis),
+									node.Attributes["Axis"].Value.Replace("-", ""),
+									true
+								))
+							);
+						}
+					} break;
+					case "gamepad": {
+						// Variables
+						bool usingButton = (node.Attributes["Button"] != null);
+						
+						if(node.Attributes["Index"] != null) {
+							// Variables
+							int index = int.Parse(node.Attributes["Index"].Value);
+							
+							if(usingButton) {
+								AddInputToAction(
+									action,
+									index,
+									(GamepadButton)(System.Enum.Parse(
+										typeof(GamepadButton),
+										node.Attributes["Button"].Value.Replace("-", ""),
+										true
+									))
+								);
+							}
+							else {
+								AddInputToAction(
+									action,
+									index,
+									(GamepadAxis)(System.Enum.Parse(
+										typeof(GamepadAxis),
+										node.Attributes["Axis"].Value.Replace("-", ""),
+										true
+									))
+								);
+							}
+						}
+						else {
+							if(usingButton) {
+								AddInputToAction(
+									action,
+									(GamepadButton)(System.Enum.Parse(
+										typeof(GamepadButton),
+										node.Attributes["Button"].Value.Replace("-", ""),
+										true
+									))
+								);
+							}
+							else {
+								AddInputToAction(
+									action,
+									(GamepadAxis)(System.Enum.Parse(
+										typeof(GamepadAxis),
+										node.Attributes["Axis"].Value.Replace("-", ""),
+										true
+									))
+								);
+							}
+						}
+					} break;
+				}
+			}
+		}
+		
+		#endregion // Private Static Methods
 	}
 }

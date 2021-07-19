@@ -1,0 +1,43 @@
+
+<InputMapping>
+	<NamedActions>
+		<Action Name="move-left">
+			<Input Type="Keyboard" Key="A"/>
+			<Input Type="Gamepad" Axis="Left-X-Negative"/>
+		</Action>
+		<Action Name="move-right">
+			<Input Type="Keyboard" Key="D"/>
+			<Input Type="Gamepad" Axis="Left-X-Positive"/>
+		</Action>
+		<Action Name="move-up">
+			<Input Type="Keyboard" Key="W"/>
+			<Input Type="Gamepad" Axis="Left-Y-Positive"/>
+		</Action>
+		<Action Name="move-down">
+			<Input Type="Keyboard" Key="S"/>
+			<Input Type="Gamepad" Axis="Left-Y-Negative"/>
+		</Action>
+		<Action Name="camera-left">
+			<Input Type="Keyboard" Key="J"/>
+			<Input Type="Gamepad" Axis="Right-X-Negative"/>
+		</Action>
+		<Action Name="camera-right">
+			<Input Type="Keyboard" Key="L"/>
+			<Input Type="Gamepad" Axis="Right-X-Positive"/>
+		</Action>
+		<Action Name="camera-up">
+			<Input Type="Keyboard" Key="I"/>
+			<Input Type="Gamepad" Axis="Right-Y-Positive"/>
+		</Action>
+		<Action Name="camera-down">
+			<Input Type="Keyboard" Key="K"/>
+			<Input Type="Gamepad" Axis="Right-Y-Negative"/>
+		</Action>
+	</NamedActions>
+	<Axes>
+		<Axis Name="horizontal" Positive="move-left" Negative="move-right"/>
+		<Axis Name="vertical" Positive="move-up" Negative="move-down"/>
+		<Axis Name="camera-horizontal" Positive="camera-right" Negative="camera-left"/>
+		<Axis Name="camera-vertical" Positive="camera-up" Negative="camera-down"/>
+	</Axes>
+</InputMapping>

@@ -3,6 +3,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\build\B3Engine.OpenGL.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="InputMapping.xml" CopyToOutputDirectory="Always"/>
+  </ItemGroup>
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
