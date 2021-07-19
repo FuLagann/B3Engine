@@ -21,7 +21,13 @@ jobs:
       run: dotnet clean && dotnet nuget locals all --clear
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Build OpenGL Version
+      run: dotnet build --no-restore build/B3Engine.OpenGL.csproj
+    - name: Build Base Version Testing
+      run: dotnet build --no-restore test/Base
+    - name: Build SDL Integration Testing
+      run: dotnet build --no-restore test/SDL
+    - name: Build GLSL Integration Testing
+      run: dotnet build --no-restore test/GLSL
     - name: Test
       run: dotnet test --no-build --verbosity normal
