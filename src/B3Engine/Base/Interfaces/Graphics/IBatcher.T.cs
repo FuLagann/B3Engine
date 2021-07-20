@@ -18,6 +18,20 @@ namespace B3.Graphics {
 		/// <summary>Gets the current size of the batcher</summary>
 		int Count { get; }
 		
+		/// <summary>Gets the batcher's current vertex data</summary>
+		T[] VertexData { get; }
+		
+		/// <summary>Gets the batcher's current index data</summary>
+		/// <remarks>
+		/// Not all batchers will use this and will return null.
+		/// Check <see cref="B3.Graphics.IBatcher{T}.HasIndexData"/>
+		/// to make sure that the data exists
+		/// </remarks>
+		uint[] IndexData { get; }
+		
+		/// <summary>Gets if the batcher has any index data</summary>
+		bool HasIndexData { get; }
+		
 		#endregion // Properties
 		
 		#region Methods

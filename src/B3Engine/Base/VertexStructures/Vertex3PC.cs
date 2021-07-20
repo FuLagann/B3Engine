@@ -40,6 +40,35 @@ namespace B3.Graphics.VertexStructures {
 			return data.ToArray();
 		}
 		
+		/// <summary>Gets the vertex in string form</summary>
+		/// <returns>Returns the vertex in string form</returns>
+		public override string ToString() {
+			return $"{{ pos: {this.position}, color: {this.color} }}";
+		}
+		
+		/// <summary>Gets the hash code of the vertex</summary>
+		/// <returns>Returns the hash code of the vertex</returns>
+		public override int GetHashCode() {
+			return (this.position.GetHashCode() ^ this.color.GetHashCode());
+		}
+		
+		/// <summary>Finds if the vertex is equal to the other object</summary>
+		/// <param name="obj">The object to compare</param>
+		/// <returns>Returns true if the two objects are equal to each other</returns>
+		public override bool Equals(object obj) {
+			if(obj == null) { return false; }
+			if(obj is Vertex3PC) {
+				// Variables
+				Vertex3PC other = (Vertex3PC)obj;
+				
+				return (
+					this.position == other.position
+					&& this.color == other.color
+				);
+			}
+			return false;
+		}
+		
 		#endregion // Public Methods
 		
 		#region Methods

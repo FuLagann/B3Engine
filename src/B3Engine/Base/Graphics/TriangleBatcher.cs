@@ -19,6 +19,20 @@ namespace B3.Graphics {
 		/// <summary>Gets the current size of the batcher</summary>
 		public int Count { get { return this.mesh.VertexBuffer.Count; } }
 		
+		/// <summary>Gets the batcher's current vertex data</summary>
+		public T[] VertexData { get { return this.mesh.VertexBuffer.Vertices; } }
+		
+		/// <summary>Gets the batcher's current index data</summary>
+		/// <remarks>
+		/// Not all batchers will use this and will return null.
+		/// Check <see cref="B3.Graphics.IBatcher{T}.HasIndexData"/>
+		/// to make sure that the data exists
+		/// </remarks>
+		public uint[] IndexData { get { return this.mesh.IndexBuffer.Indices; } }
+		
+		/// <summary>Gets if the batcher has any index data</summary>
+		public bool HasIndexData { get { return true; } }
+		
 		#endregion // Public Properties
 		
 		#region Public Constructors

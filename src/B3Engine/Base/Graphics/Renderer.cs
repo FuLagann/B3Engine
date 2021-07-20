@@ -23,7 +23,7 @@ namespace B3.Graphics {
 		#region Public Properties
 		
 		/// <summary>Gets the game the renderer uses</summary>
-		public IGame Game { get; }
+		public IGame Game { get { return this.game; } }
 		
 		/// <summary>Gets and sets the point shader program</summary>
 		public IShaderProgram PointShaderProgram { get { return this.pointProgram; } set {
@@ -48,6 +48,22 @@ namespace B3.Graphics {
 			this.FlushTriangleBatcher();
 			this.triangleProgram = value;
 		} }
+		
+		/// <summary>Gets all the currently batched point vertices</summary>
+		/// <remarks>Any flushed vertices are not returned</remarks>
+		public Vertex3PC[] BatchedPointVertices { get { return this.pointBatcher.VertexData; } }
+		
+		/// <summary>Gets all the currently batched line vertices</summary>
+		/// <remarks>Any flushed vertices are not returned</remarks>
+		public Vertex3PC[] BatchedLineVertices { get { return this.lineBatcher.VertexData; } }
+		
+		/// <summary>Gets all the currently batched triangle vertices</summary>
+		/// <remarks>Any flushed vertices are not returned</remarks>
+		public Vertex3PCTN[] BatchedTriangleVertices { get { return this.triangleBatcher.VertexData; } }
+		
+		/// <summary>Gets all the currently batched triangle indices</summary>
+		/// <remarks>Any flushed indices are not returned</remarks>
+		public uint[] BatchedTriangleIndices { get { return this.triangleBatcher.IndexData; } }
 		
 		#endregion // Public Properties
 		
